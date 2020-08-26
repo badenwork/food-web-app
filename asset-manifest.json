@@ -1,7 +1,7 @@
 {
   "main.css": "/food-web-app/static/css/main.6895139a.chunk.css",
-  "main.js": "/food-web-app/static/js/main.c3d58ae9.chunk.js",
-  "main.js.map": "/food-web-app/static/js/main.c3d58ae9.chunk.js.map",
+  "main.js": "/food-web-app/static/js/main.b0dbee95.chunk.js",
+  "main.js.map": "/food-web-app/static/js/main.b0dbee95.chunk.js.map",
   "runtime~main.js": "/food-web-app/static/js/runtime~main.791b9096.js",
   "runtime~main.js.map": "/food-web-app/static/js/runtime~main.791b9096.js.map",
   "vendors~main.js": "/food-web-app/static/js/vendors~main.604c6712.chunk.js",
@@ -11,7 +11,7 @@
   "index.html": "/food-web-app/index.html",
   "logo.svg": "/food-web-app/logo.svg",
   "manifest.json": "/food-web-app/manifest.json",
-  "precache-manifest.945f8596d445c696d39a940b2eb3da08.js": "/food-web-app/precache-manifest.945f8596d445c696d39a940b2eb3da08.js",
+  "precache-manifest.aac0713726149867aae5f908d0ab82a6.js": "/food-web-app/precache-manifest.aac0713726149867aae5f908d0ab82a6.js",
   "product01.jpg": "/food-web-app/product01.jpg",
   "product02.jpeg": "/food-web-app/product02.jpeg",
   "product03.webp": "/food-web-app/product03.webp",
