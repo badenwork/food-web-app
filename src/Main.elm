@@ -68,11 +68,11 @@ update msg model =
             ( { model | activeProduct = model.activeProduct - 1 }, Cmd.none )
 
         CharacterPressed k ->
-            let
-                _ =
-                    Debug.log "press" k
-            in
-                ( model, Cmd.none )
+            -- let
+            --     _ =
+            --         Debug.log "press" k
+            -- in
+            ( model, Cmd.none )
 
 
 
