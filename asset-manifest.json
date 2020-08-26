@@ -1,7 +1,7 @@
 {
-  "main.css": "/food-web-app/static/css/main.69daa6cb.chunk.css",
-  "main.js": "/food-web-app/static/js/main.30ed581d.chunk.js",
-  "main.js.map": "/food-web-app/static/js/main.30ed581d.chunk.js.map",
+  "main.css": "/food-web-app/static/css/main.6895139a.chunk.css",
+  "main.js": "/food-web-app/static/js/main.c3d58ae9.chunk.js",
+  "main.js.map": "/food-web-app/static/js/main.c3d58ae9.chunk.js.map",
   "runtime~main.js": "/food-web-app/static/js/runtime~main.791b9096.js",
   "runtime~main.js.map": "/food-web-app/static/js/runtime~main.791b9096.js.map",
   "vendors~main.js": "/food-web-app/static/js/vendors~main.604c6712.chunk.js",
@@ -11,7 +11,12 @@
   "index.html": "/food-web-app/index.html",
   "logo.svg": "/food-web-app/logo.svg",
   "manifest.json": "/food-web-app/manifest.json",
-  "precache-manifest.610c84b9eeb9b400350405eed4ac1420.js": "/food-web-app/precache-manifest.610c84b9eeb9b400350405eed4ac1420.js",
+  "precache-manifest.945f8596d445c696d39a940b2eb3da08.js": "/food-web-app/precache-manifest.945f8596d445c696d39a940b2eb3da08.js",
   "product01.jpg": "/food-web-app/product01.jpg",
+  "product02.jpeg": "/food-web-app/product02.jpeg",
+  "product03.webp": "/food-web-app/product03.webp",
+  "product04.webp": "/food-web-app/product04.webp",
+  "product05.webp": "/food-web-app/product05.webp",
+  "product06.jpeg": "/food-web-app/product06.jpeg",
   "sony.mp4": "/food-web-app/sony.mp4"
 }
