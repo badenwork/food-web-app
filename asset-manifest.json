@@ -1,7 +1,7 @@
 {
   "main.css": "/food-web-app/static/css/main.69daa6cb.chunk.css",
-  "main.js": "/food-web-app/static/js/main.515a2348.chunk.js",
-  "main.js.map": "/food-web-app/static/js/main.515a2348.chunk.js.map",
+  "main.js": "/food-web-app/static/js/main.30ed581d.chunk.js",
+  "main.js.map": "/food-web-app/static/js/main.30ed581d.chunk.js.map",
   "runtime~main.js": "/food-web-app/static/js/runtime~main.791b9096.js",
   "runtime~main.js.map": "/food-web-app/static/js/runtime~main.791b9096.js.map",
   "vendors~main.js": "/food-web-app/static/js/vendors~main.604c6712.chunk.js",
@@ -11,7 +11,7 @@
   "index.html": "/food-web-app/index.html",
   "logo.svg": "/food-web-app/logo.svg",
   "manifest.json": "/food-web-app/manifest.json",
-  "precache-manifest.a9b81839dbf9c41dc51e36ac25c5f587.js": "/food-web-app/precache-manifest.a9b81839dbf9c41dc51e36ac25c5f587.js",
+  "precache-manifest.610c84b9eeb9b400350405eed4ac1420.js": "/food-web-app/precache-manifest.610c84b9eeb9b400350405eed4ac1420.js",
   "product01.jpg": "/food-web-app/product01.jpg",
   "sony.mp4": "/food-web-app/sony.mp4"
 }
