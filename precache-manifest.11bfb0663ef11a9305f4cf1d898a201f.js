@@ -4,7 +4,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/favicon.ico"
   },
   {
-    "revision": "1a22d760dc058277646aa0a7129f7b1b",
+    "revision": "501d1afcafafa97e690f7dede111bb6c",
     "url": "/food-web-app/index.html"
   },
   {
@@ -44,12 +44,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/sony.mp4"
   },
   {
-    "revision": "b0dbee95f47d6f5b4956",
+    "revision": "19f1b4443e4b2dc0c3f7",
     "url": "/food-web-app/static/css/main.6895139a.chunk.css"
   },
   {
-    "revision": "b0dbee95f47d6f5b4956",
-    "url": "/food-web-app/static/js/main.b0dbee95.chunk.js"
+    "revision": "19f1b4443e4b2dc0c3f7",
+    "url": "/food-web-app/static/js/main.19f1b444.chunk.js"
   },
   {
     "revision": "791b909605071a7404fe",
