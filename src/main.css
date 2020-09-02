@@ -6,8 +6,7 @@
     https://github.com/halfzebra/create-elm-app/issues/320
 */
 [data-elm-hot="true"] {
-  height: inherit;
-}
+  height: inherit; }
 
 body {
   /* font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif; */
@@ -15,36 +14,44 @@ body {
   margin: 0;
   text-align: center;
   color: #293c4b;
-}
+  overflow: hidden; }
 
 h1 {
-  font-size: 30px;
-}
-
-img {
-  margin: 20px 0;
-  max-width: 200px;
-}
-
+  font-size: 30px; }
 
 ul.main_menu {
-    /* padding-left: 100px;
+  /* padding-left: 100px;
     padding-right: 300px; */
-    margin-right: 60px;
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 1vw;
-}
-
-ul.main_menu li {
+  margin-right: 60px;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 1vw; }
+  ul.main_menu li {
     list-style-type: none;
     font-size: 5vw;
-    padding: .5em;
+    padding: 20px;
     /* background: gold; */
-    text-align: center;
-}
+    text-align: center; }
+    ul.main_menu li.active {
+      /* border: 5px solid black; */
+      border-radius: 2vw;
+      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.4); }
+    ul.main_menu li img {
+      max-width: 100%;
+      max-height: 200px; }
 
-ul.main_menu li.active {
-    background: green;
-}
+.main_widget {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr; }
+  .main_widget div:first-child {
+    text-align: right;
+    padding: 10px; }
+    .main_widget div:first-child img {
+      max-height: 600px;
+      height: 600px; }
+  .main_widget div:last-child {
+    text-align: left;
+    padding-left: 10px;
+    padding-top: 10%; }

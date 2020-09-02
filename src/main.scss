@@ -1,0 +1,90 @@
+/*
+  elm-hot creates an additional div wrapper around the app to make HMR possible.
+  This could break styling in development mode if you are using Elm UI.
+
+  More context in the issue:
+    https://github.com/halfzebra/create-elm-app/issues/320
+*/
+[data-elm-hot="true"] {
+  height: inherit;
+}
+
+body {
+  /* font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif; */
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  text-align: center;
+  color: #293c4b;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+// img {
+//   margin: 20px 0;
+//   max-width: 100%;
+// }
+
+
+ul.main_menu {
+    /* padding-left: 100px;
+    padding-right: 300px; */
+    margin-right: 60px;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 1vw;
+
+    li {
+        list-style-type: none;
+        font-size: 5vw;
+        // padding: .5em;
+        padding: 20px;
+        /* background: gold; */
+        text-align: center;
+
+        &.active {
+            /* border: 5px solid black; */
+            border-radius: 2vw;
+            box-shadow: 0px 4px 16px rgba(0,0,0,0.4);
+        }
+
+        img {
+          // margin: 20px 0;
+          max-width: 100%;
+          max-height: 200px;
+        }
+
+    }
+}
+
+
+.main_widget {
+    width: 100%;
+    // background: #cccc00;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    div:first-child {
+        text-align: right;
+        padding: 10px;
+
+        img {
+          // margin: 20px 0;
+          // max-width: 100%;
+          max-height: 600px;
+          height: 600px;
+        }
+
+    }
+
+    div:last-child {
+        text-align: left;
+        // background: green;
+        padding-left: 10px;
+        padding-top: 10%;
+    }
+
+}
