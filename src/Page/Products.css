@@ -1,0 +1,150 @@
+
+
+
+/* Rectangle 14 */
+.product_selector {
+    position: absolute;
+    width: 539px;
+    height: 997px;
+    left: 691px;
+    top: 42px;
+
+    background: #FFFFFF;
+    border: 2px solid #62DAC4;
+    box-sizing: border-box;
+    border-radius: 16px;
+}
+
+
+/* Rectangle 14 */
+.product_headerUA {
+    position: absolute;
+    left: 39px;
+    top: 25px;
+}
+
+.product_headerEN {
+    position: absolute;
+    left: 39px;
+    top: 45px;
+}
+
+.product_price {
+    position: absolute;
+    top: 21px;
+    right: 35.42px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 40.7586px;
+    line-height: 48px;
+}
+
+
+/* sochevitsa */
+
+.product_image {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 39px;
+    /* height: 642px; */
+    /* left: 687px; */
+    /* top: 81px; */
+
+    /* background: url(img/sochevitsa.png); */
+}
+
+.product_image_p1 {
+    /* goroh */
+    position: absolute;
+    width: 387px;
+    height: 446px;
+    left: 1157px;
+    top: 177px;
+}
+
+/* grechka */
+
+.product_image_p2 {
+    position: absolute;
+    width: 384px;
+    height: 446px;
+    left: 1465px;
+    top: 177px;
+}
+
+/* pure */
+
+.product_image_m1 {
+    position: absolute;
+    width: 386px;
+    height: 446px;
+    left: 375px;
+    top: 177px;
+}
+
+
+/* ovsanka */
+
+.product_image_m2 {
+    position: absolute;
+    width: 385px;
+    height: 446px;
+    left: 84px;
+    top: 177px;
+}
+
+.product_image_row {
+    position: absolute;
+    width: 200%;
+    height: 642px;
+    left: 0px;
+    top: 157px;
+    overflow: hidden;
+    /* border: 1px solid black; */
+    margin-left: 120px;
+    padding-top: 20px;
+    transition: all .2s ease-in-out;
+}
+
+.product_image_row img {
+    width: 385px;
+    height: 446px;
+    /* border: 1px solid blue; */
+    /* background-color: rgba(128,128,128,0.2); */
+    margin-left: -60px;
+    transition: all .2s ease-in-out;
+}
+
+.product_image_row img.active {
+    transform: scale(1.44);
+    margin-left: 0px;
+    margin-right: 60px;
+}
+
+/* .product_image_row img:hover {
+    transform: scale(1.4);
+} */
+
+
+
+.product_description {
+    position: absolute;
+
+    left: 43px;
+    bottom: 25px;
+    height: 350px;
+    right: 31px;
+}
+
+.product_description h1 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+
+    color: #000000;
+}

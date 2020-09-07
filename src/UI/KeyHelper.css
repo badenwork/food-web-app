@@ -1,0 +1,198 @@
+/* Для вибору користуйтесь кнопками на аппараті */
+
+.keyhelper_title {
+    position: absolute;
+    /* width: 364px; */
+    /* height: 19px; */
+    left: 1370px;
+    top: 771px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: left;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.keyhelper_title2 {
+    /* To select, use the buttons on the device */
+
+    position: absolute;
+    /* width: 283px; */
+    /* height: 19px; */
+    left: 1370px;
+    top: 792px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    /* identical to box height */
+
+    /* Gray 3 */
+    color: #828282;
+
+}
+
+.key1_label {
+    /* Вибір вліво Select left */
+
+    position: absolute;
+    width: 99.84px;
+    height: 45.5px;
+    left: 1370px;
+    top: 974.97px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: left;
+
+    color: #000000;
+}
+
+
+/* Ellipse 10 */
+.ellipse10 {
+    position: absolute;
+    width: 94.89px;
+    height: 94.89px;
+    left: 1370px;
+    top: 842.26px;
+
+    background: #FFFFFF;
+    /* Gray 3 */
+
+    /* border: 0.564818px solid #828282; */
+    box-sizing: border-box;
+}
+
+/* Arrow 4 */
+.arrow4 {
+    position: absolute;
+    /* width: 53.09px; */
+    /* height: 0px; */
+    left: 1391.99px;
+    top: 872.71px;
+
+    /* border: 5.05541px solid #000000; */
+    box-sizing: border-box;
+    /* transform: rotate(180deg); */
+}
+
+.keyEmptyEllipse {
+    width: 94.89px;
+    height: 94.89px;
+    border: 0.564818px solid #828282;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.ellipse11 {
+    /* Ellipse 11 */
+    position: absolute;
+    width: 94.89px;
+    height: 94.89px;
+    left: 1526.72px;
+    top: 842.26px;
+
+    /* background: #FFFFFF; */
+    /* Gray 3 */
+
+    border: 0.564818px solid #828282;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+/* Arrow 3 */
+.arrow3 {
+    position: absolute;
+    left: 1547.62px;
+    top: 871.71px;
+
+    box-sizing: border-box;
+}
+
+
+.keyFilledEllipse {
+    /* Ellipse 12 */
+
+    position: absolute;
+    width: 94.89px;
+    height: 94.89px;
+    border-radius: 50%;
+
+    background: #B7EB74;
+
+}
+
+.ellipse3 {
+    left: 1691.02px;
+    top: 841px;
+}
+
+.key3_ok {
+    /* ok */
+
+    position: absolute;
+    width: 48.01px;
+    height: 42.36px;
+    left: 1714.18px;
+    top: 866.98px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36.1483px;
+    line-height: 42px;
+    /* identical to box height */
+    text-transform: uppercase;
+
+    color: #000000;
+}
+
+
+.key2_label {
+    /* Вибір вправо Select right */
+
+    position: absolute;
+    width: 116.27px;
+    height: 45.5px;
+    left: 1516.61px;
+    top: 974.97px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: left;
+
+    color: #000000;
+}
+
+.key3_label {
+    /* Зробити замовлення Make an order */
+
+    position: absolute;
+    width: 185.79px;
+    height: 45.5px;
+    left: 1663.21px;
+    top: 974.97px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: left;
+
+    color: #000000;
+}

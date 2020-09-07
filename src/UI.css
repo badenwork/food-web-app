@@ -1,0 +1,73 @@
+.header1 {
+    position: absolute;
+    left: 3.91%;
+    top: 2.78%;
+}
+
+.header2 {
+    /* Для питань та пропозицій: infinitifoods.com.ua +38 063 351 49 56 infinityfoodsua@gmail.com */
+
+    position: absolute;
+    /* width: 519px; */
+    /* height: 14px; */
+    right: 20px;
+    top: 7px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    /* identical to box height */
+
+    /* Gray 3 */
+    color: #828282;
+}
+
+
+/* #Супомат */
+
+.footer11 {
+    position: absolute;
+    /* width: 110px; */
+    /* height: 28px; */
+    left: 72px;
+    bottom: 60px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+}
+
+
+/* Gray 1 */
+.gray {
+    color: #333333 !important;
+}
+
+/* Gray 3 */
+.gray3 {
+    color: #828282 !important;
+
+}
+
+
+/* @infinityfoods */
+
+.footer12 {
+    position: absolute;
+    /* width: 152px; */
+    /* height: 28px; */
+    left: 70px;
+    bottom: 32px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+}

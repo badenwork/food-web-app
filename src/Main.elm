@@ -9,6 +9,9 @@ import List.Extra exposing (getAt)
 import MD5
 import Json.Encode as Encode
 import API
+import UI
+import UI.KeyHelper
+import Page.Products
 
 
 ---- MODEL ----
@@ -234,12 +237,15 @@ cmdTest =
 view : Model -> Html Msg
 view model =
     div []
-        [ h1 [] [ a [ href "." ] [ text "Едаааааа! (обновить страницу)" ] ]
-        , ul [ class "main_menu" ] <|
-            viewProducts model.activeProduct produsts
-        , viewActiveProduct model.activeProduct produsts
-        , text <| MD5.hex "Hello World"
+        [ UI.header
+        , UI.footer
+        , UI.KeyHelper.title
+        , Page.Products.view model.activeProduct
 
+        -- , ul [ class "main_menu" ] <|
+        --     viewProducts model.activeProduct produsts
+        -- , viewActiveProduct model.activeProduct produsts
+        -- , text <| MD5.hex "Hello World"
         -- , video [ src "sony.mp4", controls True, width 400, height 300 ] []
         ]
 
