@@ -1,3 +1,3 @@
 module.exports = {
-    homepage: "https://badenwork.github.io/food-web-app",
+    //homepage: "https://badenwork.github.io/food-web-app",
 }
