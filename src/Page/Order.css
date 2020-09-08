@@ -212,6 +212,12 @@
         line-height: 28px;
     }
 
+.order.active {
+    border: 2px solid #62DAC4;
+    box-shadow: 0 0 10px #62DAC4;
+    transition: all .2s ease-in-out;
+    /* background-color: #eeeeee; */
+}
 
 /* Rectangle 14 */
 .order_m1 {
@@ -222,7 +228,7 @@
     top: 387px;
 
     background: #FFFFFF;
-    border: 2px solid #62DAC4;
+    border: 2px solid #E1E1E1;
     box-sizing: border-box;
     border-radius: 16px;
 
@@ -311,3 +317,191 @@
         left: 100px;
         top: 80px;
     }
+
+
+/* Rectangle 14 */
+.order_label {
+    position: absolute;
+    width: 612px;
+    height: 436px;
+    left: 974px;
+    top: 352px;
+
+    background: #FFFFFF;
+    border: 2px solid #E1E1E1;
+    box-sizing: border-box;
+    border-radius: 16px;
+
+    text-align: center;
+}
+
+/* Піднесіть карту до считувального пристрою */
+.order_label div:first-child {
+    /* position: absolute;
+    width: 100%;
+    left: 75px;
+    width: 463px;
+    top: 45px; */
+    padding-top: 45px;
+    margin-left: 50px;
+    margin-right: 50px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 36px;
+    line-height: 42px;
+    text-align: center;
+
+    color: #000000;
+}
+
+.order_label div:last-child {
+    /* Lift the card to the reader */
+
+    /* position: absolute;
+    width: 100%;
+    left: 0;
+    top: 155px; */
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 35px;
+    text-align: center;
+
+    /* Gray 3 */
+    color: #828282;
+}
+
+img.order_ingenica_image {
+    position: absolute;
+
+    left: 500px;
+    top: 332px;
+
+}
+
+
+.order_pb_1 {
+    /* Rectangle 19 */
+
+    position: absolute;
+    width: 233px;
+    height: 431px;
+    left: 524px;
+    top: 345px;
+
+    text-align: center;
+
+    background: #FFFFFF;
+    border: 5px solid #5DB944;
+    box-sizing: border-box;
+    border-radius: 24px;
+
+}
+
+.order_pb_1 img.logo {
+    position: absolute;
+    top: 22px;
+    left: 67px;
+}
+
+.order_pb_1 img.qr {
+    position: absolute;
+    top: 138px;
+    left: 45px;
+}
+
+.order_pb_1 img.key {
+    position: absolute;
+    bottom: 22px;
+    left: 100px;
+}
+
+.order_pb_1 img.arrow {
+    position: absolute;
+    bottom: -110px;
+    left: 105px;
+}
+
+
+.order_fondi {
+    position: absolute;
+    top: 375px;
+    left: 541px;
+
+    /* border: 5px solid #5DB944; */
+
+    text-align: center;
+}
+
+
+/* Rectangle 19 */
+.order_fondi .frame {
+    position: absolute;
+    /* display: block; */
+    width: 85px;
+    height: 157px;
+    /* margin-left: calc(50% - 85px/2);
+    margin-top: 50px; */
+    left: 80px;
+    top: 289px;
+
+    background: #FFFFFF;
+    border: 5px solid #62DAC4;
+    box-sizing: border-box;
+    border-radius: 24px;
+}
+
+
+/* Line 9 */
+.order_fondi .line1 {
+    position: absolute;
+    width: 96.66px;
+    height: 0px;
+    left: -11px;
+    top: 310px;
+
+    border: 1px dashed #000000;
+    transform: rotate(-150deg);
+}
+
+.order_fondi .line2 {
+    position: absolute;
+    width: 96.66px;
+    height: 0px;
+    right: -11px;
+    top: 310px;
+
+    border: 1px dashed #000000;
+    transform: rotate(-24.44deg);
+}
+
+.order_fondi img.small_qr {
+    position: absolute;
+
+    width: 48px;
+    height: 48px;
+    left: 50%;
+    margin-left: -24px;
+    top: 340px;
+}
+
+
+/* Rectangle 22 */
+.order_fondi .key {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: 118px;
+    top: 425px;
+
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 3px;
+}

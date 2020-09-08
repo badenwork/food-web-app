@@ -5,8 +5,8 @@ import Html.Attributes exposing (class, src, alt)
 import Html.Events exposing (onClick)
 
 
-title : msg -> Html msg
-title keyLeft =
+title : ( msg, msg, msg ) -> Html msg
+title ( keyLeft, keyRight, keyOk ) =
     div []
         [ div [ class "keyhelper_title" ] [ text "Для вибору користуйтесь кнопками на аппараті" ]
         , div [ class "keyhelper_title2" ] [ text "To select, use the buttons on the device" ]

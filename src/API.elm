@@ -17,6 +17,12 @@ type KeyInfo
     | KeyUnknown
 
 
+type PayMethod
+    = PayMethod1
+    | PayMethod2
+    | PayMethod3
+
+
 parsePayload : String -> Maybe APIContent
 parsePayload payload =
     case JD.decodeString payloadDecoder payload of

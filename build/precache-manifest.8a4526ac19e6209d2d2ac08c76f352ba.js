@@ -4,6 +4,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/favicon.ico"
   },
   {
+    "revision": "f700c6794d1f4fef6f017f62653ba5d6",
+    "url": "/food-web-app/img/card.png"
+  },
+  {
     "revision": "22978e0bfd749eebb3e4e6c94b9250c9",
     "url": "/food-web-app/img/goroh.png"
   },
@@ -24,6 +28,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/img/ovsanka.png"
   },
   {
+    "revision": "2f8761f6cb51ba95892eade446fc23f6",
+    "url": "/food-web-app/img/pay_qr.png"
+  },
+  {
+    "revision": "e1e1f3683f1bb10c4a326ae175372593",
+    "url": "/food-web-app/img/privatBank.png"
+  },
+  {
     "revision": "c709d43876909600714acc87c426e473",
     "url": "/food-web-app/img/pure.png"
   },
@@ -32,7 +44,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/img/sochevitsa.png"
   },
   {
-    "revision": "464f5a80614266e33da3eee258ac3c74",
+    "revision": "5c900196c846d600a052f3363ee327e7",
     "url": "/food-web-app/index.html"
   },
   {
@@ -72,12 +84,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/sony.mp4"
   },
   {
-    "revision": "6ff700a0a123e0d844c8",
-    "url": "/food-web-app/static/css/main.7f38b506.chunk.css"
+    "revision": "93d2663ed39b9babc7c8",
+    "url": "/food-web-app/static/css/main.662057ac.chunk.css"
   },
   {
-    "revision": "6ff700a0a123e0d844c8",
-    "url": "/food-web-app/static/js/main.6ff700a0.chunk.js"
+    "revision": "93d2663ed39b9babc7c8",
+    "url": "/food-web-app/static/js/main.93d2663e.chunk.js"
   },
   {
     "revision": "791b909605071a7404fe",
