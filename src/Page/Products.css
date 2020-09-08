@@ -102,6 +102,7 @@
     height: 642px;
     left: 0px;
     top: 157px;
+    white-space: nowrap;
     overflow: hidden;
     /* border: 1px solid black; */
     margin-left: 120px;
@@ -140,11 +141,41 @@
 }
 
 .product_description h1 {
+    max-width: 180px;
+
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
     font-size: 16px;
     line-height: 19px;
+
+    color: #000000;
+}
+
+.desc_t1 {
+    display: inline-block;
+    width: 143px;
+    min-width: 143px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    /* text-transform: uppercase; */
+
+    color: #000000;
+}
+
+.desc_t2 {
+    display: inline;
+    width: 100px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
 
     color: #000000;
 }

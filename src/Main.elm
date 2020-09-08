@@ -49,6 +49,7 @@ type Msg
     | WebsocketIn String
     | OpenWebsocket String
     | WebsocketOpened Bool
+    | KeyLeft
 
 
 type alias Product =
@@ -166,6 +167,9 @@ update msg ({ activeProduct } as model) =
             -- in
             ( model, Cmd.none )
 
+        KeyLeft ->
+            update (CharacterPressed 'a') model
+
         WebsocketOpened False ->
             ( { model | connectionState = NotConnected }, Cmd.none )
 
@@ -239,7 +243,7 @@ view model =
     div []
         [ UI.header
         , UI.footer
-        , UI.KeyHelper.title
+        , UI.KeyHelper.title KeyLeft
         , Page.Products.view model.activeProduct
 
         -- , ul [ class "main_menu" ] <|
@@ -314,12 +318,38 @@ keyDecoder =
 
 toKey : String -> Msg
 toKey string =
-    case String.uncons string of
-        Just ( char, "" ) ->
-            CharacterPressed char
+    case string of
+        "ArrowRight" ->
+            toKey "d"
+
+        "ArrowLeft" ->
+            toKey "a"
+
+        "A" ->
+            toKey "a"
+
+        "D" ->
+            toKey "d"
+
+        "ф" ->
+            toKey "a"
+
+        "в" ->
+            toKey "d"
+
+        "Ф" ->
+            toKey "a"
+
+        "В" ->
+            toKey "d"
 
         _ ->
-            NoOp
+            case String.uncons string of
+                Just ( char, "" ) ->
+                    CharacterPressed char
+
+                _ ->
+                    NoOp
 
 
 api_url : String
