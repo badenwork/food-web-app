@@ -1,0 +1,313 @@
+
+
+/* Замовлення Order */
+.order_header_title {
+    position: absolute;
+    /* width: 284px; */
+    /* height: 101px; */
+    left: 399px;
+    top: 141px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 48px;
+    line-height: 56px;
+
+    color: #000000;
+}
+    .order_header_title div:last-child {
+        font-size: 32px;
+        color: #828282;
+        line-height: 28px;
+    }
+
+
+/* sochevitsa */
+.order_header_img {
+    position: absolute;
+    width: 74px;
+    height: 86px;
+    left: 683px;
+    top: 137px;
+}
+    .order_header_img img {
+        width: 100%;
+        max-width: 100%;
+    }
+
+
+    /* Замовлення: */
+.order_header_content {
+    position: absolute;
+    /* width: 274px; */
+    /* height: 55px; */
+    left: 815px;
+    top: 154px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+
+    color: #000000;
+}
+
+/* Сочевичний суп пюре */
+.order_header_content_value {
+    position: absolute;
+    /* width: 326px; */
+    /* height: 54px; */
+    left: 938px;
+    top: 155px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21px;
+
+    color: #000000;
+}
+
+/* Order: */
+.order_header_content_en {
+    position: absolute;
+    /* width: 274px; */
+    /* height: 55px; */
+    left: 815px;
+    top: 182px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+
+    color: #6D6D6D;
+}
+
+/* Lentil puree soup */
+.order_header_content_en_value {
+    position: absolute;
+    /* width: 326px; */
+    /* height: 54px; */
+    left: 938px;
+    top: 183px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+
+    color: #6D6D6D;
+}
+
+
+/* До сплати: */
+.order_header_pay {
+    position: absolute;
+    /* width: 274px; */
+    /* height: 55px; */
+    left: 1289px;
+    top: 154px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+
+    color: #000000;
+}
+
+/* 30 грн */
+.order_header_pay_value {
+    position: absolute;
+    /* width: 120.58px; */
+    /* height: 54.49px; */
+    left: 1412px;
+    top: 154px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21px;
+
+    color: #000000;
+}
+
+/* Paid: */
+.order_header_pay_en {
+    position: absolute;
+    /* width: 274px;
+    height: 55px; */
+    left: 1288px;
+    top: 182px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+
+    color: #6D6D6D;
+}
+
+/* 30 UAH */
+.order_header_pay_en_value {
+    position: absolute;
+    /* width: 120.58px;
+    height: 54.49px; */
+    left: 1411px;
+    top: 182px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+
+    color: #6D6D6D;
+}
+
+
+/* Line 5 */
+.order_header_split {
+    position: absolute;
+    width: 1174px;
+    height: 0px;
+    left: 357px;
+    top: 236px;
+
+    /* Gray 3 */
+    border: 1px solid #828282;
+    transform: rotate(180deg);
+}
+
+
+/* Оберіть спосіб оплати Choose a payment method */
+.order_pay_method_label {
+    position: absolute;
+    width: 740px;
+    height: 101px;
+    left: 399px;
+    top: 271px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 48px;
+    line-height: 56px;
+
+    color: #000000;
+}
+
+    .order_pay_method_label div:last-child {
+        font-size: 32px;
+        color: #828282;
+        line-height: 28px;
+    }
+
+
+/* Rectangle 14 */
+.order_m1 {
+    position: absolute;
+    width: 356px;
+    height: 489px;
+    left: 357px;
+    top: 387px;
+
+    background: #FFFFFF;
+    border: 2px solid #62DAC4;
+    box-sizing: border-box;
+    border-radius: 16px;
+
+    text-align: center;
+    padding-top: 108px;
+}
+    /* Банківська картка */
+    .order .title {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        top: 390px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 22px;
+        line-height: 26px;
+        text-align: center;
+
+        color: #000000;
+    }
+
+    /* Bank card */
+    .order .title_en {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 417px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 22px;
+        line-height: 26px;
+        text-align: center;
+
+        /* Gray 3 */
+        color: #828282;
+    }
+
+
+/* Rectangle 15 */
+.order_m2 {
+    position: absolute;
+    width: 356px;
+    height: 489px;
+    left: 768px;
+    top: 387px;
+
+    background: #FFFFFF;
+    border: 2px solid #E1E1E1;
+    box-sizing: border-box;
+    border-radius: 16px;
+}
+
+/* image 1 */
+    .order_m2 img {
+        position: absolute;
+        width: 284px;
+        height: 202px;
+        left: 34px;
+        top: 105px;
+    }
+
+
+
+/* Rectangle 16 */
+.order_m3 {
+    position: absolute;
+    width: 356px;
+    height: 489px;
+    left: 1176px;
+    top: 387px;
+
+    background: #FFFFFF;
+    border: 2px solid #E1E1E1;
+    box-sizing: border-box;
+    border-radius: 16px;
+}
+
+    .order_m3 img {
+        position: absolute;
+        width: 156px;
+        height: 271.78px;
+        left: 100px;
+        top: 80px;
+    }

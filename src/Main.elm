@@ -12,14 +12,21 @@ import API
 import UI
 import UI.KeyHelper
 import Page.Products
+import Page.Order
 
 
 ---- MODEL ----
 
 
+type Page
+    = Products
+    | Order
+
+
 type alias Model =
     { activeProduct : Int
     , connectionState : ConnectionState
+    , activePage : Page
     }
 
 
@@ -32,6 +39,7 @@ init : ( Model, Cmd Msg )
 init =
     ( { activeProduct = 0
       , connectionState = NotConnected
+      , activePage = Products
       }
     , Cmd.batch
         [ websocketOpen api_url
@@ -59,86 +67,6 @@ type alias Product =
     }
 
 
-product01 : Product
-product01 =
-    Product
-        "Каша гречневая в стаканчике с говядиной и овощами, 60г"
-        "product01.jpg"
-        [ ( "Пол", "детям, женщинам" )
-        , ( "Бренд", "Новоукраїнка" )
-        , ( "Тип", "хлопья" )
-        , ( "Вид крупы", "гречневая" )
-        , ( "Свойства", "без гмо" )
-        ]
-
-
-product02 : Product
-product02 =
-    Product
-        "Каша овсяная в стаканчике с клубликой и сливками, 60г"
-        "product02.jpeg"
-        [ ( "Пол", "спортсменам" )
-        , ( "Бренд", "Новоукраїнка" )
-        , ( "Тип", "хлопья" )
-        , ( "Вид крупы", "овсяная" )
-        , ( "Свойства", "без гмо" )
-        ]
-
-
-product03 : Product
-product03 =
-    Product
-        "Каша овсяная в стаканчике с апельсином, 50г"
-        "product03.webp"
-        [ ( "Пол", "спортсменам" )
-        , ( "Бренд", "STREET SOUP" )
-        , ( "Тип", "хлопья" )
-        , ( "Вид крупы", "овсяная" )
-        , ( "Свойства", "без гмо" )
-        ]
-
-
-product04 : Product
-product04 =
-    Product
-        "Крем-Суп STREET SOUP шпинатный 50г"
-        "product04.webp"
-        [ ( "Пол", "любой" )
-        , ( "Бренд", "STREET SOUP" )
-        , ( "Тип", "суп" )
-        , ( "Свойства", "21% protein" )
-        ]
-
-
-product05 : Product
-product05 =
-    Product
-        "Крем-Суп STREET SOUP томатный 50г"
-        "product05.webp"
-        [ ( "Пол", "любой" )
-        , ( "Бренд", "STREET SOUP" )
-        , ( "Тип", "суп" )
-        , ( "Свойства", "20% protein" )
-        ]
-
-
-product06 : Product
-product06 =
-    Product
-        "Овсяная протеиновая каша"
-        "product06.jpeg"
-        [ ( "Пол", "спортсменам" )
-        , ( "Бренд", "boombar.ru" )
-        , ( "Тип", "каша" )
-        , ( "Свойства", "20% protein" )
-        ]
-
-
-produsts : List Product
-produsts =
-    [ product01, product02, product03, product04, product05, product06 ]
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg ({ activeProduct } as model) =
     case msg of
@@ -158,7 +86,12 @@ update msg ({ activeProduct } as model) =
                 ( { model | activeProduct = model.activeProduct - 1 }, Cmd.none )
 
         CharacterPressed 's' ->
-            ( model, Cmd.batch [ startProcess ] )
+            case model.activePage of
+                Products ->
+                    ( { model | activePage = Order }, Cmd.none )
+
+                Order ->
+                    ( { model | activePage = Products }, Cmd.batch [ startProcess ] )
 
         CharacterPressed k ->
             -- let
@@ -240,18 +173,29 @@ cmdTest =
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [] <|
         [ UI.header
         , UI.footer
-        , UI.KeyHelper.title KeyLeft
-        , Page.Products.view model.activeProduct
-
-        -- , ul [ class "main_menu" ] <|
-        --     viewProducts model.activeProduct produsts
-        -- , viewActiveProduct model.activeProduct produsts
-        -- , text <| MD5.hex "Hello World"
-        -- , video [ src "sony.mp4", controls True, width 400, height 300 ] []
         ]
+            ++ viewPage model
+
+
+viewPage model =
+    case model.activePage of
+        Products ->
+            [ UI.KeyHelper.title KeyLeft ]
+                ++ Page.Products.view model.activeProduct
+
+        Order ->
+            Page.Order.view model.activeProduct
+
+
+
+-- , ul [ class "main_menu" ] <|
+--     viewProducts model.activeProduct produsts
+-- , viewActiveProduct model.activeProduct produsts
+-- , text <| MD5.hex "Hello World"
+-- , video [ src "sony.mp4", controls True, width 400, height 300 ] []
 
 
 viewProduct : Int -> Int -> Product -> Html Msg
