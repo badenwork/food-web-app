@@ -21,12 +21,16 @@ import Page.Order
 type Page
     = Products
     | Order
+    | OrderIngenica
+    | OrderPrivat
+    | OrderFondi
 
 
 type alias Model =
     { activeProduct : Int
     , connectionState : ConnectionState
     , activePage : Page
+    , activePayMethod : API.PayMethod
     }
 
 
@@ -40,6 +44,7 @@ init =
     ( { activeProduct = 0
       , connectionState = NotConnected
       , activePage = Products
+      , activePayMethod = API.PayMethod1
       }
     , Cmd.batch
         [ websocketOpen api_url
@@ -58,6 +63,8 @@ type Msg
     | OpenWebsocket String
     | WebsocketOpened Bool
     | KeyLeft
+    | KeyRight
+    | KeyOk
 
 
 type alias Product =
@@ -73,53 +80,76 @@ update msg ({ activeProduct } as model) =
         NoOp ->
             ( model, Cmd.none )
 
-        CharacterPressed 'd' ->
-            if activeProduct >= 5 then
-                ( { model | activeProduct = 0 }, Cmd.none )
-            else
-                ( { model | activeProduct = model.activeProduct + 1 }, Cmd.none )
+        KeyLeft ->
+            case model.activePage of
+                Products ->
+                    if activeProduct <= 0 then
+                        ( { model | activeProduct = 5 }, Cmd.none )
+                    else
+                        ( { model | activeProduct = model.activeProduct - 1 }, Cmd.none )
 
-        CharacterPressed 'a' ->
-            if activeProduct <= 0 then
-                ( { model | activeProduct = 5 }, Cmd.none )
-            else
-                ( { model | activeProduct = model.activeProduct - 1 }, Cmd.none )
+                Order ->
+                    ( { model | activePayMethod = prevPayMethod model.activePayMethod }, Cmd.none )
 
-        CharacterPressed 's' ->
+                _ ->
+                    ( model, Cmd.none )
+
+        KeyRight ->
+            case model.activePage of
+                Products ->
+                    if activeProduct >= 5 then
+                        ( { model | activeProduct = 0 }, Cmd.none )
+                    else
+                        ( { model | activeProduct = model.activeProduct + 1 }, Cmd.none )
+
+                Order ->
+                    ( { model | activePayMethod = nextPayMethod model.activePayMethod }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        KeyOk ->
             case model.activePage of
                 Products ->
                     ( { model | activePage = Order }, Cmd.none )
 
                 Order ->
-                    ( { model | activePage = Products }, Cmd.batch [ startProcess ] )
+                    case model.activePayMethod of
+                        API.PayMethod1 ->
+                            ( { model | activePage = OrderIngenica }, Cmd.batch [ startProcess ] )
+
+                        API.PayMethod2 ->
+                            ( { model | activePage = OrderPrivat }, Cmd.batch [ startProcess ] )
+
+                        API.PayMethod3 ->
+                            ( { model | activePage = OrderFondi }, Cmd.batch [ startProcess ] )
+
+                OrderIngenica ->
+                    ( { model | activePage = Products }, Cmd.none )
+
+                OrderPrivat ->
+                    ( { model | activePage = Products }, Cmd.none )
+
+                OrderFondi ->
+                    ( { model | activePage = Products }, Cmd.none )
+
+        CharacterPressed 'd' ->
+            update KeyRight model
+
+        CharacterPressed 'a' ->
+            update KeyLeft model
+
+        CharacterPressed 's' ->
+            update KeyOk model
 
         CharacterPressed k ->
-            -- let
-            --     _ =
-            --         Debug.log "press" k
-            -- in
             ( model, Cmd.none )
-
-        KeyLeft ->
-            update (CharacterPressed 'a') model
 
         WebsocketOpened False ->
             ( { model | connectionState = NotConnected }, Cmd.none )
 
         WebsocketOpened True ->
-            -- let
-            --     authCmd =
-            --         -- case model.token of
-            --         --     Nothing ->
-            --         --         Cmd.none
-            --         --
-            --         --     Just token ->
-            --         websocketOut <| Encode.string "T"
-            -- in
-            ( { model | connectionState = Connected }
-            , Cmd.none
-              -- , Cmd.batch [ authCmd ]
-            )
+            ( { model | connectionState = Connected }, Cmd.none )
 
         WebsocketIn message ->
             let
@@ -128,19 +158,13 @@ update msg ({ activeProduct } as model) =
             in
                 case res of
                     Just (API.Key API.Key1) ->
-                        if activeProduct <= 0 then
-                            ( { model | activeProduct = 5 }, Cmd.none )
-                        else
-                            ( { model | activeProduct = model.activeProduct - 1 }, Cmd.none )
+                        update KeyLeft model
 
                     Just (API.Key API.Key2) ->
-                        ( model, Cmd.none )
+                        update KeyOk model
 
                     Just (API.Key API.Key3) ->
-                        if activeProduct >= 5 then
-                            ( { model | activeProduct = 0 }, Cmd.none )
-                        else
-                            ( { model | activeProduct = model.activeProduct + 1 }, Cmd.none )
+                        update KeyRight model
 
                     Just (API.Key API.KeyUnknown) ->
                         ( model, Cmd.none )
@@ -153,6 +177,32 @@ update msg ({ activeProduct } as model) =
 
         OpenWebsocket url ->
             ( model, websocketOpen url )
+
+
+nextPayMethod : API.PayMethod -> API.PayMethod
+nextPayMethod pm =
+    case pm of
+        API.PayMethod1 ->
+            API.PayMethod2
+
+        API.PayMethod2 ->
+            API.PayMethod3
+
+        API.PayMethod3 ->
+            API.PayMethod1
+
+
+prevPayMethod : API.PayMethod -> API.PayMethod
+prevPayMethod pm =
+    case pm of
+        API.PayMethod1 ->
+            API.PayMethod3
+
+        API.PayMethod2 ->
+            API.PayMethod1
+
+        API.PayMethod3 ->
+            API.PayMethod2
 
 
 startProcess =
@@ -183,11 +233,20 @@ view model =
 viewPage model =
     case model.activePage of
         Products ->
-            [ UI.KeyHelper.title KeyLeft ]
+            [ UI.KeyHelper.title ( KeyLeft, KeyRight, KeyOk ) ]
                 ++ Page.Products.view model.activeProduct
 
         Order ->
-            Page.Order.view model.activeProduct
+            Page.Order.view model.activeProduct model.activePayMethod
+
+        OrderIngenica ->
+            Page.Order.viewIngenica model.activeProduct
+
+        OrderPrivat ->
+            Page.Order.viewPrivat model.activeProduct
+
+        OrderFondi ->
+            Page.Order.viewFondi model.activeProduct
 
 
 
@@ -268,6 +327,9 @@ toKey string =
 
         "ArrowLeft" ->
             toKey "a"
+
+        "ArrowDown" ->
+            toKey "s"
 
         "A" ->
             toKey "a"
