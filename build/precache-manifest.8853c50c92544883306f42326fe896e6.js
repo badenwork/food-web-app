@@ -24,6 +24,42 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/img/logo.png"
   },
   {
+    "revision": "8ecf45eb4a51b3edbd0d3899ac727552",
+    "url": "/food-web-app/img/order_fondi/Group 13.png"
+  },
+  {
+    "revision": "2a2cb060179870a4ca13327137582770",
+    "url": "/food-web-app/img/order_fondi/Line1.png"
+  },
+  {
+    "revision": "54337db17c36f7a443d9eb82716448fb",
+    "url": "/food-web-app/img/order_fondi/Line2.png"
+  },
+  {
+    "revision": "623837ca6e33aaae68924c1754d0692f",
+    "url": "/food-web-app/img/order_fondi/QR.png"
+  },
+  {
+    "revision": "6cd2ca02c70bb7dc13e07af0363546c0",
+    "url": "/food-web-app/img/order_ingenica.png"
+  },
+  {
+    "revision": "5011517c17f593a3db6c2c541e58526f",
+    "url": "/food-web-app/img/order_pb/QR.png"
+  },
+  {
+    "revision": "3408cf83fd6a700ff155af550df108a8",
+    "url": "/food-web-app/img/order_pb/arrow.png"
+  },
+  {
+    "revision": "a7a511192cbfc51f7db5e8353763ea4b",
+    "url": "/food-web-app/img/order_pb/key.png"
+  },
+  {
+    "revision": "cc8c4ceac03c3b3f1645ba497abc857e",
+    "url": "/food-web-app/img/order_pb/logo.png"
+  },
+  {
     "revision": "a5c6b78d9fc33eb513166ab68d2b6d32",
     "url": "/food-web-app/img/ovsanka.png"
   },
@@ -44,7 +80,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/img/sochevitsa.png"
   },
   {
-    "revision": "5c900196c846d600a052f3363ee327e7",
+    "revision": "01d7844fe17a1bb182540377f83c5c29",
     "url": "/food-web-app/index.html"
   },
   {
@@ -84,12 +120,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/sony.mp4"
   },
   {
-    "revision": "93d2663ed39b9babc7c8",
-    "url": "/food-web-app/static/css/main.662057ac.chunk.css"
+    "revision": "4e57106b985e5cb2379f",
+    "url": "/food-web-app/static/css/main.0a769145.chunk.css"
   },
   {
-    "revision": "93d2663ed39b9babc7c8",
-    "url": "/food-web-app/static/js/main.93d2663e.chunk.js"
+    "revision": "4e57106b985e5cb2379f",
+    "url": "/food-web-app/static/js/main.4e57106b.chunk.js"
   },
   {
     "revision": "791b909605071a7404fe",

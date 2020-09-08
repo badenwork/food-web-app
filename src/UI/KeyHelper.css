@@ -62,16 +62,22 @@
 /* Ellipse 10 */
 .ellipse10 {
     position: absolute;
-    width: 94.89px;
-    height: 94.89px;
     left: 1370px;
     top: 842.26px;
 
-    background: #FFFFFF;
+    /* background: #FFFFFF; */
     /* Gray 3 */
 
-    /* border: 0.564818px solid #828282; */
+    border: 0.564818px solid #828282;
+    border-radius: 50%;
     box-sizing: border-box;
+}
+
+.keyEmptyEllipse img {
+    pointer-events: none;
+    /* background-color: lime; */
+    margin-top: 28px;
+    margin-left: 20px;
 }
 
 /* Arrow 4 */
@@ -93,7 +99,14 @@
     border: 0.564818px solid #828282;
     border-radius: 50%;
     box-sizing: border-box;
+
+    cursor: pointer;
 }
+    .keyEmptyEllipse:hover {
+        box-shadow: 0 0 10px #828282;
+    }
+
+
 
 .ellipse11 {
     /* Ellipse 11 */
@@ -131,11 +144,29 @@
 
     background: #B7EB74;
 
+    cursor: pointer;
 }
+
+    .keyFilledEllipse:hover {
+        box-shadow: 0 0 10px #828282;
+        /* box-shadow: 0 0 10px #B7EB74; */
+    }
 
 .ellipse3 {
     left: 1691.02px;
     top: 841px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36.1483px;
+    line-height: 94px;
+    /* identical to box height */
+    text-transform: uppercase;
+
+    color: #000000;
+    text-align: center;
+
 }
 
 .key3_ok {
@@ -147,15 +178,6 @@
     left: 1714.18px;
     top: 866.98px;
 
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 36.1483px;
-    line-height: 42px;
-    /* identical to box height */
-    text-transform: uppercase;
-
-    color: #000000;
 }
 
 
