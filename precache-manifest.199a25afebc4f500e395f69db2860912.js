@@ -28,7 +28,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/img/sochevitsa.png"
   },
   {
-    "revision": "6818ae87bd3de1e7ef036d2bdfdfef70",
+    "revision": "5134f05c4de5f634cb3c70b6deac9a78",
     "url": "/food-web-app/index.html"
   },
   {
@@ -68,12 +68,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/sony.mp4"
   },
   {
-    "revision": "8fa34088c7ee59adf4d7",
-    "url": "/food-web-app/static/css/main.b7a498a1.chunk.css"
+    "revision": "8de465ed53e027759b3e",
+    "url": "/food-web-app/static/css/main.f23a67cc.chunk.css"
   },
   {
-    "revision": "8fa34088c7ee59adf4d7",
-    "url": "/food-web-app/static/js/main.8fa34088.chunk.js"
+    "revision": "8de465ed53e027759b3e",
+    "url": "/food-web-app/static/js/main.8de465ed.chunk.js"
   },
   {
     "revision": "791b909605071a7404fe",
