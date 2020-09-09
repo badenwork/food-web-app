@@ -28,18 +28,27 @@ title ( keyLeft, keyRight, keyOk ) =
         ]
 
 
-key_left : String -> String -> String -> Html msg
-key_left className ua en =
-    div [ class ("key_panel " ++ className) ]
+key_left : String -> String -> String -> msg -> Html msg
+key_left className ua en event =
+    div [ class ("key_panel " ++ className), onClick event ]
         [ div [ class "keyEmptyEllipse" ] [ img [ src "img/arrow-left.png" ] [] ]
         , div [ class "ua" ] [ text ua ]
         , div [ class "en" ] [ text en ]
         ]
 
 
-key_ok : String -> String -> String -> Html msg
-key_ok className ua en =
-    div [ class ("key_panel " ++ className) ]
+key_right : String -> String -> String -> msg -> Html msg
+key_right className ua en event =
+    div [ class ("key_panel " ++ className), onClick event ]
+        [ div [ class "keyEmptyEllipse" ] [ img [ src "img/arrow-right.png" ] [] ]
+        , div [ class "ua" ] [ text ua ]
+        , div [ class "en" ] [ text en ]
+        ]
+
+
+key_ok : String -> String -> String -> msg -> Html msg
+key_ok className ua en event =
+    div [ class ("key_panel " ++ className), onClick event ]
         [ div [ class "keyFilledEllipse" ] [ text "OK" ]
         , div [ class "ua" ] [ text ua ]
         , div [ class "en" ] [ text en ]

@@ -82,6 +82,7 @@ type Msg
     | KeyRight
     | KeyOk
     | Tick Time.Posix
+    | SelectPayMethod API.PayMethod
 
 
 type alias Product =
@@ -201,6 +202,9 @@ update msg ({ activeProduct } as model) =
         CharacterPressed k ->
             ( model, Cmd.none )
 
+        SelectPayMethod pm ->
+            ( { model | activePayMethod = pm }, Cmd.none )
+
         WebsocketOpened False ->
             ( { model | connectionState = NotConnected }, Cmd.none )
 
@@ -293,7 +297,10 @@ viewPage model =
                 ++ Page.Products.view model.activeProduct
 
         Order ->
-            Page.Order.view (products |> getAt model.activeProduct |> withDefault unknowproduct) model.activePayMethod
+            Page.Order.view
+                (products |> getAt model.activeProduct |> withDefault unknowproduct)
+                model.activePayMethod
+                ( ( SelectPayMethod API.PayMethod1, SelectPayMethod API.PayMethod2, SelectPayMethod API.PayMethod3 ), ( KeyLeft, KeyRight, KeyOk ) )
 
         OrderIngenica ->
             Page.Order.viewIngenica (products |> getAt model.activeProduct |> withDefault unknowproduct)
@@ -305,13 +312,13 @@ viewPage model =
             Page.Order.viewFondi (products |> getAt model.activeProduct |> withDefault unknowproduct)
 
         OrderConfirm ->
-            Page.OrderConfirm.view
+            Page.OrderConfirm.view ( KeyLeft, KeyOk )
 
         CookAsk1 ->
-            Page.Cook.viewAsk1 (products |> getAt model.activeProduct |> withDefault unknowproduct)
+            Page.Cook.viewAsk1 (products |> getAt model.activeProduct |> withDefault unknowproduct) ( KeyLeft, KeyOk )
 
         CookAsk2 ->
-            Page.Cook.viewAsk2 (products |> getAt model.activeProduct |> withDefault unknowproduct)
+            Page.Cook.viewAsk2 (products |> getAt model.activeProduct |> withDefault unknowproduct) ( KeyLeft, KeyOk )
 
         Cooking ->
             Page.Cook.viewCooking model.cookTimer (products |> getAt model.activeProduct |> withDefault unknowproduct)

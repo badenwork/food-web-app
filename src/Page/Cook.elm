@@ -8,22 +8,22 @@ import UI.KeyHelper exposing (key_left, key_ok)
 import API.Products exposing (Product)
 
 
-viewAsk1 : Product -> List (Html msg)
-viewAsk1 p =
+viewAsk1 : Product -> ( msg, msg ) -> List (Html msg)
+viewAsk1 p ( k1, k2 ) =
     [ div [ class "cook_frame" ]
         [ img [ class "vending", src "img/cook/vending.png" ] []
         , img [ class "arrow", src "img/cook/arrow.png" ] []
         , img [ class "product", src p.image ] []
         , div [ class "ua" ] [ text "Помістіть стаканчик у відсік для приготування" ]
         , div [ class "en" ] [ text "If you want us to cook for you, put it in the cooking compartment" ]
-        , key_left "key_1" "Відміна приготування" "Cancel cooking"
-        , key_ok "key_2" "Помістив!" "Placed!"
+        , key_left "key_1" "Відміна приготування" "Cancel cooking" k1
+        , key_ok "key_2" "Помістив!" "Placed!" k2
         ]
     ]
 
 
-viewAsk2 : Product -> List (Html msg)
-viewAsk2 p =
+viewAsk2 : Product -> ( msg, msg ) -> List (Html msg)
+viewAsk2 p ( k1, k2 ) =
     [ div [ class "cook_frame2" ]
         [ img [ class "product dry", src p.image ] []
         ]
@@ -32,8 +32,8 @@ viewAsk2 p =
         , div [ class "en" ] [ span [] [ text "In the cooking compartment:" ], span [] [ text p.titleEN ] ]
         ]
     , div [ class "cook_ask2_keys" ]
-        [ key_left "key_1" "Відміна приготування" "Cancel cooking"
-        , key_ok "key_2" "Приготувати!" "Cooking!"
+        [ key_left "key_1" "Відміна приготування" "Cancel cooking" k1
+        , key_ok "key_2" "Приготувати!" "Cooking!" k2
         ]
     ]
 

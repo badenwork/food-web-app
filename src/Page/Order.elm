@@ -5,6 +5,7 @@ import Html.Attributes exposing (class, src, alt)
 import Html.Events exposing (onClick)
 import API
 import API.Products exposing (Product)
+import UI.KeyHelper exposing (key_left, key_right, key_ok)
 
 
 header : Product -> List (Html msg)
@@ -26,31 +27,35 @@ header p =
     ]
 
 
-view : Product -> API.PayMethod -> List (Html msg)
-view p pm =
+view : Product -> API.PayMethod -> ( ( msg, msg, msg ), ( msg, msg, msg ) ) -> List (Html msg)
+view p pm ( ( s1, s2, s3 ), ( k1, k2, k3 ) ) =
     (header p)
         ++ [ div [ class "order_pay_method_label" ]
                 [ div [] [ text "Оберіть спосіб оплати" ]
                 , div [] [ text "Choose a payment method" ]
                 ]
-           , div [ class <| "order order_m1" ++ activeIfTrue (pm == API.PayMethod1) ]
+           , div [ class <| "order order_m1" ++ activeIfTrue (pm == API.PayMethod1), onClick s1 ]
                 [ div [ class "order_m1_card" ] []
                 , div [ class "order_m1_card1" ] []
                 , img [ src "img/card.png" ] []
                 , div [ class "title" ] [ text "Банківська картка" ]
                 , div [ class "title_en" ] [ text "Bank card" ]
                 ]
-           , div [ class <| "order order_m2" ++ activeIfTrue (pm == API.PayMethod2) ]
+           , div [ class <| "order order_m2" ++ activeIfTrue (pm == API.PayMethod2), onClick s2 ]
                 [ div [ class "title" ] [ text "Через приложения Приват 24" ]
                 , div [ class "title_en" ] [ text "Via Privat 24 applications" ]
                 , img [ src "img/privatBank.png" ] []
                 ]
-           , div [ class <| "order order_m3" ++ activeIfTrue (pm == API.PayMethod3) ]
+           , div [ class <| "order order_m3" ++ activeIfTrue (pm == API.PayMethod3), onClick s3 ]
                 [ div [ class "title" ] [ text "Онлайн з мобільного" ]
                 , div [ class "title_en" ] [ text "Online from mobile" ]
                 , img [ src "img/pay_qr.png" ] []
                 ]
-           , div [ class "" ] [ text "" ]
+           , div [ class "order_keys" ]
+                [ key_left "key_1" "Вибір вліво" "Select left" k1
+                , key_right "key_2" "Вибір вправо" "Select right" k2
+                , key_ok "key_3" "Зробити замовлення" "Make an order" k3
+                ]
            ]
 
 
