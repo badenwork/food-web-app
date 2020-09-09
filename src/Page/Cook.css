@@ -136,7 +136,7 @@
     /* Rectangle 14 */
 .cook_frame3 {
     position: absolute;
-    width: 612px;
+    /* width: 612px; */
     /* height: 148px; */
     left: 996px;
     top: 250px;
@@ -182,7 +182,7 @@
 
     .cook_frame3 > * > span:last-child {
         display: inline-block;
-        max-width: 250px;
+        /* max-width: 250px; */
     }
 
     .cook_frame3 > .cook_timer {
