@@ -31,6 +31,7 @@ type Page
     | CookAsk1
     | CookAsk2
     | Cooking
+    | CookingDone
 
 
 type alias Model =
@@ -59,6 +60,10 @@ init =
         [ websocketOpen api_url
         ]
     )
+
+
+cookTimerInit =
+    30
 
 
 
@@ -97,7 +102,7 @@ update msg ({ activeProduct } as model) =
                     if model.cookTimer > 0 then
                         ( { model | cookTimer = model.cookTimer - 1 }, Cmd.none )
                     else
-                        ( { model | activePage = Products }, Cmd.none )
+                        ( { model | activePage = CookingDone }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )
@@ -171,10 +176,13 @@ update msg ({ activeProduct } as model) =
                     ( { model | activePage = CookAsk2 }, Cmd.none )
 
                 CookAsk2 ->
-                    ( { model | activePage = Cooking, cookTimer = 30 }, Cmd.none )
+                    ( { model | activePage = Cooking, cookTimer = cookTimerInit }, Cmd.none )
 
                 Cooking ->
                     ( model, Cmd.none )
+
+                CookingDone ->
+                    ( { model | activePage = Products }, Cmd.none )
 
         CharacterPressed 'd' ->
             update KeyRight model
@@ -302,6 +310,9 @@ viewPage model =
 
         Cooking ->
             Page.Cook.viewCooking model.cookTimer
+
+        CookingDone ->
+            Page.Cook.viewCookingDone
 
 
 

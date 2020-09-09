@@ -1,7 +1,7 @@
 module Page.Cook exposing (..)
 
 import Html exposing (Html, div, text, img, span, p)
-import Html.Attributes exposing (class, src, alt)
+import Html.Attributes exposing (class, src, alt, style)
 import Html.Events exposing (onClick)
 import API
 import UI.KeyHelper exposing (key_left, key_ok)
@@ -24,7 +24,7 @@ viewAsk1 =
 viewAsk2 : List (Html msg)
 viewAsk2 =
     [ div [ class "cook_frame2" ]
-        [ img [ class "product", src "img/grechka.png" ] []
+        [ img [ class "product dry", src "img/grechka.png" ] []
         ]
     , div [ class "cook_frame3" ]
         [ div [ class "ua" ] [ span [] [ text "У відсіку для приготування:" ], span [] [ text "Сочевичний суп пюре" ] ]
@@ -39,16 +39,37 @@ viewAsk2 =
 
 viewCooking : Int -> List (Html msg)
 viewCooking cookTimer =
-    [ div [ class "cook_frame2" ]
-        [ img [ class "product", src "img/grechka.png" ] []
+    let
+        fill =
+            (773 - 250) * cookTimer // 30 |> String.fromInt
+    in
+        [ div [ class "cook_frame2" ] [ img [ class "product", src "img/grechka.png" ] [] ]
+        , div [ class "filtered", style "height" (fill ++ "px") ] [ img [ class "product", src "img/grechka.png" ] [] ]
+        , div [ class "cook_frame3" ]
+            [ div [ class "ua" ] [ span [] [ text "У відсіку для приготування:" ], span [] [ text "Сочевичний суп пюре" ] ]
+            , div [ class "en" ] [ span [] [ text "In the cooking compartment:" ], span [] [ text "Lentil puree soup" ] ]
+            , div [ class "cook_timer" ]
+                [ div [ class "ua" ] [ text "Готуемо" ]
+                , div [ class "en" ] [ text "Cooking" ]
+                , div [ class "counter" ] [ text <| (String.fromInt cookTimer) ++ " c" ]
+                ]
+            ]
         ]
+
+
+viewCookingDone : List (Html msg)
+viewCookingDone =
+    [ div [ class "cook_frame2" ] [ img [ class "product", src "img/grechka.png" ] [] ]
     , div [ class "cook_frame3" ]
-        [ div [ class "ua" ] [ span [] [ text "У відсіку для приготування:" ], span [] [ text "Сочевичний суп пюре" ] ]
-        , div [ class "en" ] [ span [] [ text "In the cooking compartment:" ], span [] [ text "Lentil puree soup" ] ]
-        , div [ class "cook_timer" ]
-            [ div [ class "ua" ] [ text "Готуемо" ]
-            , div [ class "en" ] [ text "Cooking" ]
-            , div [ class "counter" ] [ text <| (String.fromInt cookTimer) ++ " c" ]
+        [ div [ class "done_ua" ]
+            [ p [] [ text "Страва готова!" ]
+            , p [] [ text "Заберіть стакан з відсіку готування." ]
+            , p [] [ text "Обережно гаряче!" ]
+            , p [] [ text "Смачного!" ]
+            ]
+        , div [ class "done_en" ]
+            [ p [] [ text "The dish is ready" ]
+            , p [] [ text "Bon appetit!" ]
             ]
         ]
     ]

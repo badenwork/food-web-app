@@ -106,6 +106,32 @@
         max-width: 100%;
         max-height: 100%;
     }
+    .cook_frame2 > img.dry {
+        filter: grayscale(100%);
+    }
+
+.filtered {
+    position: absolute;
+    width: 597px;
+    height : 0px;
+    height: 773px;
+    /* height: 273px; */
+    left: 310px;
+    top: 170px;
+    text-align: center;
+    padding-top: 51px;
+
+    overflow: hidden;
+    /* top: 0px; */
+
+    border: 2px solid rgba(0,0,0,0);
+}
+    .filtered > img {
+        width: 100%;
+        max-width: 100%;
+        /* max-height: 100%; */
+        filter: grayscale(100%);
+    }
 
     /* Rectangle 14 */
 .cook_frame3 {
@@ -199,6 +225,37 @@
             line-height: 75px;
 
             color: #000000;
+        }
+
+        .cook_frame3 > .done_ua {
+            /* Страва готова! Заберіть стакан з відсіку готування. Обережно гаряче! Смачного! */
+            width: 100%;
+
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 48px;
+            line-height: 56px;
+            text-align: center;
+
+            white-space: initial;
+            overflow: hidden;
+
+            color: #000000;
+        }
+
+        .cook_frame3 > .done_en {
+            /* The dish is ready Bon appetit! */
+
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 30px;
+            line-height: 15px;
+            text-align: center;
+
+            /* Gray 3 */
+            color: #828282;
         }
 
 

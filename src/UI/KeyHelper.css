@@ -145,7 +145,6 @@
     text-transform: uppercase;
     text-align: center;
 
-    /* position: absolute; */
     width: 94.89px;
     height: 94.89px;
     border-radius: 50%;
@@ -161,6 +160,7 @@
     }
 
 .ellipse3 {
+    position: absolute;
     left: 1691.02px;
     top: 841px;
 
