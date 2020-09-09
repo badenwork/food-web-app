@@ -1,0 +1,239 @@
+
+/* Rectangle 14 */
+.cook_frame {
+    position: absolute;
+    width: 1383px;
+    height: 702px;
+    left: 249px;
+    top: 182px;
+
+    background: #FFFFFF;
+    border: 2px solid #E1E1E1;
+    box-sizing: border-box;
+    border-radius: 16px;
+}
+
+    .cook_frame > img.vending {
+        position: absolute;
+        top: 170px;
+        left: 208px;
+    }
+
+    .cook_frame > img.arrow {
+        position: absolute;
+        top: 227px;
+        left: 426px;
+    }
+
+    .cook_frame > img.product {
+        position: absolute;
+        top: 93px;
+        left: 492px;
+        width: 174px;
+        max-width: 174px;
+        max-height: 199px;
+    }
+
+    .cook_frame > .ua {
+        /* Помістіть стаканчик у відсік для приготування */
+        position: absolute;
+        width: 530px;
+        right:  105px;
+        top: 114px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 24px;
+        line-height: 28px;
+
+        color: #000000;
+    }
+
+    .cook_frame > .en {
+        /* If you want us to cook for you, put it in the cooking compartment */
+
+        position: absolute;
+        width: 530px;
+        right: 105px;
+        top: 170px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 24px;
+        line-height: 28px;
+
+        /* Gray 3 */
+        color: #828282;
+    }
+
+    .cook_frame > .key_1 {
+        position: absolute;
+        top: 320px;
+        left: 796px;
+    }
+
+    .cook_frame > .key_2 {
+        position: absolute;
+        top: 320px;
+        left: 1072px;
+    }
+
+
+
+/* Page 2 */
+
+
+/* Rectangle 15 */
+.cook_frame2 {
+    position: absolute;
+    width: 597px;
+    height: 773px;
+    left: 310px;
+    top: 170px;
+    text-align: center;
+    padding-top: 51px;
+
+    /* Gray 6 */
+    background: #F2F2F2;
+    border: 2px solid #E1E1E1;
+    border-radius: 16px;
+}
+
+    .cook_frame2 > img {
+        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    /* Rectangle 14 */
+.cook_frame3 {
+    position: absolute;
+    width: 612px;
+    /* height: 148px; */
+    left: 996px;
+    top: 250px;
+
+    padding: 43px;
+    /* padding-left: 43px; */
+    line-height: 36px;
+    white-space: nowrap;
+    overflow: hidden;
+
+    background: #FFFFFF;
+    border: 2px solid #E1E1E1;
+    box-sizing: border-box;
+    border-radius: 16px;
+}
+
+    .cook_frame3 > .ua {
+        /* У відсіку для приготування: */
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 22px;
+
+        color: #000000;
+    }
+
+    .cook_frame3 > .en {
+        /* In the cooking compartment: */
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 22px;
+
+        /* Gray 3 */
+        color: #828282;
+    }
+
+    .cook_frame3 > * > span:first-child {
+        display: inline-block;
+        width: 300px;
+    }
+
+    .cook_frame3 > * > span:last-child {
+        display: inline-block;
+        max-width: 250px;
+    }
+
+    .cook_frame3 > .cook_timer {
+        margin-top: 43px;
+    }
+
+        .cook_frame3 > .cook_timer > .ua {
+            /* У відсіку для приготування: */
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 22px;
+
+            color: #000000;
+        }
+
+        .cook_frame3 > .cook_timer > .en {
+            /* In the cooking compartment: */
+
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 22px;
+
+            /* Gray 3 */
+            color: #828282;
+        }
+
+        .cook_frame3 > .cook_timer > .counter {
+            /* 19 c */
+
+            position: absolute;
+            left: 323px;
+            bottom: 43px;
+
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 64px;
+            line-height: 75px;
+
+            color: #000000;
+        }
+
+
+.cook_ask2_keys {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+    .cook_ask2_keys .key_1 {
+        position: absolute;
+        top: 472px;
+        left: 1076px;
+    }
+    .cook_ask2_keys .key_2 {
+        position: absolute;
+        top: 472px;
+        left: 1392px;
+    }
+
+
+/* Page 3 */
+
+/* Rectangle 14 */
+.cooking_frame2 {
+    position: absolute;
+    width: 612px;
+    height: 316px;
+    left: 996px;
+    top: 250px;
+
+    background: #FFFFFF;
+    border: 2px solid #E1E1E1;
+    box-sizing: border-box;
+    border-radius: 16px;
+}

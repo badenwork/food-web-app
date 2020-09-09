@@ -14,6 +14,8 @@ import UI.KeyHelper
 import Page.Products
 import Page.Order
 import Page.OrderConfirm
+import Page.Cook
+import Time
 
 
 ---- MODEL ----
@@ -26,6 +28,9 @@ type Page
     | OrderPrivat
     | OrderFondi
     | OrderConfirm
+    | CookAsk1
+    | CookAsk2
+    | Cooking
 
 
 type alias Model =
@@ -33,6 +38,7 @@ type alias Model =
     , connectionState : ConnectionState
     , activePage : Page
     , activePayMethod : API.PayMethod
+    , cookTimer : Int
     }
 
 
@@ -47,6 +53,7 @@ init =
       , connectionState = NotConnected
       , activePage = Products
       , activePayMethod = API.PayMethod1
+      , cookTimer = 0
       }
     , Cmd.batch
         [ websocketOpen api_url
@@ -67,6 +74,7 @@ type Msg
     | KeyLeft
     | KeyRight
     | KeyOk
+    | Tick Time.Posix
 
 
 type alias Product =
@@ -82,6 +90,18 @@ update msg ({ activeProduct } as model) =
         NoOp ->
             ( model, Cmd.none )
 
+        Tick newTime ->
+            -- TODO: Может условие стоит перенести в subscriptions ?
+            case model.activePage of
+                Cooking ->
+                    if model.cookTimer > 0 then
+                        ( { model | cookTimer = model.cookTimer - 1 }, Cmd.none )
+                    else
+                        ( { model | activePage = Products }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
         KeyLeft ->
             case model.activePage of
                 Products ->
@@ -94,6 +114,12 @@ update msg ({ activeProduct } as model) =
                     ( { model | activePayMethod = prevPayMethod model.activePayMethod }, Cmd.none )
 
                 OrderConfirm ->
+                    ( { model | activePage = Products }, Cmd.none )
+
+                CookAsk1 ->
+                    ( { model | activePage = Products }, Cmd.none )
+
+                CookAsk2 ->
                     ( { model | activePage = Products }, Cmd.none )
 
                 _ ->
@@ -139,7 +165,16 @@ update msg ({ activeProduct } as model) =
                     ( { model | activePage = OrderConfirm }, Cmd.none )
 
                 OrderConfirm ->
-                    ( { model | activePage = Products }, Cmd.none )
+                    ( { model | activePage = CookAsk1 }, Cmd.none )
+
+                CookAsk1 ->
+                    ( { model | activePage = CookAsk2 }, Cmd.none )
+
+                CookAsk2 ->
+                    ( { model | activePage = Cooking, cookTimer = 30 }, Cmd.none )
+
+                Cooking ->
+                    ( model, Cmd.none )
 
         CharacterPressed 'd' ->
             update KeyRight model
@@ -258,6 +293,15 @@ viewPage model =
 
         OrderConfirm ->
             Page.OrderConfirm.view
+
+        CookAsk1 ->
+            Page.Cook.viewAsk1
+
+        CookAsk2 ->
+            Page.Cook.viewAsk2
+
+        Cooking ->
+            Page.Cook.viewCooking model.cookTimer
 
 
 
@@ -380,6 +424,7 @@ subscriptions _ =
         [ Browser.Events.onKeyDown keyDecoder
         , websocketOpened WebsocketOpened
         , websocketIn WebsocketIn
+        , Time.every 1000 Tick
         ]
 
 

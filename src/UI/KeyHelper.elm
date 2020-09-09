@@ -26,3 +26,21 @@ title ( keyLeft, keyRight, keyOk ) =
         , div [ class "key2_label" ] [ div [] [ text "Вибір вправо" ], div [ class "gray3" ] [ text "Select right" ] ]
         , div [ class "key3_label" ] [ div [] [ text "Зробити замовлення" ], div [ class "gray3" ] [ text "Make an order" ] ]
         ]
+
+
+key_left : String -> String -> String -> Html msg
+key_left className ua en =
+    div [ class ("key_panel " ++ className) ]
+        [ div [ class "keyEmptyEllipse" ] [ img [ src "img/arrow-left.png" ] [] ]
+        , div [ class "ua" ] [ text ua ]
+        , div [ class "en" ] [ text en ]
+        ]
+
+
+key_ok : String -> String -> String -> Html msg
+key_ok className ua en =
+    div [ class ("key_panel " ++ className) ]
+        [ div [ class "keyFilledEllipse" ] [ text "OK" ]
+        , div [ class "ua" ] [ text ua ]
+        , div [ class "en" ] [ text en ]
+        ]
