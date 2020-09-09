@@ -16,6 +16,18 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/img/card.png"
   },
   {
+    "revision": "59702170f9ee183d9dede50b4b3d665f",
+    "url": "/food-web-app/img/cook/arrow.png"
+  },
+  {
+    "revision": "f9ae2382a3bfcb9acbf1a7dacea50f89",
+    "url": "/food-web-app/img/cook/stakan_pustoy.png"
+  },
+  {
+    "revision": "02c345db29dbeb9f214079e2b41b5cd0",
+    "url": "/food-web-app/img/cook/vending.png"
+  },
+  {
     "revision": "22978e0bfd749eebb3e4e6c94b9250c9",
     "url": "/food-web-app/img/goroh.png"
   },
@@ -30,6 +42,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "daf130480e216f5dd6166dc7d3c68e0f",
     "url": "/food-web-app/img/logo.png"
+  },
+  {
+    "revision": "802d1ca7874c25ba8771a6c12ec5b9a2",
+    "url": "/food-web-app/img/order_confirm/arrow.png"
+  },
+  {
+    "revision": "35c92c8a82eb91ebdbed4df757b79d30",
+    "url": "/food-web-app/img/order_confirm/vending.png"
   },
   {
     "revision": "8ecf45eb4a51b3edbd0d3899ac727552",
@@ -88,7 +108,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/img/sochevitsa.png"
   },
   {
-    "revision": "63d7888e802986842d7c5008c11ce4b0",
+    "revision": "17bf3663ec9bb8dcb5aa69a2a1dd8ed3",
     "url": "/food-web-app/index.html"
   },
   {
@@ -128,12 +148,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/sony.mp4"
   },
   {
-    "revision": "7e4b9aa90416d96c7114",
-    "url": "/food-web-app/static/css/main.b0d175bd.chunk.css"
+    "revision": "bbc1b342cfb33ad4f215",
+    "url": "/food-web-app/static/css/main.114171e8.chunk.css"
   },
   {
-    "revision": "7e4b9aa90416d96c7114",
-    "url": "/food-web-app/static/js/main.7e4b9aa9.chunk.js"
+    "revision": "bbc1b342cfb33ad4f215",
+    "url": "/food-web-app/static/js/main.bbc1b342.chunk.js"
   },
   {
     "revision": "791b909605071a7404fe",
