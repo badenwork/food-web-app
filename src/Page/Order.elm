@@ -4,19 +4,20 @@ import Html exposing (Html, div, text, img, span)
 import Html.Attributes exposing (class, src, alt)
 import Html.Events exposing (onClick)
 import API
+import API.Products exposing (Product)
 
 
-header : Int -> List (Html msg)
-header selected_index =
+header : Product -> List (Html msg)
+header p =
     [ div [ class "order_header_title" ]
         [ div [] [ text "Замовлення" ]
         , div [] [ text "Order" ]
         ]
-    , div [ class "order_header_img" ] [ img [ src "img/sochevitsa.png" ] [] ]
+    , div [ class "order_header_img" ] [ img [ src p.image ] [] ]
     , div [ class "order_header_content" ] [ text "Замовлення:" ]
-    , div [ class "order_header_content_value" ] [ text "Сочевичний суп пюре" ]
+    , div [ class "order_header_content_value" ] [ text p.titleUA ]
     , div [ class "order_header_content_en" ] [ text "Order:" ]
-    , div [ class "order_header_content_en_value" ] [ text "Lentil puree soup" ]
+    , div [ class "order_header_content_en_value" ] [ text p.titleEN ]
     , div [ class "order_header_pay" ] [ text "До сплати:" ]
     , div [ class "order_header_pay_value" ] [ text "30 грн" ]
     , div [ class "order_header_pay_en" ] [ text "Paid:" ]
@@ -25,9 +26,9 @@ header selected_index =
     ]
 
 
-view : Int -> API.PayMethod -> List (Html msg)
-view selected_index pm =
-    (header selected_index)
+view : Product -> API.PayMethod -> List (Html msg)
+view p pm =
+    (header p)
         ++ [ div [ class "order_pay_method_label" ]
                 [ div [] [ text "Оберіть спосіб оплати" ]
                 , div [] [ text "Choose a payment method" ]
@@ -61,9 +62,9 @@ activeIfTrue true =
         ""
 
 
-viewIngenica : Int -> List (Html msg)
-viewIngenica selected_index =
-    (header selected_index)
+viewIngenica : Product -> List (Html msg)
+viewIngenica p =
+    (header p)
         ++ [ div [ class "order_label" ]
                 [ div [] [ text "Піднесіть карту до считувального пристрою" ]
                 , div [] [ text "Lift the card to the reader" ]
@@ -72,9 +73,9 @@ viewIngenica selected_index =
            ]
 
 
-viewPrivat : Int -> List (Html msg)
-viewPrivat selected_index =
-    (header selected_index)
+viewPrivat : Product -> List (Html msg)
+viewPrivat p =
+    (header p)
         ++ [ div [ class "order_label" ]
                 [ div [] [ text "Відкрийте додаток Приват24 та натісніть на считування кьюар коду" ]
                 , div [] [ text "Open the Privat24 application and click on reading the cuar code" ]
@@ -88,9 +89,9 @@ viewPrivat selected_index =
            ]
 
 
-viewFondi : Int -> List (Html msg)
-viewFondi selected_index =
-    (header selected_index)
+viewFondi : Product -> List (Html msg)
+viewFondi p =
+    (header p)
         ++ [ div [ class "order_label" ]
                 [ div [] [ text "Відкрийте фотокамеру на смартфони та зчитайте кьюар код. Слідуй інструкціі в браузері." ]
                 , div [] [ text "Open the camera on smartphones and read the cuar code. Follow the instructions in the browser." ]

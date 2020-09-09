@@ -5,14 +5,15 @@ import Html.Attributes exposing (class, src, alt, style)
 import Html.Events exposing (onClick)
 import API
 import UI.KeyHelper exposing (key_left, key_ok)
+import API.Products exposing (Product)
 
 
-viewAsk1 : List (Html msg)
-viewAsk1 =
+viewAsk1 : Product -> List (Html msg)
+viewAsk1 p =
     [ div [ class "cook_frame" ]
         [ img [ class "vending", src "img/cook/vending.png" ] []
         , img [ class "arrow", src "img/cook/arrow.png" ] []
-        , img [ class "product", src "img/grechka.png" ] []
+        , img [ class "product", src p.image ] []
         , div [ class "ua" ] [ text "Помістіть стаканчик у відсік для приготування" ]
         , div [ class "en" ] [ text "If you want us to cook for you, put it in the cooking compartment" ]
         , key_left "key_1" "Відміна приготування" "Cancel cooking"
@@ -21,14 +22,14 @@ viewAsk1 =
     ]
 
 
-viewAsk2 : List (Html msg)
-viewAsk2 =
+viewAsk2 : Product -> List (Html msg)
+viewAsk2 p =
     [ div [ class "cook_frame2" ]
-        [ img [ class "product dry", src "img/grechka.png" ] []
+        [ img [ class "product dry", src p.image ] []
         ]
     , div [ class "cook_frame3" ]
-        [ div [ class "ua" ] [ span [] [ text "У відсіку для приготування:" ], span [] [ text "Сочевичний суп пюре" ] ]
-        , div [ class "en" ] [ span [] [ text "In the cooking compartment:" ], span [] [ text "Lentil puree soup" ] ]
+        [ div [ class "ua" ] [ span [] [ text "У відсіку для приготування:" ], span [] [ text p.titleUA ] ]
+        , div [ class "en" ] [ span [] [ text "In the cooking compartment:" ], span [] [ text p.titleEN ] ]
         ]
     , div [ class "cook_ask2_keys" ]
         [ key_left "key_1" "Відміна приготування" "Cancel cooking"
@@ -37,17 +38,17 @@ viewAsk2 =
     ]
 
 
-viewCooking : Int -> List (Html msg)
-viewCooking cookTimer =
+viewCooking : Int -> Product -> List (Html msg)
+viewCooking cookTimer p =
     let
         fill =
             (773 - 250) * cookTimer // 30 |> String.fromInt
     in
-        [ div [ class "cook_frame2" ] [ img [ class "product", src "img/grechka.png" ] [] ]
-        , div [ class "filtered", style "height" (fill ++ "px") ] [ img [ class "product", src "img/grechka.png" ] [] ]
+        [ div [ class "cook_frame2" ] [ img [ class "product", src p.image ] [] ]
+        , div [ class "filtered", style "height" (fill ++ "px") ] [ img [ class "product", src p.image ] [] ]
         , div [ class "cook_frame3" ]
-            [ div [ class "ua" ] [ span [] [ text "У відсіку для приготування:" ], span [] [ text "Сочевичний суп пюре" ] ]
-            , div [ class "en" ] [ span [] [ text "In the cooking compartment:" ], span [] [ text "Lentil puree soup" ] ]
+            [ div [ class "ua" ] [ span [] [ text "У відсіку для приготування:" ], span [] [ text p.titleUA ] ]
+            , div [ class "en" ] [ span [] [ text "In the cooking compartment:" ], span [] [ text p.titleEN ] ]
             , div [ class "cook_timer" ]
                 [ div [ class "ua" ] [ text "Готуемо" ]
                 , div [ class "en" ] [ text "Cooking" ]
@@ -57,9 +58,9 @@ viewCooking cookTimer =
         ]
 
 
-viewCookingDone : List (Html msg)
-viewCookingDone =
-    [ div [ class "cook_frame2" ] [ img [ class "product", src "img/grechka.png" ] [] ]
+viewCookingDone : Product -> List (Html msg)
+viewCookingDone product =
+    [ div [ class "cook_frame2" ] [ img [ class "product", src product.image ] [] ]
     , div [ class "cook_frame3" ]
         [ div [ class "done_ua" ]
             [ p [] [ text "Страва готова!" ]

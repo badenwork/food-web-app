@@ -18,9 +18,22 @@
 
 /* Rectangle 14 */
 .product_headerUA {
+    /* Сочевичний суп пюре */
     position: absolute;
     left: 39px;
     top: 25px;
+
+
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    /* identical to box height */
+
+    color: #000000;
+
 }
 
 .product_headerEN {
@@ -131,31 +144,78 @@
 
 
 
-.product_description {
+.product_descriptionUA {
     position: absolute;
 
     left: 43px;
     bottom: 25px;
     height: 350px;
     right: 31px;
-}
-
-.product_description h1 {
-    max-width: 180px;
-
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
     line-height: 19px;
-
     color: #000000;
 }
 
+    .product_descriptionUA  h1 {
+        max-width: 180px;
+        /* padding-top: 10px; */
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 19px;
+
+        color: #000000;
+    }
+    .product_descriptionUA > div:first-child .desc_t1 {
+        max-width: 60px !important;
+        min-width: 60px !important;
+        width: 60px !important;
+    }
+    .product_descriptionUA > div:not(:first-child) {
+        border-top: 1px solid black;
+        margin-top: 10px;
+        /* margin-left: 10px; */
+        width: 200px;
+    }
+
+.product_descriptionEN {
+    position: absolute;
+
+    left: 283px;
+    bottom: 25px;
+    height: 350px;
+    right: 31px;
+    line-height: 19px;
+    color: #828282;
+}
+
+    .product_descriptionEN  h1 {
+        max-width: 180px;
+        /* padding-top: 10px; */
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 19px;
+
+    }
+    .product_descriptionEN > div:first-child .desc_t1 {
+        max-width: 60px !important;
+        min-width: 60px !important;
+        width: 60px !important;
+    }
+    .product_descriptionEN > div:not(:first-child) {
+        border-top: 1px solid black;
+        margin-top: 10px;
+        width: 200px;
+    }
+
 .desc_t1 {
     display: inline-block;
-    width: 143px;
-    min-width: 143px;
+    width: 103px;
+    min-width: 103px;
 
     font-family: Roboto;
     font-style: normal;
@@ -164,7 +224,6 @@
     line-height: 16px;
     /* text-transform: uppercase; */
 
-    color: #000000;
 }
 
 .desc_t2 {
@@ -177,5 +236,4 @@
     font-size: 14px;
     line-height: 16px;
 
-    color: #000000;
 }

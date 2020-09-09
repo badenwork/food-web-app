@@ -16,6 +16,8 @@ import Page.Order
 import Page.OrderConfirm
 import Page.Cook
 import Time
+import API.Products exposing (..)
+import Maybe exposing (withDefault)
 
 
 ---- MODEL ----
@@ -193,6 +195,9 @@ update msg ({ activeProduct } as model) =
         CharacterPressed 's' ->
             update KeyOk model
 
+        CharacterPressed ' ' ->
+            update KeyOk model
+
         CharacterPressed k ->
             ( model, Cmd.none )
 
@@ -288,31 +293,31 @@ viewPage model =
                 ++ Page.Products.view model.activeProduct
 
         Order ->
-            Page.Order.view model.activeProduct model.activePayMethod
+            Page.Order.view (products |> getAt model.activeProduct |> withDefault unknowproduct) model.activePayMethod
 
         OrderIngenica ->
-            Page.Order.viewIngenica model.activeProduct
+            Page.Order.viewIngenica (products |> getAt model.activeProduct |> withDefault unknowproduct)
 
         OrderPrivat ->
-            Page.Order.viewPrivat model.activeProduct
+            Page.Order.viewPrivat (products |> getAt model.activeProduct |> withDefault unknowproduct)
 
         OrderFondi ->
-            Page.Order.viewFondi model.activeProduct
+            Page.Order.viewFondi (products |> getAt model.activeProduct |> withDefault unknowproduct)
 
         OrderConfirm ->
             Page.OrderConfirm.view
 
         CookAsk1 ->
-            Page.Cook.viewAsk1
+            Page.Cook.viewAsk1 (products |> getAt model.activeProduct |> withDefault unknowproduct)
 
         CookAsk2 ->
-            Page.Cook.viewAsk2
+            Page.Cook.viewAsk2 (products |> getAt model.activeProduct |> withDefault unknowproduct)
 
         Cooking ->
-            Page.Cook.viewCooking model.cookTimer
+            Page.Cook.viewCooking model.cookTimer (products |> getAt model.activeProduct |> withDefault unknowproduct)
 
         CookingDone ->
-            Page.Cook.viewCookingDone
+            Page.Cook.viewCookingDone (products |> getAt model.activeProduct |> withDefault unknowproduct)
 
 
 
@@ -397,6 +402,9 @@ toKey string =
         "ArrowDown" ->
             toKey "s"
 
+        "Enter" ->
+            toKey "s"
+
         "A" ->
             toKey "a"
 
@@ -421,7 +429,11 @@ toKey string =
                     CharacterPressed char
 
                 _ ->
-                    NoOp
+                    let
+                        _ =
+                            Debug.log "string" string
+                    in
+                        NoOp
 
 
 api_url : String
