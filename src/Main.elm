@@ -13,6 +13,7 @@ import UI
 import UI.KeyHelper
 import Page.Products
 import Page.Order
+import Page.OrderConfirm
 
 
 ---- MODEL ----
@@ -24,6 +25,7 @@ type Page
     | OrderIngenica
     | OrderPrivat
     | OrderFondi
+    | OrderConfirm
 
 
 type alias Model =
@@ -91,6 +93,9 @@ update msg ({ activeProduct } as model) =
                 Order ->
                     ( { model | activePayMethod = prevPayMethod model.activePayMethod }, Cmd.none )
 
+                OrderConfirm ->
+                    ( { model | activePage = Products }, Cmd.none )
+
                 _ ->
                     ( model, Cmd.none )
 
@@ -125,12 +130,15 @@ update msg ({ activeProduct } as model) =
                             ( { model | activePage = OrderFondi }, Cmd.batch [ startProcess ] )
 
                 OrderIngenica ->
-                    ( { model | activePage = Products }, Cmd.none )
+                    ( { model | activePage = OrderConfirm }, Cmd.none )
 
                 OrderPrivat ->
-                    ( { model | activePage = Products }, Cmd.none )
+                    ( { model | activePage = OrderConfirm }, Cmd.none )
 
                 OrderFondi ->
+                    ( { model | activePage = OrderConfirm }, Cmd.none )
+
+                OrderConfirm ->
                     ( { model | activePage = Products }, Cmd.none )
 
         CharacterPressed 'd' ->
@@ -247,6 +255,9 @@ viewPage model =
 
         OrderFondi ->
             Page.Order.viewFondi model.activeProduct
+
+        OrderConfirm ->
+            Page.OrderConfirm.view
 
 
 

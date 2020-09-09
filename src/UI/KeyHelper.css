@@ -73,12 +73,6 @@
     box-sizing: border-box;
 }
 
-.keyEmptyEllipse img {
-    pointer-events: none;
-    /* background-color: lime; */
-    margin-top: 28px;
-    margin-left: 20px;
-}
 
 /* Arrow 4 */
 .arrow4 {
@@ -99,11 +93,19 @@
     border: 0.564818px solid #828282;
     border-radius: 50%;
     box-sizing: border-box;
+    text-align: center;
 
     cursor: pointer;
 }
     .keyEmptyEllipse:hover {
         box-shadow: 0 0 10px #828282;
+    }
+
+    .keyEmptyEllipse img {
+        pointer-events: none;
+        /* background-color: lime; */
+        margin-top: 28px;
+        /* margin-left: 20px; */
     }
 
 
@@ -137,7 +139,12 @@
 .keyFilledEllipse {
     /* Ellipse 12 */
 
-    position: absolute;
+    /* identical to box height */
+    font-size: 36.1483px;
+    line-height: 94px;
+    text-transform: uppercase;
+
+    /* position: absolute; */
     width: 94.89px;
     height: 94.89px;
     border-radius: 50%;
@@ -159,10 +166,6 @@
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
-    font-size: 36.1483px;
-    line-height: 94px;
-    /* identical to box height */
-    text-transform: uppercase;
 
     color: #000000;
     text-align: center;
@@ -217,4 +220,34 @@
     text-align: left;
 
     color: #000000;
+}
+
+
+.key_panel > .ua {
+    margin-top: 18px;
+    text-align: left;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 26px;
+
+    color: #000000;
+}
+
+.key_panel > .en {
+    margin-top: 10px;
+    text-align: left;
+
+    /* Cancel cooking */
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 26px;
+
+    /* Gray 3 */
+    color: #828282;
 }

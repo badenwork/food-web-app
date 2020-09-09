@@ -3,6 +3,7 @@ import './UI.css';
 import './UI/KeyHelper.css';
 import './Page/Products.css';
 import './Page/Order.css';
+import './Page/OrderConfirm.css';
 import { Elm } from './Main.elm';
 import * as serviceWorker from './serviceWorker';
 

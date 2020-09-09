@@ -1,0 +1,120 @@
+
+/* Rectangle 14 */
+.confirm_panel1 {
+    position: absolute;
+    width: 667px;
+    height: 702px;
+    left: 249px;
+    top: 182px;
+
+    border: 2px solid #E1E1E1;
+    box-sizing: border-box;
+    border-radius: 16px;
+
+    text-align: center;
+
+}
+
+    .confirm_panel1 div {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+
+
+    .confirm_panel1 div p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .confirm_panel1 .ua {
+        /* Оплата здійснена! Заберіть продукт з відсіку видачі. */
+
+        margin-top: 42px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 48px;
+        line-height: 56px;
+
+        color: #000000;
+    }
+
+    .confirm_panel1 .en {
+        /* Payment made! Select a product from the dispensing compartment. */
+        margin-top: 42px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 30px;
+        line-height: 35px;
+        text-align: center;
+    }
+
+    .confirm_panel1 img.vending {
+        margin-top: 65px;
+    }
+
+    .confirm_panel1 img.arrow {
+        position: absolute;
+        top: 447px;
+        left: 356px;
+    }
+
+
+
+/*  */
+
+/* Rectangle 15 */
+.confirm_panel2 {
+    position: absolute;
+    width: 667px;
+    height: 702px;
+    left: 965px;
+    top: 182px;
+
+    text-align: center;
+    padding-top: 78px;
+
+    background: #FFFFFF;
+    border: 2px solid #E1E1E1;
+    box-sizing: border-box;
+    border-radius: 16px;
+}
+
+    .confirm_panel2 > .ua {
+        /* Приготувати страву? */
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 48px;
+        line-height: 56px;
+
+        color: #000000;
+    }
+
+    /* Cook a meal? */
+
+    .confirm_panel2 > .en {
+        margin-top: 42px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 30px;
+        line-height: 35px;
+    }
+
+    .confirm_panel2 > .key_1 {
+        position: absolute;
+        top: 270px;
+        left: 115px;
+    }
+
+    .confirm_panel2 > .key_2 {
+        position: absolute;
+        top: 270px;
+        left: 388px;
+    }

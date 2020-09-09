@@ -4,6 +4,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/favicon.ico"
   },
   {
+    "revision": "cfc1fb96a602f941eac896e04e1bfddc",
+    "url": "/food-web-app/img/arrow-left.png"
+  },
+  {
+    "revision": "6bbcdcecaedf2fed88ffece577cc071e",
+    "url": "/food-web-app/img/arrow-right.png"
+  },
+  {
     "revision": "f700c6794d1f4fef6f017f62653ba5d6",
     "url": "/food-web-app/img/card.png"
   },
@@ -80,7 +88,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/img/sochevitsa.png"
   },
   {
-    "revision": "01d7844fe17a1bb182540377f83c5c29",
+    "revision": "63d7888e802986842d7c5008c11ce4b0",
     "url": "/food-web-app/index.html"
   },
   {
@@ -120,12 +128,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/food-web-app/sony.mp4"
   },
   {
-    "revision": "4e57106b985e5cb2379f",
-    "url": "/food-web-app/static/css/main.0a769145.chunk.css"
+    "revision": "7e4b9aa90416d96c7114",
+    "url": "/food-web-app/static/css/main.b0d175bd.chunk.css"
   },
   {
-    "revision": "4e57106b985e5cb2379f",
-    "url": "/food-web-app/static/js/main.4e57106b.chunk.js"
+    "revision": "7e4b9aa90416d96c7114",
+    "url": "/food-web-app/static/js/main.7e4b9aa9.chunk.js"
   },
   {
     "revision": "791b909605071a7404fe",
