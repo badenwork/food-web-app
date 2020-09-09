@@ -219,7 +219,7 @@ product5 =
             , ProcDescrContent "Жири" "2.46 г"
             , ProcDescrContent "Вуглеводи" "32.61 г"
             , ProcDescrContent "Волокно" "1.24 г"
-            , ProcDescrContent "Na" "1 г"
+            , ProcDescrContent "Сіль" "1 г"
             ]
         ]
         [ ProdDescr "Composition:"
