@@ -429,11 +429,7 @@ toKey string =
                     CharacterPressed char
 
                 _ ->
-                    let
-                        _ =
-                            Debug.log "string" string
-                    in
-                        NoOp
+                    NoOp
 
 
 api_url : String
