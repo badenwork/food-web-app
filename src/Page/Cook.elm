@@ -42,7 +42,7 @@ viewCooking : Int -> Product -> List (Html msg)
 viewCooking cookTimer p =
     let
         fill =
-            (773 - 250) * cookTimer // 30 |> String.fromInt
+            (773 - 250) * cookTimer // 20 |> String.fromInt
     in
         [ div [ class "cook_frame2" ] [ img [ class "product", src p.image ] [] ]
         , div [ class "filtered", style "height" (fill ++ "px") ] [ img [ class "product", src p.image ] [] ]

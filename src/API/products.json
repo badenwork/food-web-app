@@ -1,78 +1,38 @@
-module API.Products exposing (..)
-
-import Json.Decode as Decode
-
-
-type alias ProductId =
-    String
-
-
-decoderProductId : Decode.Decoder ProductId
-decoderProductId =
-    Decode.string
-
-
-type alias Product =
-    { id : ProductId
-    , titleUA : String
-    , titleEN : String
-    , image : String
-    , descriptionUA : List ProdDescr
-    , descriptionEN : List ProdDescr
-    }
-
-
-type alias ProdDescr =
-    { title : String
-
-    -- , width : Int
-    , content : List ProcDescrContent
-    }
-
-
-type alias ProcDescrContent =
-    { t1 : String
-    , t2 : String
-    }
-
-
-products : List Product
-products =
-    [ product1
-    , product2
-    , product3
-    , product4
-    , product5
-    , product6
-    ]
-
-
-product1 : Product
-product1 =
-    Product
-        "product_01"
-        "Сочевичний суп пюре"
-        "Lentil puree soup"
-        "img/sochevitsa.png"
-        [ ProdDescr "Склад:"
-            [ ProcDescrContent "83%" "сочевиця"
-            , ProcDescrContent "8%" "грінки хлібні"
-            , ProcDescrContent "4%" "морква, цибуля"
-            , ProcDescrContent "3%" "суміш перців"
-            , ProcDescrContent "1%" "зелень та сіль"
-            ]
-        , ProdDescr "Енергетична цінність на 100г продукту:"
-            [ ProcDescrContent "316.11 ккал" "1322.1 кДж"
-            ]
-        , ProdDescr ""
-            [ ProcDescrContent "Білки" "22.51 г"
-            , ProcDescrContent "Жири" "2.40 г"
-            , ProcDescrContent "Вуглеводи" "54.10 г"
-            , ProcDescrContent "Волокно" "9.81 г"
-            , ProcDescrContent "Сіль" "3 г"
-            ]
+[
+{
+    "id" : "product1",
+    "titleUA" : "Сочевичний суп пюре",
+    "titleEN" : "Lentil puree soup",
+    "image" : "img/sochevitsa.png",
+    "descriptionUA" : [{
+        "title": "Склад:",
+        "ul" : [
+            ["83%", "сочевиця"],
+            ["8%", "грінки хлібні"],
+            ["4%", "морква, цибуля"],
+            ["3%", "суміш перців"],
+            ["1%", "зелень та сіль"]
         ]
-        [ ProdDescr "Composition:"
+    }, {
+        "title": "Енергетична цінність на 100г продукту:",
+        "ul" : [
+            ["316.11 ккал", "1322.1 кДж"]
+        ]
+    }, {
+        "title": "",
+        "ul" : [
+            ["Білки", "22.51 г"],
+            ["Жири", "2.40 г"],
+            ["Вуглеводи", "54.10 г"],
+            ["Волокно", "9.81 г"],
+            ["Сіль", "3 г"]
+        ]
+    }],
+    "descriptionEN" : [{
+        "title" : "Composition:",
+    }]
+
+        [ ProdDescr
             [ ProcDescrContent "83%" "lentil"
             , ProcDescrContent "8%" "bread croutons"
             , ProcDescrContent "4%" "carrots, onions"
@@ -95,7 +55,6 @@ product1 =
 product2 : Product
 product2 =
     Product
-        "product_02"
         "Гороховий суп з куркою"
         "Pea soup with chicken"
         "img/goroh.png"
@@ -114,7 +73,7 @@ product2 =
             , ProcDescrContent "Жири" "4.59 г"
             , ProcDescrContent "Вуглеводи" "44.98 г"
             , ProcDescrContent "Волокно" "0.25 г"
-            , ProcDescrContent "Сіль" "1.16 г"
+            , ProcDescrContent "Na" "1.16 г"
             ]
         ]
         [ ProdDescr "Composition:"
@@ -140,7 +99,6 @@ product2 =
 product3 : Product
 product3 =
     Product
-        "product_03"
         "Картопляне пюре з грибами"
         "Mashed potatoes with mushrooms"
         "img/pure.png"
@@ -185,7 +143,6 @@ product3 =
 product4 : Product
 product4 =
     Product
-        "product_04"
         "Вівсянка з малиною"
         "Oatmeal with raspberries"
         "img/ovsanka.png"
@@ -230,7 +187,6 @@ product4 =
 product5 : Product
 product5 =
     Product
-        "product_05"
         "Кус-кус дієтичний з овочами"
         "Couscous dietary with vegetables"
         "img/kuskus.png"
@@ -277,7 +233,6 @@ product5 =
 product6 : Product
 product6 =
     Product
-        "product_06"
         "Каша гречана з м’ясом"
         "Buckwheat porridge with meat"
         "img/grechka.png"
@@ -313,52 +268,3 @@ product6 =
             , ProcDescrContent "Salt" "3 g"
             ]
         ]
-
-
-unknowproduct : Product
-unknowproduct =
-    Product "product_fake" "От халепа!" "Oops!" "img/ovsanka.png" product1_descriptions product1_descriptions
-
-
-product1_descriptions : List ProdDescr
-product1_descriptions =
-    [ ProdDescr "Склад"
-        [ ProcDescrContent "83%" "сочевиця"
-        , ProcDescrContent "8%" "грінки хлібні"
-        , ProcDescrContent "4%" "морква, цибуля"
-        , ProcDescrContent "3%" "суміш перців"
-        , ProcDescrContent "1%" "зелень та сіль"
-        ]
-    , ProdDescr "Енергетична цінність на 100г продукту:"
-        [ ProcDescrContent "1448.0 ккал" "346.09 кДж"
-        ]
-    , ProdDescr ""
-        [ ProcDescrContent "Білки" "21.61 г"
-        , ProcDescrContent "Жири" "4.59 г"
-        , ProcDescrContent "Вуглеводи" "44.98 г"
-        , ProcDescrContent "Волокно" "0.25 г"
-        , ProcDescrContent "Сіль" "1.16 г"
-        ]
-    ]
-
-
-product2_descriptions : List ProdDescr
-product2_descriptions =
-    [ ProdDescr "Склад"
-        [ ProcDescrContent "90%" "картофан"
-        , ProcDescrContent "8%" "мастило"
-        , ProcDescrContent "4%" "морква, цибуля"
-        , ProcDescrContent "3%" "суміш перців"
-        , ProcDescrContent "1%" "зелень та сіль"
-        ]
-    , ProdDescr "Енергетична цінність на 100г продукту:"
-        [ ProcDescrContent "1448.0 ккал" "346.09 кДж"
-        ]
-    , ProdDescr ""
-        [ ProcDescrContent "Білки" "41.61 г"
-        , ProcDescrContent "Жири" "14.59 г"
-        , ProcDescrContent "Вуглеводи" "4.98 г"
-        , ProcDescrContent "Волокно" "1.25 г"
-        , ProcDescrContent "Сіль" "0.16 г"
-        ]
-    ]

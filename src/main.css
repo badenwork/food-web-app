@@ -71,3 +71,10 @@ ul.main_menu {
     text-align: left;
     padding-left: 10px;
     padding-top: 10%; }
+
+.error {
+    margin: 20px;
+}
+    .error div {
+        margin-top: 10px;
+    }

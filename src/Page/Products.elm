@@ -5,10 +5,12 @@ import Html.Attributes exposing (class, src, alt, style)
 import List.Extra exposing (getAt)
 import Maybe exposing (withDefault)
 import API.Products exposing (..)
+import Json.Encode as Encode
+import Dict exposing (Dict)
 
 
-view : Int -> List (Html msg)
-view selected_index =
+view : Dict String String -> Int -> List (Html msg)
+view images selected_index =
     let
         p =
             products |> getAt selected_index |> withDefault unknowproduct
@@ -36,6 +38,7 @@ view selected_index =
         -- , img [ src "img/goroh.png" ] []
         -- , img [ src "img/grechka.png" ] []
         -- ]
+        , debuger images
         ]
 
 
@@ -69,3 +72,51 @@ viewImage active index { image } =
         img [ class "active", src image ] []
     else
         img [ src image ] []
+
+
+debuger : Dict String String -> Html msg
+debuger images =
+    div [ class "debuger" ]
+        [ Html.textarea [ Html.Attributes.value <| Encode.encode 4 (encodeProducts images API.Products.products) ] []
+        ]
+
+
+encodeProducts : Dict String String -> List API.Products.Product -> Encode.Value
+encodeProducts images ps =
+    ps |> Encode.list (encodeProduct images)
+
+
+encodeProduct : Dict String String -> API.Products.Product -> Encode.Value
+encodeProduct images p =
+    let
+        img =
+            p.image
+
+        -- img =
+        --     case Dict.get p.image images of
+        --         Nothing ->
+        --             p.image
+        --
+        --         Just data ->
+        --             data
+    in
+        Encode.object
+            [ ( "id", Encode.string p.id )
+            , ( "titleUA", Encode.string p.titleUA )
+            , ( "titleEN", Encode.string p.titleEN )
+            , ( "image", Encode.string img )
+            , ( "descriptionUA", (Encode.list encodeProductDescription) p.descriptionUA )
+            ]
+
+
+encodeProductDescription : API.Products.ProdDescr -> Encode.Value
+encodeProductDescription pd =
+    Encode.object
+        [ ( "title", Encode.string pd.title )
+        , ( "content", (Encode.list encodeProductDescrContent) pd.content )
+        ]
+
+
+encodeProductDescrContent : API.Products.ProcDescrContent -> Encode.Value
+encodeProductDescrContent { t1, t2 } =
+    Encode.list Encode.string [ t1, t2 ]

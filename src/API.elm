@@ -3,6 +3,7 @@ module API exposing (..)
 import Json.Encode as Encode
 import Json.Decode as JD exposing (Decoder, Value, string, value)
 import Json.Decode.Pipeline exposing (hardcoded, optional, required)
+import Http
 
 
 type APIContent
@@ -66,3 +67,7 @@ keyDecoder =
                     other ->
                         JD.succeed KeyUnknown
             )
+
+
+acao =
+    Http.header "Access-Control-Allow-Origin" "*"

@@ -8,6 +8,7 @@ import Json.Decode as Decode
 import List.Extra exposing (getAt)
 import MD5
 import Json.Encode as Encode
+import Http
 import API
 import UI
 import UI.KeyHelper
@@ -17,7 +18,9 @@ import Page.OrderConfirm
 import Page.Cook
 import Time
 import API.Products exposing (..)
+import API.Vending
 import Maybe exposing (withDefault)
+import Dict exposing (Dict)
 
 
 ---- MODEL ----
@@ -42,6 +45,8 @@ type alias Model =
     , activePage : Page
     , activePayMethod : API.PayMethod
     , cookTimer : Int
+    , images : Dict String String
+    , error : Maybe (List String)
     }
 
 
@@ -57,15 +62,43 @@ init =
       , activePage = Products
       , activePayMethod = API.PayMethod1
       , cookTimer = 0
+      , images = Dict.empty
+      , error = Nothing
       }
-    , Cmd.batch
+    , Cmd.batch <|
         [ websocketOpen api_url
         ]
+            ++ readImages
+            ++ [ readVending ]
     )
 
 
+readVending =
+    Http.request
+        { method = "GET"
+        , headers = [ API.acao ]
+        , url = API.Vending.url
+
+        -- , body = Product.productRequest product |> Http.jsonBody
+        , body = Http.emptyBody
+        , expect = Http.expectJson ReadVendingDone API.Vending.decodeVending
+        , timeout = Nothing
+        , tracker = Nothing
+
+        -- , withCredentials = False
+        }
+
+
+type alias Response a =
+    Result Http.Error a
+
+
+readImages =
+    API.Products.products |> List.map .image |> List.map readFile
+
+
 cookTimerInit =
-    30
+    20
 
 
 
@@ -83,6 +116,8 @@ type Msg
     | KeyOk
     | Tick Time.Posix
     | SelectPayMethod API.PayMethod
+    | ReadFileDone (Result Decode.Error ReadFile)
+    | ReadVendingDone (Response API.Vending.Vending)
 
 
 type alias Product =
@@ -238,6 +273,35 @@ update msg ({ activeProduct } as model) =
         OpenWebsocket url ->
             ( model, websocketOpen url )
 
+        ReadFileDone (Ok { name, data }) ->
+            ( { model | images = Dict.insert name data model.images }, Cmd.none )
+
+        ReadFileDone (Err _) ->
+            -- TBD, file not found?
+            ( model, Cmd.none )
+
+        ReadVendingDone (Err err) ->
+            let
+                title =
+                    "Ошибка получения данных конфигурации."
+            in
+                case err of
+                    Http.BadBody str ->
+                        ( { model | error = Just [ title, str ] }, Cmd.none )
+
+                    Http.NetworkError ->
+                        ( { model | error = Just [ title, "Транспортный сервер не запущен." ] }, Cmd.none )
+
+                    _ ->
+                        let
+                            _ =
+                                Debug.log "err" err
+                        in
+                            ( { model | error = Just [ title ] }, Cmd.none )
+
+        ReadVendingDone (Ok sa) ->
+            ( model, Cmd.none )
+
 
 nextPayMethod : API.PayMethod -> API.PayMethod
 nextPayMethod pm =
@@ -283,18 +347,23 @@ cmdTest =
 
 view : Model -> Html Msg
 view model =
-    div [] <|
-        [ UI.header
-        , UI.footer
-        ]
-            ++ viewPage model
+    case model.error of
+        Nothing ->
+            div [] <|
+                [ UI.header
+                , UI.footer
+                ]
+                    ++ viewPage model
+
+        Just error ->
+            div [ HA.class "error" ] (error |> List.map (\s -> div [] [ Html.text s ]))
 
 
 viewPage model =
     case model.activePage of
         Products ->
             [ UI.KeyHelper.title ( KeyLeft, KeyRight, KeyOk ) ]
-                ++ Page.Products.view model.activeProduct
+                ++ Page.Products.view model.images model.activeProduct
 
         Order ->
             Page.Order.view
@@ -441,7 +510,8 @@ toKey string =
 
 api_url : String
 api_url =
-    "ws://localhost:8001"
+    -- "ws://localhost:8001"
+    "ws://localhost:8081/ws"
 
 
 subscriptions : Model -> Sub Msg
@@ -451,7 +521,21 @@ subscriptions _ =
         , websocketOpened WebsocketOpened
         , websocketIn WebsocketIn
         , Time.every 1000 Tick
+        , readFileDone (\c -> ReadFileDone (Decode.decodeValue readFileDecoder c))
         ]
+
+
+type alias ReadFile =
+    { name : String
+    , data : String
+    }
+
+
+readFileDecoder : Decode.Decoder ReadFile
+readFileDecoder =
+    Decode.map2 ReadFile
+        (Decode.field "name" Decode.string)
+        (Decode.field "data" Decode.string)
 
 
 port websocketOpen : String -> Cmd msg
@@ -464,3 +548,9 @@ port websocketIn : (String -> msg) -> Sub msg
 
 
 port websocketOut : Encode.Value -> Cmd msg
+
+
+port readFile : String -> Cmd msg
+
+
+port readFileDone : (Encode.Value -> msg) -> Sub msg

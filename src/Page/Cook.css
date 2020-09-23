@@ -125,6 +125,7 @@
     /* top: 0px; */
 
     border: 2px solid rgba(0,0,0,0);
+    transition: height 1s linear;
 }
     .filtered > img {
         width: 100%;
@@ -138,6 +139,7 @@
     position: absolute;
     /* width: 612px; */
     /* height: 148px; */
+    max-width: 700px;
     left: 996px;
     top: 250px;
 

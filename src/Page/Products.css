@@ -237,3 +237,19 @@
     line-height: 16px;
 
 }
+
+.debuger {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 50%;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+    .debuger textarea {
+        width: 100%;
+        height: 100%;
+    }
