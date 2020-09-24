@@ -38,7 +38,7 @@ view images selected_index =
         -- , img [ src "img/goroh.png" ] []
         -- , img [ src "img/grechka.png" ] []
         -- ]
-        , debuger images
+        -- , debuger images
         ]
 
 
@@ -74,49 +74,50 @@ viewImage active index { image } =
         img [ src image ] []
 
 
-debuger : Dict String String -> Html msg
-debuger images =
-    div [ class "debuger" ]
-        [ Html.textarea [ Html.Attributes.value <| Encode.encode 4 (encodeProducts images API.Products.products) ] []
-        ]
 
-
-encodeProducts : Dict String String -> List API.Products.Product -> Encode.Value
-encodeProducts images ps =
-    ps |> Encode.list (encodeProduct images)
-
-
-encodeProduct : Dict String String -> API.Products.Product -> Encode.Value
-encodeProduct images p =
-    let
-        img =
-            p.image
-
-        -- img =
-        --     case Dict.get p.image images of
-        --         Nothing ->
-        --             p.image
-        --
-        --         Just data ->
-        --             data
-    in
-        Encode.object
-            [ ( "id", Encode.string p.id )
-            , ( "titleUA", Encode.string p.titleUA )
-            , ( "titleEN", Encode.string p.titleEN )
-            , ( "image", Encode.string img )
-            , ( "descriptionUA", (Encode.list encodeProductDescription) p.descriptionUA )
-            ]
-
-
-encodeProductDescription : API.Products.ProdDescr -> Encode.Value
-encodeProductDescription pd =
-    Encode.object
-        [ ( "title", Encode.string pd.title )
-        , ( "content", (Encode.list encodeProductDescrContent) pd.content )
-        ]
-
-
-encodeProductDescrContent : API.Products.ProcDescrContent -> Encode.Value
-encodeProductDescrContent { t1, t2 } =
-    Encode.list Encode.string [ t1, t2 ]
+-- debuger : Dict String String -> Html msg
+-- debuger images =
+--     div [ class "debuger" ]
+--         [ Html.textarea [ Html.Attributes.value <| Encode.encode 4 (encodeProducts images API.Products.products) ] []
+--         ]
+--
+--
+-- encodeProducts : Dict String String -> List API.Products.Product -> Encode.Value
+-- encodeProducts images ps =
+--     ps |> Encode.list (encodeProduct images)
+--
+--
+-- encodeProduct : Dict String String -> API.Products.Product -> Encode.Value
+-- encodeProduct images p =
+--     let
+--         img =
+--             p.image
+--
+--         -- img =
+--         --     case Dict.get p.image images of
+--         --         Nothing ->
+--         --             p.image
+--         --
+--         --         Just data ->
+--         --             data
+--     in
+--         Encode.object
+--             [ ( "id", Encode.string p.id )
+--             , ( "titleUA", Encode.string p.titleUA )
+--             , ( "titleEN", Encode.string p.titleEN )
+--             , ( "image", Encode.string img )
+--             , ( "descriptionUA", (Encode.list encodeProductDescription) p.descriptionUA )
+--             ]
+--
+--
+-- encodeProductDescription : API.Products.ProdDescr -> Encode.Value
+-- encodeProductDescription pd =
+--     Encode.object
+--         [ ( "title", Encode.string pd.title )
+--         , ( "content", (Encode.list encodeProductDescrContent) pd.content )
+--         ]
+--
+--
+-- encodeProductDescrContent : API.Products.ProcDescrContent -> Encode.Value
+-- encodeProductDescrContent { t1, t2 } =
+--     Encode.list Encode.string [ t1, t2 ]

@@ -18,7 +18,7 @@ import Page.OrderConfirm
 import Page.Cook
 import Time
 import API.Products exposing (..)
-import API.Vending
+import API.Vending exposing (Vending)
 import Maybe exposing (withDefault)
 import Dict exposing (Dict)
 
@@ -40,7 +40,8 @@ type Page
 
 
 type alias Model =
-    { activeProduct : Int
+    { vending : Maybe Vending
+    , activeProduct : Int
     , connectionState : ConnectionState
     , activePage : Page
     , activePayMethod : API.PayMethod
@@ -57,7 +58,8 @@ type ConnectionState
 
 init : ( Model, Cmd Msg )
 init =
-    ( { activeProduct = 0
+    ( { vending = Nothing
+      , activeProduct = 0
       , connectionState = NotConnected
       , activePage = Products
       , activePayMethod = API.PayMethod1
@@ -300,7 +302,7 @@ update msg ({ activeProduct } as model) =
                             ( { model | error = Just [ title ] }, Cmd.none )
 
         ReadVendingDone (Ok sa) ->
-            ( model, Cmd.none )
+            ( { model | vending = Just sa }, Cmd.none )
 
 
 nextPayMethod : API.PayMethod -> API.PayMethod
@@ -347,16 +349,21 @@ cmdTest =
 
 view : Model -> Html Msg
 view model =
-    case model.error of
+    case model.vending of
         Nothing ->
-            div [] <|
-                [ UI.header
-                , UI.footer
-                ]
-                    ++ viewPage model
+            div [] [ Html.text "Конфигурация еще не загружена" ]
 
-        Just error ->
-            div [ HA.class "error" ] (error |> List.map (\s -> div [] [ Html.text s ]))
+        Just vending ->
+            case model.error of
+                Nothing ->
+                    div [] <|
+                        [ UI.header vending.logo vending.header
+                        , UI.footer vending.footer1 vending.footer2
+                        ]
+                            ++ viewPage model
+
+                Just error ->
+                    div [ HA.class "error" ] (error |> List.map (\s -> div [] [ Html.text s ]))
 
 
 viewPage model =

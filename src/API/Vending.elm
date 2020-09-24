@@ -11,7 +11,8 @@ type alias Vending =
     , title : String
     , logo : String
     , header : String
-    , footer : List String
+    , footer1 : String
+    , footer2 : String
     , products : List ProductId
 
     -- , info : VendingInfo
@@ -42,6 +43,7 @@ decodeVending =
         |> required "id" decodeVendingId
         |> required "title" Decode.string
         |> required "logo" Decode.string
-        |> required "header1" Decode.string
-        |> required "footer" (Decode.list Decode.string)
+        |> required "header" Decode.string
+        |> required "footer1" Decode.string
+        |> required "footer2" Decode.string
         |> required "products" (Decode.list decoderProductId)
