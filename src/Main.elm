@@ -41,6 +41,7 @@ type Page
 
 type alias Model =
     { vending : Maybe Vending
+    , id : String
     , activeProduct : Int
     , connectionState : ConnectionState
     , activePage : Page
@@ -59,6 +60,7 @@ type ConnectionState
 init : ( Model, Cmd Msg )
 init =
     ( { vending = Nothing
+      , id = "unknown"
       , activeProduct = 0
       , connectionState = NotConnected
       , activePage = Products
@@ -100,7 +102,8 @@ readImages =
 
 
 cookTimerInit =
-    20
+    -- 20
+    5
 
 
 
@@ -266,6 +269,9 @@ update msg ({ activeProduct } as model) =
                     Just (API.Key API.KeyUnknown) ->
                         ( model, Cmd.none )
 
+                    Just (API.Id id) ->
+                        ( { model | id = id }, Cmd.none )
+
                     Just (API.Error _) ->
                         ( model, Cmd.none )
 
@@ -293,6 +299,9 @@ update msg ({ activeProduct } as model) =
 
                     Http.NetworkError ->
                         ( { model | error = Just [ title, "Транспортный сервер не запущен." ] }, Cmd.none )
+
+                    Http.BadStatus 404 ->
+                        ( { model | error = Just [ title, "Торговый автомат не зарегестрирован." ] }, Cmd.none )
 
                     _ ->
                         let
@@ -349,21 +358,21 @@ cmdTest =
 
 view : Model -> Html Msg
 view model =
-    case model.vending of
+    case model.error of
         Nothing ->
-            div [] [ Html.text "Конфигурация еще не загружена" ]
-
-        Just vending ->
-            case model.error of
+            case model.vending of
                 Nothing ->
+                    div [] [ Html.text "Конфигурация еще не загружена" ]
+
+                Just vending ->
                     div [] <|
                         [ UI.header vending.logo vending.header
                         , UI.footer vending.footer1 vending.footer2
                         ]
                             ++ viewPage model
 
-                Just error ->
-                    div [ HA.class "error" ] (error |> List.map (\s -> div [] [ Html.text s ]))
+        Just error ->
+            div [ HA.class "error" ] ((error ++ [ model.id ]) |> List.map (\s -> div [ HA.class "selector" ] [ Html.text s ]))
 
 
 viewPage model =

@@ -73,8 +73,21 @@ ul.main_menu {
     padding-top: 10%; }
 
 .error {
-    margin: 20px;
-}
-    .error div {
-        margin-top: 10px;
-    }
+  margin: 20px; }
+  .error div {
+    margin-top: 10px; }
+
+.selector {
+  -webkit-touch-callout: all;
+  /* iOS Safari */
+  -webkit-user-select: all;
+  /* Safari */
+  -khtml-user-select: all;
+  /* Konqueror HTML */
+  -moz-user-select: all;
+  /* Old versions of Firefox */
+  -ms-user-select: all;
+  /* Internet Explorer/Edge */
+  user-select: all;
+  /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */ }

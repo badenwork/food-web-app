@@ -8,6 +8,7 @@ import Http
 
 type APIContent
     = Key KeyInfo
+    | Id String
     | Error String
 
 
@@ -40,12 +41,19 @@ payloadDecoder =
         |> JD.andThen
             (\t ->
                 JD.field "data" <|
-                    case t of
-                        "key" ->
-                            JD.map Key keyDecoder
+                    let
+                        _ =
+                            Debug.log "cmd" t
+                    in
+                        case t of
+                            "key" ->
+                                JD.map Key keyDecoder
 
-                        _ ->
-                            JD.fail ("unexpected message " ++ t)
+                            "id" ->
+                                JD.map Id JD.string
+
+                            _ ->
+                                JD.fail ("unexpected message " ++ t)
             )
 
 
