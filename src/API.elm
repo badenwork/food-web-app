@@ -25,6 +25,19 @@ type PayMethod
     | PayMethod3
 
 
+encodePayMethod : PayMethod -> Encode.Value
+encodePayMethod pm =
+    case pm of
+        PayMethod1 ->
+            Encode.string "pm1"
+
+        PayMethod2 ->
+            Encode.string "pm2"
+
+        PayMethod3 ->
+            Encode.string "pm3"
+
+
 parsePayload : String -> Maybe APIContent
 parsePayload payload =
     case JD.decodeString payloadDecoder payload of

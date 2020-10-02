@@ -19,6 +19,7 @@ import Page.Cook
 import Time
 import API.Products exposing (..)
 import API.Vending exposing (Vending)
+import API.Events as Events
 import Maybe exposing (withDefault)
 import Dict exposing (Dict)
 
@@ -123,6 +124,7 @@ type Msg
     | SelectPayMethod API.PayMethod
     | ReadFileDone (Result Decode.Error ReadFile)
     | ReadVendingDone (Response API.Vending.Vending)
+    | EventConfirmDone (Response ())
 
 
 type alias Product =
@@ -204,13 +206,13 @@ update msg ({ activeProduct } as model) =
                             ( { model | activePage = OrderFondi }, Cmd.batch [ startProcess ] )
 
                 OrderIngenica ->
-                    ( { model | activePage = OrderConfirm }, Cmd.none )
+                    ( { model | activePage = OrderConfirm }, sendConfirm model )
 
                 OrderPrivat ->
-                    ( { model | activePage = OrderConfirm }, Cmd.none )
+                    ( { model | activePage = OrderConfirm }, sendConfirm model )
 
                 OrderFondi ->
-                    ( { model | activePage = OrderConfirm }, Cmd.none )
+                    ( { model | activePage = OrderConfirm }, sendConfirm model )
 
                 OrderConfirm ->
                     ( { model | activePage = CookAsk1 }, Cmd.none )
@@ -312,6 +314,31 @@ update msg ({ activeProduct } as model) =
 
         ReadVendingDone (Ok sa) ->
             ( { model | vending = Just sa }, Cmd.none )
+
+        EventConfirmDone res ->
+            ( model, Cmd.none )
+
+
+sendConfirm : Model -> Cmd Msg
+sendConfirm model =
+    let
+        product =
+            (products |> getAt model.activeProduct |> withDefault unknowproduct)
+
+        payload =
+            Events.Confirm product.id model.activePayMethod
+    in
+        Http.request
+            { method = "POST"
+            , headers = [ API.acao ]
+            , url = Events.url "confirm"
+            , body = Events.encodeConfirm payload |> Http.jsonBody
+            , expect = Http.expectWhatever EventConfirmDone
+            , timeout = Nothing
+            , tracker = Nothing
+
+            -- , withCredentials = False
+            }
 
 
 nextPayMethod : API.PayMethod -> API.PayMethod
