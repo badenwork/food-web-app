@@ -1,14 +1,17 @@
 module API.Products exposing (..)
 
 import Json.Decode as Decode
+import Json.Decode.Pipeline exposing (required)
+import Url
+import API
 
 
 type alias ProductId =
     String
 
 
-decoderProductId : Decode.Decoder ProductId
-decoderProductId =
+decodeProductId : Decode.Decoder ProductId
+decodeProductId =
     Decode.string
 
 
@@ -20,6 +23,25 @@ type alias Product =
     , descriptionUA : List ProdDescr
     , descriptionEN : List ProdDescr
     }
+
+
+type alias FakeProduct =
+    { id : ProductId }
+
+
+decodeProduct : Decode.Decoder FakeProduct
+decodeProduct =
+    Decode.succeed FakeProduct
+        |> required "id" decodeProductId
+
+
+
+-- |> required "titleUA" Decode.string
+-- |> required "titleEN" Decode.string
+-- -- |> required "files" (Decode.list Decode.string)
+-- |> required "image" Decode.string
+-- |> required "descriptionUA" Decode.string
+-- |> required "descriptionEN" Decode.string
 
 
 type alias ProdDescr =
@@ -34,6 +56,11 @@ type alias ProcDescrContent =
     { t1 : String
     , t2 : String
     }
+
+
+url : ProductId -> String
+url pid =
+    API.url ++ "/db/product/" ++ (Url.percentEncode pid)
 
 
 products : List Product

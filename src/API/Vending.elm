@@ -3,7 +3,8 @@ module API.Vending exposing (..)
 import Json.Encode as Encode
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (hardcoded, optional, required)
-import API.Products exposing (ProductId, decoderProductId)
+import API.Products exposing (ProductId, decodeProductId)
+import API
 
 
 type alias Vending =
@@ -23,8 +24,9 @@ type alias VendingId =
     String
 
 
+url : String
 url =
-    "http://localhost:8081/db/vending"
+    API.url ++ "/db/vending"
 
 
 decodeVendingId : Decode.Decoder VendingId
@@ -46,4 +48,4 @@ decodeVending =
         |> required "header" Decode.string
         |> required "footer1" Decode.string
         |> required "footer2" Decode.string
-        |> required "products" (Decode.list decoderProductId)
+        |> required "products" (Decode.list decodeProductId)

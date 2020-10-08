@@ -22,40 +22,10 @@ import API.Vending exposing (Vending)
 import API.Events as Events
 import Maybe exposing (withDefault)
 import Dict exposing (Dict)
+import Types exposing (..)
 
 
 ---- MODEL ----
-
-
-type Page
-    = Products
-    | Order
-    | OrderIngenica
-    | OrderPrivat
-    | OrderFondi
-    | OrderConfirm
-    | CookAsk1
-    | CookAsk2
-    | Cooking
-    | CookingDone
-
-
-type alias Model =
-    { vending : Maybe Vending
-    , id : String
-    , activeProduct : Int
-    , connectionState : ConnectionState
-    , activePage : Page
-    , activePayMethod : API.PayMethod
-    , cookTimer : Int
-    , images : Dict String String
-    , error : Maybe (List String)
-    }
-
-
-type ConnectionState
-    = NotConnected
-    | Connected
 
 
 init : ( Model, Cmd Msg )
@@ -83,14 +53,22 @@ readVending =
         { method = "GET"
         , headers = [ API.acao ]
         , url = API.Vending.url
-
-        -- , body = Product.productRequest product |> Http.jsonBody
         , body = Http.emptyBody
         , expect = Http.expectJson ReadVendingDone API.Vending.decodeVending
         , timeout = Nothing
         , tracker = Nothing
+        }
 
-        -- , withCredentials = False
+
+readProduct pid =
+    Http.request
+        { method = "GET"
+        , headers = [ API.acao ]
+        , url = API.Products.url pid
+        , body = Http.emptyBody
+        , expect = Http.expectJson ReadProductDone API.Products.decodeProduct
+        , timeout = Nothing
+        , tracker = Nothing
         }
 
 
@@ -109,29 +87,11 @@ cookTimerInit =
 
 
 ---- UPDATE ----
-
-
-type Msg
-    = NoOp
-    | CharacterPressed Char
-    | WebsocketIn String
-    | OpenWebsocket String
-    | WebsocketOpened Bool
-    | KeyLeft
-    | KeyRight
-    | KeyOk
-    | Tick Time.Posix
-    | SelectPayMethod API.PayMethod
-    | ReadFileDone (Result Decode.Error ReadFile)
-    | ReadVendingDone (Response API.Vending.Vending)
-    | EventConfirmDone (Response ())
-
-
-type alias Product =
-    { title : String
-    , image_src : String
-    , description : List ( String, String )
-    }
+-- type alias Product =
+--     { title : String
+--     , image_src : String
+--     , description : List ( String, String )
+--     }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -313,7 +273,14 @@ update msg ({ activeProduct } as model) =
                             ( { model | error = Just [ title ] }, Cmd.none )
 
         ReadVendingDone (Ok sa) ->
-            ( { model | vending = Just sa }, Cmd.none )
+            ( { model | vending = Just sa }, sa.products |> List.map readProduct |> Cmd.batch )
+
+        ReadProductDone ans ->
+            let
+                _ =
+                    Debug.log "ReadProductDone" ans
+            in
+                ( model, Cmd.none )
 
         EventConfirmDone res ->
             ( model, Cmd.none )
@@ -437,57 +404,6 @@ viewPage model =
 
         CookingDone ->
             Page.Cook.viewCookingDone (products |> getAt model.activeProduct |> withDefault unknowproduct)
-
-
-
--- , ul [ class "main_menu" ] <|
---     viewProducts model.activeProduct produsts
--- , viewActiveProduct model.activeProduct produsts
--- , text <| MD5.hex "Hello World"
--- , video [ src "sony.mp4", controls True, width 400, height 300 ] []
-
-
-viewProduct : Int -> Int -> Product -> Html Msg
-viewProduct active index ({ image_src } as product) =
-    if index == active then
-        (li [ class "active" ] [ img [ src image_src ] [] ])
-    else
-        (li [] [ img [ src image_src ] [] ])
-
-
-viewProducts : Int -> List Product -> List (Html Msg)
-viewProducts active products =
-    products
-        |> List.indexedMap (viewProduct active)
-
-
-viewActiveProduct : Int -> List Product -> Html Msg
-viewActiveProduct selected products =
-    case products |> getAt selected of
-        Nothing ->
-            div [] [ text "Ошибка" ]
-
-        Just { title, image_src, description } ->
-            div [ class "main_widget" ]
-                [ div [] [ img [ src image_src ] [] ]
-                , div []
-                    [ h4 [] [ text title ]
-                    , ul [] <| viewDescriptions description
-                    ]
-                ]
-
-
-viewDescriptions : List ( String, String ) -> List (Html Msg)
-viewDescriptions description =
-    description
-        |> List.map
-            (\( n, v ) ->
-                li []
-                    [ span [] [ text n ]
-                    , span [] [ text " : " ]
-                    , span [] [ text v ]
-                    ]
-            )
 
 
 

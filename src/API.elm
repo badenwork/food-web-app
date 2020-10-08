@@ -25,6 +25,11 @@ type PayMethod
     | PayMethod3
 
 
+url : String
+url =
+    "http://localhost:8081"
+
+
 encodePayMethod : PayMethod -> Encode.Value
 encodePayMethod pm =
     case pm of
