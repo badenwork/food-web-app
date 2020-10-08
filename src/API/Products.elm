@@ -26,22 +26,25 @@ type alias Product =
 
 
 type alias FakeProduct =
-    { id : ProductId }
+    { id : ProductId
+    , titleUA : String
+    , titleEN : String
+    , image : String
+    , descriptionUA : String
+    , descriptionEN : String
+    }
 
 
 decodeProduct : Decode.Decoder FakeProduct
 decodeProduct =
     Decode.succeed FakeProduct
         |> required "id" decodeProductId
-
-
-
--- |> required "titleUA" Decode.string
--- |> required "titleEN" Decode.string
--- -- |> required "files" (Decode.list Decode.string)
--- |> required "image" Decode.string
--- |> required "descriptionUA" Decode.string
--- |> required "descriptionEN" Decode.string
+        |> required "titleUA" Decode.string
+        |> required "titleEN" Decode.string
+        -- |> required "files" (Decode.list Decode.string)
+        |> required "image" Decode.string
+        |> required "descriptionUA" Decode.string
+        |> required "descriptionEN" Decode.string
 
 
 type alias ProdDescr =

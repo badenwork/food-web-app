@@ -4,13 +4,13 @@ import Html exposing (Html, div, text, img)
 import Html.Attributes exposing (class, src, alt, style)
 import List.Extra exposing (getAt)
 import Maybe exposing (withDefault)
-import API.Products exposing (..)
+import API.Products exposing (Product, ProcDescrContent, ProdDescr, unknowproduct)
 import Json.Encode as Encode
 import Dict exposing (Dict)
 
 
-view : Dict String String -> Int -> List (Html msg)
-view images selected_index =
+view : Dict String String -> List Product -> Int -> List (Html msg)
+view images products selected_index =
     let
         p =
             products |> getAt selected_index |> withDefault unknowproduct

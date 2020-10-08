@@ -39,6 +39,7 @@ init =
       , cookTimer = 0
       , images = Dict.empty
       , error = Nothing
+      , products = Dict.empty
       }
     , Cmd.batch <|
         [ websocketOpen api_url
@@ -70,10 +71,6 @@ readProduct pid =
         , timeout = Nothing
         , tracker = Nothing
         }
-
-
-type alias Response a =
-    Result Http.Error a
 
 
 readImages =
@@ -275,7 +272,10 @@ update msg ({ activeProduct } as model) =
         ReadVendingDone (Ok sa) ->
             ( { model | vending = Just sa }, sa.products |> List.map readProduct |> Cmd.batch )
 
-        ReadProductDone ans ->
+        ReadProductDone (Ok product) ->
+            ( { model | products = Dict.insert product.id product model.products }, Cmd.none )
+
+        ReadProductDone (Err ans) ->
             let
                 _ =
                     Debug.log "ReadProductDone" ans
@@ -373,7 +373,7 @@ viewPage model =
     case model.activePage of
         Products ->
             [ UI.KeyHelper.title ( KeyLeft, KeyRight, KeyOk ) ]
-                ++ Page.Products.view model.images model.activeProduct
+                ++ Page.Products.view model.images products model.activeProduct
 
         Order ->
             Page.Order.view
@@ -482,12 +482,6 @@ subscriptions _ =
         , Time.every 1000 Tick
         , readFileDone (\c -> ReadFileDone (Decode.decodeValue readFileDecoder c))
         ]
-
-
-type alias ReadFile =
-    { name : String
-    , data : String
-    }
 
 
 readFileDecoder : Decode.Decoder ReadFile

@@ -19,6 +19,7 @@ type alias Model =
     , cookTimer : Int
     , images : Dict String String
     , error : Maybe (List String)
+    , products : Dict ProductId FakeProduct
     }
 
 

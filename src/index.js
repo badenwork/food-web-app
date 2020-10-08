@@ -54,7 +54,7 @@ app.ports.websocketOut.subscribe(message => {
 });
 
 app.ports.readFile.subscribe(url => {
-    // console.log("do readFile", url);
+    console.log("TODO: Remove me!!! do readFile", url);
       var xhr = new XMLHttpRequest();
       xhr.onload = function() {
         var reader = new FileReader();
