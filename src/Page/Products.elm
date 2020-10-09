@@ -18,7 +18,7 @@ view images products p selected_index =
     [ div [ class "product_selector" ]
         [ div [ class "product_headerUA" ] [ text p.titleUA ]
         , div [ class "product_headerEN" ] [ text p.titleEN ]
-        , div [ class "product_price" ] [ text "30 грн" ]
+        , div [ class "product_price" ] [ text <| p.price ++ " грн" ]
 
         -- , div [ class "product_descriptionUA" ] <| (p.descriptionUA |> List.map viewDescriptions)
         -- , div [ class "product_descriptionEN" ] <| (p.descriptionEN |> List.map viewDescriptions)

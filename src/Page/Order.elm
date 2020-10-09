@@ -21,9 +21,9 @@ header p =
     , div [ class "order_header_content_en" ] [ text "Order:" ]
     , div [ class "order_header_content_en_value" ] [ text p.titleEN ]
     , div [ class "order_header_pay" ] [ text "До сплати:" ]
-    , div [ class "order_header_pay_value" ] [ text "30 грн" ]
+    , div [ class "order_header_pay_value" ] [ text <| p.price ++ " грн" ]
     , div [ class "order_header_pay_en" ] [ text "Paid:" ]
-    , div [ class "order_header_pay_en_value" ] [ text "30 UAH" ]
+    , div [ class "order_header_pay_en_value" ] [ text <| p.price ++ " UAH" ]
     , div [ class "order_header_split" ] [ text "" ]
     ]
 

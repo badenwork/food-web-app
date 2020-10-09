@@ -73,8 +73,7 @@ readProduct pid =
 
 
 cookTimerInit =
-    -- 20
-    5
+    20
 
 
 
