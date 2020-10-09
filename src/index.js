@@ -53,23 +53,6 @@ app.ports.websocketOut.subscribe(message => {
     }
 });
 
-app.ports.readFile.subscribe(url => {
-    console.log("TODO: Remove me!!! do readFile", url);
-      var xhr = new XMLHttpRequest();
-      xhr.onload = function() {
-        var reader = new FileReader();
-        reader.onloadend = function() {
-            // console.log("ReadeFileDone", url);
-            // console.log("ReadeFileDone", reader.result);
-            app.ports.readFileDone.send({name: url, data: reader.result});
-            // callback(reader.result);
-        }
-        reader.readAsDataURL(xhr.response);
-      };
-      xhr.open('GET', url);
-      xhr.responseType = 'blob';
-      xhr.send();
-});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

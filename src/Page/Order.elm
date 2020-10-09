@@ -4,6 +4,7 @@ import Html exposing (Html, div, text, img, span)
 import Html.Attributes exposing (class, src, alt)
 import Html.Events exposing (onClick)
 import API
+import API.Media exposing (imgUrl)
 import API.Products exposing (FakeProduct)
 import UI.KeyHelper exposing (key_left, key_right, key_ok)
 
@@ -14,7 +15,7 @@ header p =
         [ div [] [ text "Замовлення" ]
         , div [] [ text "Order" ]
         ]
-    , div [ class "order_header_img" ] [ img [ src <| "img/" ++ p.image ] [] ]
+    , div [ class "order_header_img" ] [ img [ src <| imgUrl p.image ] [] ]
     , div [ class "order_header_content" ] [ text "Замовлення:" ]
     , div [ class "order_header_content_value" ] [ text p.titleUA ]
     , div [ class "order_header_content_en" ] [ text "Order:" ]

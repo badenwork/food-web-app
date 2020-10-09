@@ -4,7 +4,8 @@ import Html exposing (Html, div, text, img)
 import Html.Attributes exposing (class, src, alt, style)
 import List.Extra exposing (getAt)
 import Maybe exposing (withDefault)
-import API.Products exposing (Product, ProcDescrContent, ProdDescr, unknowproduct, FakeProduct)
+import API.Products exposing (FakeProduct)
+import API.Media exposing (imgUrl)
 import Json.Encode as Encode
 import Dict exposing (Dict)
 
@@ -63,20 +64,6 @@ viewFakeDescriptionsLineData orig ll =
             Html.p [] [ text orig ]
 
 
-viewDescriptions : ProdDescr -> Html msg
-viewDescriptions { title, content } =
-    div [] <|
-        [ Html.h1 [] [ text title ] ]
-            ++ (content
-                    |> List.map viewDescriptionLine
-               )
-
-
-viewDescriptionLine : ProcDescrContent -> Html msg
-viewDescriptionLine { t1, t2 } =
-    div [] [ div [ class "desc_t1" ] [ text t1 ], div [ class "desc_t2" ] [ text t2 ] ]
-
-
 scale =
     326
 
@@ -90,6 +77,6 @@ offsetInPixels o =
 viewImage : Int -> Int -> FakeProduct -> Html msg
 viewImage active index { image } =
     if index == active then
-        img [ class "active", src <| "img/" ++ image ] []
+        img [ class "active", src <| imgUrl image ] []
     else
-        img [ src <| "img/" ++ image ] []
+        img [ src <| imgUrl image ] []

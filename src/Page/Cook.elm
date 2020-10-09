@@ -4,6 +4,7 @@ import Html exposing (Html, div, text, img, span, p)
 import Html.Attributes exposing (class, src, alt, style)
 import Html.Events exposing (onClick)
 import API
+import API.Media exposing (imgUrl)
 import UI.KeyHelper exposing (key_left, key_ok)
 import API.Products exposing (FakeProduct)
 
@@ -13,7 +14,7 @@ viewAsk1 p ( k1, k2 ) =
     [ div [ class "cook_frame" ]
         [ img [ class "vending", src "img/cook/vending.png" ] []
         , img [ class "arrow", src "img/cook/arrow.png" ] []
-        , img [ class "product", src <| "img/" ++ p.image ] []
+        , img [ class "product", src <| imgUrl p.image ] []
         , div [ class "ua" ] [ text "Помістіть стаканчик у відсік для приготування" ]
         , div [ class "en" ] [ text "If you want us to cook for you, put it in the cooking compartment" ]
         , key_left "key_1" "Відміна приготування" "Cancel cooking" k1
@@ -25,7 +26,7 @@ viewAsk1 p ( k1, k2 ) =
 viewAsk2 : FakeProduct -> ( msg, msg ) -> List (Html msg)
 viewAsk2 p ( k1, k2 ) =
     [ div [ class "cook_frame2" ]
-        [ img [ class "product dry", src <| "img/" ++ p.image ] []
+        [ img [ class "product dry", src <| imgUrl p.image ] []
         ]
     , div [ class "cook_frame3" ]
         [ div [ class "ua" ] [ span [] [ text "У відсіку для приготування:" ], span [] [ text p.titleUA ] ]
@@ -44,8 +45,8 @@ viewCooking cookTimer p =
         fill =
             (773 - 250) * cookTimer // 20 |> String.fromInt
     in
-        [ div [ class "cook_frame2" ] [ img [ class "product", src <| "img/" ++ p.image ] [] ]
-        , div [ class "filtered", style "height" (fill ++ "px") ] [ img [ class "product", src <| "img/" ++ p.image ] [] ]
+        [ div [ class "cook_frame2" ] [ img [ class "product", src <| imgUrl p.image ] [] ]
+        , div [ class "filtered", style "height" (fill ++ "px") ] [ img [ class "product", src <| imgUrl p.image ] [] ]
         , div [ class "cook_frame3" ]
             [ div [ class "ua" ] [ span [] [ text "У відсіку для приготування:" ], span [] [ text p.titleUA ] ]
             , div [ class "en" ] [ span [] [ text "In the cooking compartment:" ], span [] [ text p.titleEN ] ]
@@ -60,7 +61,7 @@ viewCooking cookTimer p =
 
 viewCookingDone : FakeProduct -> List (Html msg)
 viewCookingDone product =
-    [ div [ class "cook_frame2" ] [ img [ class "product", src <| "img/" ++ product.image ] [] ]
+    [ div [ class "cook_frame2" ] [ img [ class "product", src <| imgUrl product.image ] [] ]
     , div [ class "cook_frame3" ]
         [ div [ class "done_ua" ]
             [ p [] [ text "Страва готова!" ]

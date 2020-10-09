@@ -17,7 +17,7 @@ import Page.Order
 import Page.OrderConfirm
 import Page.Cook
 import Time
-import API.Products exposing (Product, ProductId, unknowproduct)
+import API.Products exposing (ProductId)
 import API.Vending exposing (Vending)
 import API.Events as Events
 import Maybe exposing (withDefault)
@@ -43,9 +43,8 @@ init =
       }
     , Cmd.batch <|
         [ websocketOpen api_url
+        , readVending
         ]
-            ++ readImages
-            ++ [ readVending ]
     )
 
 
@@ -71,10 +70,6 @@ readProduct pid =
         , timeout = Nothing
         , tracker = Nothing
         }
-
-
-readImages =
-    API.Products.products |> List.map .image |> List.map readFile
 
 
 cookTimerInit =
@@ -113,7 +108,7 @@ update msg ({ activeProduct } as model) =
             case model.activePage of
                 Products ->
                     if activeProduct <= 0 then
-                        ( { model | activeProduct = 5 }, Cmd.none )
+                        ( { model | activeProduct = productsCnt model.vending - 1 }, Cmd.none )
                     else
                         ( { model | activeProduct = model.activeProduct - 1 }, Cmd.none )
 
@@ -135,7 +130,7 @@ update msg ({ activeProduct } as model) =
         KeyRight ->
             case model.activePage of
                 Products ->
-                    if activeProduct >= 5 then
+                    if activeProduct >= (productsCnt model.vending) - 1 then
                         ( { model | activeProduct = 0 }, Cmd.none )
                     else
                         ( { model | activeProduct = model.activeProduct + 1 }, Cmd.none )
@@ -286,26 +281,48 @@ update msg ({ activeProduct } as model) =
             ( model, Cmd.none )
 
 
+productsCnt : Maybe Vending -> Int
+productsCnt mv =
+    case mv of
+        Nothing ->
+            0
+
+        Just v ->
+            List.length v.products
+
+
 sendConfirm : Model -> Cmd Msg
 sendConfirm model =
-    let
-        product =
-            (API.Products.products |> getAt model.activeProduct |> withDefault unknowproduct)
+    case model.vending of
+        Nothing ->
+            -- TODO: Нужно какое-то сообщение об ошибке
+            Cmd.none
 
-        payload =
-            Events.Confirm product.id model.activePayMethod
-    in
-        Http.request
-            { method = "POST"
-            , headers = [ API.acao ]
-            , url = Events.url "confirm"
-            , body = Events.encodeConfirm payload |> Http.jsonBody
-            , expect = Http.expectWhatever EventConfirmDone
-            , timeout = Nothing
-            , tracker = Nothing
+        Just vending ->
+            let
+                getProduct pid =
+                    Dict.get pid model.products
+                        |> Maybe.withDefault API.Products.unknowFakeProduct
 
-            -- , withCredentials = False
-            }
+                new_products =
+                    vending.products
+                        |> List.map getProduct
+
+                product =
+                    (new_products |> getAt model.activeProduct |> withDefault API.Products.unknowFakeProduct)
+
+                payload =
+                    Events.Confirm product.id model.activePayMethod
+            in
+                Http.request
+                    { method = "POST"
+                    , headers = [ API.acao ]
+                    , url = Events.url "confirm"
+                    , body = Events.encodeConfirm payload |> Http.jsonBody
+                    , expect = Http.expectWhatever EventConfirmDone
+                    , timeout = Nothing
+                    , tracker = Nothing
+                    }
 
 
 nextPayMethod : API.PayMethod -> API.PayMethod
@@ -372,9 +389,6 @@ view model =
 viewPage : Vending -> Model -> List (Html Msg)
 viewPage vending model =
     let
-        products =
-            API.Products.products
-
         getProduct pid =
             Dict.get pid model.products
                 |> Maybe.withDefault API.Products.unknowFakeProduct
@@ -500,7 +514,6 @@ subscriptions _ =
         , websocketOpened WebsocketOpened
         , websocketIn WebsocketIn
         , Time.every 1000 Tick
-        , readFileDone (\c -> ReadFileDone (Decode.decodeValue readFileDecoder c))
         ]
 
 
@@ -521,9 +534,3 @@ port websocketIn : (String -> msg) -> Sub msg
 
 
 port websocketOut : Encode.Value -> Cmd msg
-
-
-port readFile : String -> Cmd msg
-
-
-port readFileDone : (Encode.Value -> msg) -> Sub msg
