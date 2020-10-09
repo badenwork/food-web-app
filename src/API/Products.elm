@@ -35,6 +35,11 @@ type alias FakeProduct =
     }
 
 
+unknowFakeProduct : FakeProduct
+unknowFakeProduct =
+    FakeProduct "product_fake" "От халепа!" "Oops!" "img/ovsanka.png" "no_desc" "no_desc"
+
+
 decodeProduct : Decode.Decoder FakeProduct
 decodeProduct =
     Decode.succeed FakeProduct

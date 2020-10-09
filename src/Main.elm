@@ -17,7 +17,7 @@ import Page.Order
 import Page.OrderConfirm
 import Page.Cook
 import Time
-import API.Products exposing (..)
+import API.Products exposing (Product, ProductId, unknowproduct)
 import API.Vending exposing (Vending)
 import API.Events as Events
 import Maybe exposing (withDefault)
@@ -290,7 +290,7 @@ sendConfirm : Model -> Cmd Msg
 sendConfirm model =
     let
         product =
-            (products |> getAt model.activeProduct |> withDefault unknowproduct)
+            (API.Products.products |> getAt model.activeProduct |> withDefault unknowproduct)
 
         payload =
             Events.Confirm product.id model.activePayMethod
@@ -363,47 +363,67 @@ view model =
                         [ UI.header vending.logo vending.header
                         , UI.footer vending.footer1 vending.footer2
                         ]
-                            ++ viewPage model
+                            ++ viewPage vending model
 
         Just error ->
             div [ HA.class "error" ] ((error ++ [ model.id ]) |> List.map (\s -> div [ HA.class "selector" ] [ Html.text s ]))
 
 
-viewPage model =
-    case model.activePage of
-        Products ->
-            [ UI.KeyHelper.title ( KeyLeft, KeyRight, KeyOk ) ]
-                ++ Page.Products.view model.images products model.activeProduct
+viewPage : Vending -> Model -> List (Html Msg)
+viewPage vending model =
+    let
+        products =
+            API.Products.products
 
-        Order ->
-            Page.Order.view
-                (products |> getAt model.activeProduct |> withDefault unknowproduct)
-                model.activePayMethod
-                ( ( SelectPayMethod API.PayMethod1, SelectPayMethod API.PayMethod2, SelectPayMethod API.PayMethod3 ), ( KeyLeft, KeyRight, KeyOk ) )
+        getProduct pid =
+            Dict.get pid model.products
+                |> Maybe.withDefault API.Products.unknowFakeProduct
 
-        OrderIngenica ->
-            Page.Order.viewIngenica (products |> getAt model.activeProduct |> withDefault unknowproduct)
+        new_products =
+            vending.products
+                |> List.map getProduct
 
-        OrderPrivat ->
-            Page.Order.viewPrivat (products |> getAt model.activeProduct |> withDefault unknowproduct)
+        active_product =
+            (new_products |> getAt model.activeProduct |> withDefault API.Products.unknowFakeProduct)
 
-        OrderFondi ->
-            Page.Order.viewFondi (products |> getAt model.activeProduct |> withDefault unknowproduct)
+        -- _ =
+        --     Debug.log "new_products" ( new_products |> List.map .id, active_product.id )
+    in
+        case model.activePage of
+            Products ->
+                [ UI.KeyHelper.title ( KeyLeft, KeyRight, KeyOk ) ]
+                    -- ++ Page.Products.view model.images products model.activeProduct
+                    ++ Page.Products.view model.images new_products active_product model.activeProduct
 
-        OrderConfirm ->
-            Page.OrderConfirm.view ( KeyLeft, KeyOk )
+            Order ->
+                Page.Order.view
+                    active_product
+                    model.activePayMethod
+                    ( ( SelectPayMethod API.PayMethod1, SelectPayMethod API.PayMethod2, SelectPayMethod API.PayMethod3 ), ( KeyLeft, KeyRight, KeyOk ) )
 
-        CookAsk1 ->
-            Page.Cook.viewAsk1 (products |> getAt model.activeProduct |> withDefault unknowproduct) ( KeyLeft, KeyOk )
+            OrderIngenica ->
+                Page.Order.viewIngenica active_product
 
-        CookAsk2 ->
-            Page.Cook.viewAsk2 (products |> getAt model.activeProduct |> withDefault unknowproduct) ( KeyLeft, KeyOk )
+            OrderPrivat ->
+                Page.Order.viewPrivat active_product
 
-        Cooking ->
-            Page.Cook.viewCooking model.cookTimer (products |> getAt model.activeProduct |> withDefault unknowproduct)
+            OrderFondi ->
+                Page.Order.viewFondi active_product
 
-        CookingDone ->
-            Page.Cook.viewCookingDone (products |> getAt model.activeProduct |> withDefault unknowproduct)
+            OrderConfirm ->
+                Page.OrderConfirm.view ( KeyLeft, KeyOk )
+
+            CookAsk1 ->
+                Page.Cook.viewAsk1 active_product ( KeyLeft, KeyOk )
+
+            CookAsk2 ->
+                Page.Cook.viewAsk2 active_product ( KeyLeft, KeyOk )
+
+            Cooking ->
+                Page.Cook.viewCooking model.cookTimer active_product
+
+            CookingDone ->
+                Page.Cook.viewCookingDone active_product
 
 
 

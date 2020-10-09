@@ -4,17 +4,17 @@ import Html exposing (Html, div, text, img, span)
 import Html.Attributes exposing (class, src, alt)
 import Html.Events exposing (onClick)
 import API
-import API.Products exposing (Product)
+import API.Products exposing (FakeProduct)
 import UI.KeyHelper exposing (key_left, key_right, key_ok)
 
 
-header : Product -> List (Html msg)
+header : FakeProduct -> List (Html msg)
 header p =
     [ div [ class "order_header_title" ]
         [ div [] [ text "Замовлення" ]
         , div [] [ text "Order" ]
         ]
-    , div [ class "order_header_img" ] [ img [ src p.image ] [] ]
+    , div [ class "order_header_img" ] [ img [ src <| "img/" ++ p.image ] [] ]
     , div [ class "order_header_content" ] [ text "Замовлення:" ]
     , div [ class "order_header_content_value" ] [ text p.titleUA ]
     , div [ class "order_header_content_en" ] [ text "Order:" ]
@@ -27,7 +27,7 @@ header p =
     ]
 
 
-view : Product -> API.PayMethod -> ( ( msg, msg, msg ), ( msg, msg, msg ) ) -> List (Html msg)
+view : FakeProduct -> API.PayMethod -> ( ( msg, msg, msg ), ( msg, msg, msg ) ) -> List (Html msg)
 view p pm ( ( s1, s2, s3 ), ( k1, k2, k3 ) ) =
     (header p)
         ++ [ div [ class "order_pay_method_label" ]
@@ -67,7 +67,7 @@ activeIfTrue true =
         ""
 
 
-viewIngenica : Product -> List (Html msg)
+viewIngenica : FakeProduct -> List (Html msg)
 viewIngenica p =
     (header p)
         ++ [ div [ class "order_label" ]
@@ -78,7 +78,7 @@ viewIngenica p =
            ]
 
 
-viewPrivat : Product -> List (Html msg)
+viewPrivat : FakeProduct -> List (Html msg)
 viewPrivat p =
     (header p)
         ++ [ div [ class "order_label" ]
@@ -94,7 +94,7 @@ viewPrivat p =
            ]
 
 
-viewFondi : Product -> List (Html msg)
+viewFondi : FakeProduct -> List (Html msg)
 viewFondi p =
     (header p)
         ++ [ div [ class "order_label" ]
