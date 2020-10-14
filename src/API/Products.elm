@@ -1,6 +1,7 @@
 module API.Products exposing (..)
 
 import Json.Decode as Decode
+import Json.Encode as Encode
 import Json.Decode.Pipeline exposing (required, optional)
 import Url
 import API
@@ -13,6 +14,11 @@ type alias ProductId =
 decodeProductId : Decode.Decoder ProductId
 decodeProductId =
     Decode.string
+
+
+encodeProductId : ProductId -> Encode.Value
+encodeProductId pid =
+    Encode.string pid
 
 
 type alias FakeProduct =
@@ -41,6 +47,19 @@ decodeProduct =
         |> required "descriptionUA" Decode.string
         |> required "descriptionEN" Decode.string
         |> optional "price" Decode.string "30"
+
+
+encodeProduct : FakeProduct -> Encode.Value
+encodeProduct p =
+    Encode.object
+        [ ( "id", encodeProductId p.id )
+        , ( "titleUA", Encode.string p.titleUA )
+        , ( "titleEN", Encode.string p.titleEN )
+        , ( "image", Encode.string p.image )
+        , ( "descriptionUA", Encode.string p.descriptionUA )
+        , ( "descriptionEN", Encode.string p.descriptionEN )
+        , ( "price", Encode.string p.price )
+        ]
 
 
 url : ProductId -> String

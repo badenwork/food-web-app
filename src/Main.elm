@@ -178,7 +178,7 @@ update msg ({ activeProduct } as model) =
                     ( model, Cmd.none )
 
                 CookingDone ->
-                    ( { model | activePage = Products }, Cmd.none )
+                    ( { model | activePage = Products }, sendCooking model )
 
         CharacterPressed 'd' ->
             update KeyRight model
@@ -264,7 +264,11 @@ update msg ({ activeProduct } as model) =
                             ( { model | error = Just [ title ] }, Cmd.none )
 
         ReadVendingDone (Ok sa) ->
-            ( { model | vending = Just sa }, sa.products |> List.map readProduct |> Cmd.batch )
+            ( { model | vending = Just sa }
+            , Cmd.batch <|
+                [ Events.send (Events.EventInit sa) EventConfirmDone ]
+                    ++ (sa.products |> List.map readProduct)
+            )
 
         ReadProductDone (Ok product) ->
             ( { model | products = Dict.insert product.id product model.products }, Cmd.none )
@@ -310,18 +314,34 @@ sendConfirm model =
                 product =
                     (new_products |> getAt model.activeProduct |> withDefault API.Products.unknowFakeProduct)
 
-                payload =
-                    Events.Confirm product.id model.activePayMethod
+                -- payload =
+                --     Events.EventConfirm_ product.id model.activePayMethod
             in
-                Http.request
-                    { method = "POST"
-                    , headers = [ API.acao ]
-                    , url = Events.url "confirm"
-                    , body = Events.encodeConfirm payload |> Http.jsonBody
-                    , expect = Http.expectWhatever EventConfirmDone
-                    , timeout = Nothing
-                    , tracker = Nothing
-                    }
+                -- Events.sendConfirm payload EventConfirmDone
+                Events.send (Events.EventConfirm { product = product, payMethod = model.activePayMethod, price = product.price }) EventConfirmDone
+
+
+sendCooking : Model -> Cmd Msg
+sendCooking model =
+    case model.vending of
+        Nothing ->
+            -- TODO: Нужно какое-то сообщение об ошибке
+            Cmd.none
+
+        Just vending ->
+            let
+                getProduct pid =
+                    Dict.get pid model.products
+                        |> Maybe.withDefault API.Products.unknowFakeProduct
+
+                new_products =
+                    vending.products
+                        |> List.map getProduct
+
+                product =
+                    (new_products |> getAt model.activeProduct |> withDefault API.Products.unknowFakeProduct)
+            in
+                Events.send (Events.EventCooking product) EventConfirmDone
 
 
 nextPayMethod : API.PayMethod -> API.PayMethod

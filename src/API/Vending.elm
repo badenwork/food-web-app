@@ -3,7 +3,7 @@ module API.Vending exposing (..)
 import Json.Encode as Encode
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (hardcoded, optional, required)
-import API.Products exposing (ProductId, decodeProductId)
+import API.Products exposing (ProductId, decodeProductId, encodeProductId)
 import API
 
 
@@ -49,3 +49,16 @@ decodeVending =
         |> required "footer1" Decode.string
         |> required "footer2" Decode.string
         |> required "products" (Decode.list decodeProductId)
+
+
+encodeVending : Vending -> Encode.Value
+encodeVending p =
+    Encode.object
+        [ ( "id", encodeVendingId p.id )
+        , ( "title", Encode.string p.title )
+        , ( "logo", Encode.string p.logo )
+        , ( "header", Encode.string p.header )
+        , ( "footer1", Encode.string p.footer1 )
+        , ( "footer2", Encode.string p.footer2 )
+        , ( "products", Encode.list encodeProductId p.products )
+        ]
