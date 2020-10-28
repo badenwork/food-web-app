@@ -257,11 +257,7 @@ update msg ({ activeProduct } as model) =
                         ( { model | error = Just [ title, "Торговый автомат не зарегестрирован." ] }, Cmd.none )
 
                     _ ->
-                        let
-                            _ =
-                                Debug.log "err" err
-                        in
-                            ( { model | error = Just [ title ] }, Cmd.none )
+                        ( { model | error = Just [ title ] }, Cmd.none )
 
         ReadVendingDone (Ok sa) ->
             ( { model | vending = Just sa }
@@ -273,12 +269,8 @@ update msg ({ activeProduct } as model) =
         ReadProductDone (Ok product) ->
             ( { model | products = Dict.insert product.id product model.products }, Cmd.none )
 
-        ReadProductDone (Err ans) ->
-            let
-                _ =
-                    Debug.log "ReadProductDone" ans
-            in
-                ( model, Cmd.none )
+        ReadProductDone (Err _) ->
+            ( model, Cmd.none )
 
         EventConfirmDone res ->
             ( model, Cmd.none )
@@ -523,7 +515,7 @@ toKey string =
 api_url : String
 api_url =
     -- "ws://localhost:8001"
-    "ws://localhost:8081/ws"
+    "ws://localhost:8081/api/ws"
 
 
 subscriptions : Model -> Sub Msg

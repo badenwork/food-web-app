@@ -27,7 +27,7 @@ type PayMethod
 
 url : String
 url =
-    "http://localhost:8081"
+    "http://localhost:8081/api"
 
 
 encodePayMethod : PayMethod -> Encode.Value
@@ -59,19 +59,15 @@ payloadDecoder =
         |> JD.andThen
             (\t ->
                 JD.field "data" <|
-                    let
-                        _ =
-                            Debug.log "cmd" t
-                    in
-                        case t of
-                            "key" ->
-                                JD.map Key keyDecoder
+                    case t of
+                        "key" ->
+                            JD.map Key keyDecoder
 
-                            "id" ->
-                                JD.map Id JD.string
+                        "id" ->
+                            JD.map Id JD.string
 
-                            _ ->
-                                JD.fail ("unexpected message " ++ t)
+                        _ ->
+                            JD.fail ("unexpected message " ++ t)
             )
 
 

@@ -9,7 +9,7 @@ import Http
 
 url : String -> String
 url ev =
-    "http://localhost:8081/events/" ++ ev
+    API.url ++ "/events/" ++ ev
 
 
 type Event
