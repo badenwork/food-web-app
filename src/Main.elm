@@ -1,36 +1,38 @@
 port module Main exposing (..)
 
-import Browser
-import Browser.Events
-import Html exposing (Html, text, div, h1, h4, img, ul, li, video, a, input, label, span)
-import Html.Attributes as HA exposing (src, class, controls, width, height, href, type_, name, checked, id)
-import Json.Decode as Decode
-import List.Extra exposing (getAt)
-import MD5
-import Json.Encode as Encode
-import Http
 import API
-import UI
-import UI.KeyHelper
-import Page.Products
-import Page.Order
-import Page.OrderConfirm
-import Page.Cook
-import Time
+import API.Events as Events
 import API.Products exposing (ProductId)
 import API.Vending exposing (Vending)
-import API.Events as Events
-import Maybe exposing (withDefault)
+import Browser
+import Browser.Events
 import Dict exposing (Dict)
+import Html exposing (Html, a, div, h1, h4, img, input, label, li, span, text, ul, video)
+import Html.Attributes as HA exposing (checked, class, controls, height, href, id, name, src, type_, width)
+import Http
+import Json.Decode as Decode
+import Json.Encode as Encode
+import List.Extra exposing (getAt)
+import MD5
+import Maybe exposing (withDefault)
+import Page.Cook
+import Page.Order
+import Page.OrderConfirm
+import Page.Products
+import Time
 import Types exposing (..)
+import UI
+import UI.KeyHelper
+
 
 
 ---- MODEL ----
 
 
-init : ( Model, Cmd Msg )
-init =
+init : Flags -> ( Model, Cmd Msg )
+init flags =
     ( { vending = Nothing
+      , flags = flags
       , id = "unknown"
       , activeProduct = 0
       , connectionState = NotConnected
@@ -42,7 +44,7 @@ init =
       , products = Dict.empty
       }
     , Cmd.batch <|
-        [ websocketOpen api_url
+        [ websocketOpen (api_url flags.hostname)
         , readVending
         ]
     )
@@ -97,6 +99,7 @@ update msg ({ activeProduct } as model) =
                 Cooking ->
                     if model.cookTimer > 0 then
                         ( { model | cookTimer = model.cookTimer - 1 }, Cmd.none )
+
                     else
                         ( { model | activePage = CookingDone }, Cmd.none )
 
@@ -108,6 +111,7 @@ update msg ({ activeProduct } as model) =
                 Products ->
                     if activeProduct <= 0 then
                         ( { model | activeProduct = productsCnt model.vending - 1 }, Cmd.none )
+
                     else
                         ( { model | activeProduct = model.activeProduct - 1 }, Cmd.none )
 
@@ -129,8 +133,9 @@ update msg ({ activeProduct } as model) =
         KeyRight ->
             case model.activePage of
                 Products ->
-                    if activeProduct >= (productsCnt model.vending) - 1 then
+                    if activeProduct >= productsCnt model.vending - 1 then
                         ( { model | activeProduct = 0 }, Cmd.none )
+
                     else
                         ( { model | activeProduct = model.activeProduct + 1 }, Cmd.none )
 
@@ -209,27 +214,27 @@ update msg ({ activeProduct } as model) =
                 res =
                     API.parsePayload message
             in
-                case res of
-                    Just (API.Key API.Key1) ->
-                        update KeyLeft model
+            case res of
+                Just (API.Key API.Key1) ->
+                    update KeyLeft model
 
-                    Just (API.Key API.Key2) ->
-                        update KeyOk model
+                Just (API.Key API.Key2) ->
+                    update KeyOk model
 
-                    Just (API.Key API.Key3) ->
-                        update KeyRight model
+                Just (API.Key API.Key3) ->
+                    update KeyRight model
 
-                    Just (API.Key API.KeyUnknown) ->
-                        ( model, Cmd.none )
+                Just (API.Key API.KeyUnknown) ->
+                    ( model, Cmd.none )
 
-                    Just (API.Id id) ->
-                        ( { model | id = id }, Cmd.none )
+                Just (API.Id id) ->
+                    ( { model | id = id }, Cmd.none )
 
-                    Just (API.Error _) ->
-                        ( model, Cmd.none )
+                Just (API.Error _) ->
+                    ( model, Cmd.none )
 
-                    Nothing ->
-                        ( model, Cmd.none )
+                Nothing ->
+                    ( model, Cmd.none )
 
         OpenWebsocket url ->
             ( model, websocketOpen url )
@@ -246,18 +251,18 @@ update msg ({ activeProduct } as model) =
                 title =
                     "Ошибка получения данных конфигурации."
             in
-                case err of
-                    Http.BadBody str ->
-                        ( { model | error = Just [ title, str ] }, Cmd.none )
+            case err of
+                Http.BadBody str ->
+                    ( { model | error = Just [ title, str ] }, Cmd.none )
 
-                    Http.NetworkError ->
-                        ( { model | error = Just [ title, "Транспортный сервер не запущен." ] }, Cmd.none )
+                Http.NetworkError ->
+                    ( { model | error = Just [ title, "Транспортный сервер не запущен." ] }, Cmd.none )
 
-                    Http.BadStatus 404 ->
-                        ( { model | error = Just [ title, "Торговый автомат не зарегестрирован." ] }, Cmd.none )
+                Http.BadStatus 404 ->
+                    ( { model | error = Just [ title, "Торговый автомат не зарегестрирован." ] }, Cmd.none )
 
-                    _ ->
-                        ( { model | error = Just [ title ] }, Cmd.none )
+                _ ->
+                    ( { model | error = Just [ title ] }, Cmd.none )
 
         ReadVendingDone (Ok sa) ->
             ( { model | vending = Just sa }
@@ -304,13 +309,13 @@ sendConfirm model =
                         |> List.map getProduct
 
                 product =
-                    (new_products |> getAt model.activeProduct |> withDefault API.Products.unknowFakeProduct)
+                    new_products |> getAt model.activeProduct |> withDefault API.Products.unknowFakeProduct
 
                 -- payload =
                 --     Events.EventConfirm_ product.id model.activePayMethod
             in
-                -- Events.sendConfirm payload EventConfirmDone
-                Events.send (Events.EventConfirm { product = product, payMethod = model.activePayMethod, price = product.price }) EventConfirmDone
+            -- Events.sendConfirm payload EventConfirmDone
+            Events.send (Events.EventConfirm { product = product, payMethod = model.activePayMethod, price = product.price }) EventConfirmDone
 
 
 sendCooking : Model -> Cmd Msg
@@ -331,9 +336,9 @@ sendCooking model =
                         |> List.map getProduct
 
                 product =
-                    (new_products |> getAt model.activeProduct |> withDefault API.Products.unknowFakeProduct)
+                    new_products |> getAt model.activeProduct |> withDefault API.Products.unknowFakeProduct
             in
-                Events.send (Events.EventCooking product) EventConfirmDone
+            Events.send (Events.EventCooking product) EventConfirmDone
 
 
 nextPayMethod : API.PayMethod -> API.PayMethod
@@ -409,57 +414,57 @@ viewPage vending model =
                 |> List.map getProduct
 
         active_product =
-            (new_products |> getAt model.activeProduct |> withDefault API.Products.unknowFakeProduct)
+            new_products |> getAt model.activeProduct |> withDefault API.Products.unknowFakeProduct
 
         -- _ =
         --     Debug.log "new_products" ( new_products |> List.map .id, active_product.id )
     in
-        case model.activePage of
-            Products ->
-                [ UI.KeyHelper.title ( KeyLeft, KeyRight, KeyOk ) ]
-                    -- ++ Page.Products.view model.images products model.activeProduct
-                    ++ Page.Products.view model.images new_products active_product model.activeProduct
+    case model.activePage of
+        Products ->
+            [ UI.KeyHelper.title ( KeyLeft, KeyRight, KeyOk ) ]
+                -- ++ Page.Products.view model.images products model.activeProduct
+                ++ Page.Products.view model.images new_products active_product model.activeProduct
 
-            Order ->
-                Page.Order.view
-                    active_product
-                    model.activePayMethod
-                    ( ( SelectPayMethod API.PayMethod1, SelectPayMethod API.PayMethod2, SelectPayMethod API.PayMethod3 ), ( KeyLeft, KeyRight, KeyOk ) )
+        Order ->
+            Page.Order.view
+                active_product
+                model.activePayMethod
+                ( ( SelectPayMethod API.PayMethod1, SelectPayMethod API.PayMethod2, SelectPayMethod API.PayMethod3 ), ( KeyLeft, KeyRight, KeyOk ) )
 
-            OrderIngenica ->
-                Page.Order.viewIngenica active_product
+        OrderIngenica ->
+            Page.Order.viewIngenica active_product
 
-            OrderPrivat ->
-                Page.Order.viewPrivat active_product
+        OrderPrivat ->
+            Page.Order.viewPrivat active_product
 
-            OrderFondi ->
-                Page.Order.viewFondi active_product
+        OrderFondi ->
+            Page.Order.viewFondi active_product
 
-            OrderConfirm ->
-                Page.OrderConfirm.view ( KeyLeft, KeyOk )
+        OrderConfirm ->
+            Page.OrderConfirm.view ( KeyLeft, KeyOk )
 
-            CookAsk1 ->
-                Page.Cook.viewAsk1 active_product ( KeyLeft, KeyOk )
+        CookAsk1 ->
+            Page.Cook.viewAsk1 active_product ( KeyLeft, KeyOk )
 
-            CookAsk2 ->
-                Page.Cook.viewAsk2 active_product ( KeyLeft, KeyOk )
+        CookAsk2 ->
+            Page.Cook.viewAsk2 active_product ( KeyLeft, KeyOk )
 
-            Cooking ->
-                Page.Cook.viewCooking model.cookTimer active_product
+        Cooking ->
+            Page.Cook.viewCooking model.cookTimer active_product
 
-            CookingDone ->
-                Page.Cook.viewCookingDone active_product
+        CookingDone ->
+            Page.Cook.viewCookingDone active_product
 
 
 
 ---- PROGRAM ----
 
 
-main : Program () Model Msg
+main : Program Flags Model Msg
 main =
     Browser.element
         { view = view
-        , init = \_ -> init
+        , init = init
         , update = update
         , subscriptions = subscriptions
         }
@@ -512,10 +517,11 @@ toKey string =
                     NoOp
 
 
-api_url : String
-api_url =
+api_url : String -> String
+api_url hostname =
     -- "ws://localhost:8001"
-    "ws://localhost:8081/api/ws"
+    -- "ws://localhost:8081/api/ws"
+    "ws://" ++ hostname ++ ":8081/api/ws"
 
 
 subscriptions : Model -> Sub Msg

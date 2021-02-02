@@ -8,8 +8,14 @@ import './Page/Cook.css';
 import { Elm } from './Main.elm';
 import * as serviceWorker from './serviceWorker';
 
+const flags = {
+    "hostname": location.hostname,
+    "name": "name"
+}
+
 var app = Elm.Main.init({
-  node: document.getElementById('root')
+  node: document.getElementById('root'),
+  flags
 });
 
 console.log("app", app, app.ports);
@@ -57,5 +63,5 @@ app.ports.websocketOut.subscribe(message => {
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register();
-// serviceWorker.unregister();
+// serviceWorker.register();
+serviceWorker.unregister();

@@ -1,9 +1,9 @@
 module API exposing (..)
 
-import Json.Encode as Encode
+import Http
 import Json.Decode as JD exposing (Decoder, Value, string, value)
 import Json.Decode.Pipeline exposing (hardcoded, optional, required)
-import Http
+import Json.Encode as Encode
 
 
 type APIContent
@@ -27,7 +27,8 @@ type PayMethod
 
 url : String
 url =
-    "http://localhost:8081/api"
+    -- "http://localhost:8081/api"
+    "http://vending.local:8081/api"
 
 
 encodePayMethod : PayMethod -> Encode.Value
@@ -55,7 +56,7 @@ parsePayload payload =
 
 payloadDecoder : JD.Decoder APIContent
 payloadDecoder =
-    (JD.field "cmd" JD.string)
+    JD.field "cmd" JD.string
         |> JD.andThen
             (\t ->
                 JD.field "data" <|

@@ -4,13 +4,20 @@ import API
 import API.Products exposing (..)
 import API.Vending exposing (Vending)
 import Dict exposing (Dict)
-import Time
-import Json.Decode as Decode
 import Http
+import Json.Decode as Decode
+import Time
+
+
+type alias Flags =
+    { hostname : String
+    , name : String
+    }
 
 
 type alias Model =
     { vending : Maybe Vending
+    , flags : Flags
     , id : String
     , activeProduct : Int
     , connectionState : ConnectionState
