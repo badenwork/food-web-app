@@ -1,10 +1,10 @@
 module API.Events exposing (..)
 
-import Json.Encode as Encode
 import API
 import API.Products exposing (FakeProduct, encodeProduct)
 import API.Vending exposing (Vending, encodeVending)
 import Http
+import Json.Encode as Encode
 
 
 url : String -> String
@@ -16,6 +16,11 @@ type Event
     = EventInit Vending
     | EventConfirm EventConfirm_
     | EventCooking FakeProduct
+
+
+type ProcessEvent
+    = EventWaitPay API.PayMethod
+    | EventTakeOut Int
 
 
 encodeEvent : Event -> Encode.Value
@@ -32,10 +37,27 @@ encodeEvent e =
                 EventCooking p ->
                     ( "cooking", encodeProduct p )
     in
-        Encode.object
-            [ ( "etype", Encode.string etype )
-            , ( "doc", edoc )
-            ]
+    Encode.object
+        [ ( "etype", Encode.string etype )
+        , ( "doc", edoc )
+        ]
+
+
+encodeProcessEvent : ProcessEvent -> Encode.Value
+encodeProcessEvent e =
+    let
+        ( etype, edoc ) =
+            case e of
+                EventWaitPay payMethod ->
+                    ( "waitPay", API.encodePayMethod payMethod )
+
+                EventTakeOut position ->
+                    ( "takeout", Encode.int position )
+    in
+    Encode.object
+        [ ( "etype", Encode.string etype )
+        , ( "doc", edoc )
+        ]
 
 
 type alias EventConfirm_ =
@@ -60,6 +82,19 @@ send event msg =
         , headers = [ API.acao ]
         , url = url "confirm"
         , body = encodeEvent event |> Http.jsonBody
+        , expect = Http.expectWhatever msg
+        , timeout = Nothing
+        , tracker = Nothing
+        }
+
+
+process : ProcessEvent -> (Result Http.Error () -> msg) -> Cmd msg
+process event msg =
+    Http.request
+        { method = "POST"
+        , headers = [ API.acao ]
+        , url = url "process"
+        , body = encodeProcessEvent event |> Http.jsonBody
         , expect = Http.expectWhatever msg
         , timeout = Nothing
         , tracker = Nothing

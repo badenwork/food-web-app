@@ -50,6 +50,7 @@ app.ports.websocketOpen.subscribe(url => {
     open(url);
 });
 
+/*
 app.ports.websocketOut.subscribe(message => {
     console.log("websocketOut", [message]);
     if (socket && socket.readyState === 1) {
@@ -58,7 +59,7 @@ app.ports.websocketOut.subscribe(message => {
         console.log("sending canceled", [message, socket]);
     }
 });
-
+*/
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

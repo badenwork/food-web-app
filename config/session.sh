@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+sleep 10
 # DISPLAY=:0
 chromium-browser \
    --no-first-run \
@@ -22,5 +22,6 @@ chromium-browser \
    --fast \
    --fast-start \
    --no-default-browser-check \
+   --check-for-update-interval=315360000 \
    --incognito \
    --kiosk "http://vending.local/"

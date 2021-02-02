@@ -19,6 +19,7 @@ import Page.Cook
 import Page.Order
 import Page.OrderConfirm
 import Page.Products
+import Page.TakingOut
 import Time
 import Types exposing (..)
 import UI
@@ -44,7 +45,8 @@ init flags =
       , products = Dict.empty
       }
     , Cmd.batch <|
-        [ websocketOpen (api_url flags.hostname)
+        -- [ websocketOpen (api_url flags.hostname)
+        [ websocketOpen (api_url "vending.local")
         , readVending
         ]
     )
@@ -153,21 +155,24 @@ update msg ({ activeProduct } as model) =
                 Order ->
                     case model.activePayMethod of
                         API.PayMethod1 ->
-                            ( { model | activePage = OrderIngenica }, Cmd.batch [ startProcess ] )
+                            ( { model | activePage = OrderIngenica }, Cmd.batch [] )
 
                         API.PayMethod2 ->
-                            ( { model | activePage = OrderPrivat }, Cmd.batch [ startProcess ] )
+                            ( { model | activePage = OrderPrivat }, Cmd.batch [] )
 
                         API.PayMethod3 ->
-                            ( { model | activePage = OrderFondi }, Cmd.batch [ startProcess ] )
+                            ( { model | activePage = OrderFondi }, Cmd.batch [] )
 
                 OrderIngenica ->
-                    ( { model | activePage = OrderConfirm }, sendConfirm model )
+                    ( { model | activePage = TakingOut }, startProcess model )
 
                 OrderPrivat ->
-                    ( { model | activePage = OrderConfirm }, sendConfirm model )
+                    ( { model | activePage = TakingOut }, startProcess model )
 
                 OrderFondi ->
+                    ( { model | activePage = TakingOut }, startProcess model )
+
+                TakingOut ->
                     ( { model | activePage = OrderConfirm }, sendConfirm model )
 
                 OrderConfirm ->
@@ -367,9 +372,11 @@ prevPayMethod pm =
             API.PayMethod2
 
 
-startProcess =
-    websocketOut <|
-        cmdTest
+startProcess : Model -> Cmd Msg
+startProcess model =
+    -- websocketOut <|
+    --     cmdTest
+    Events.process (Events.EventTakeOut model.activeProduct) EventConfirmDone
 
 
 cmdTest =
@@ -394,7 +401,7 @@ view model =
                 Just vending ->
                     div [] <|
                         [ UI.header vending.logo vending.header
-                        , UI.footer vending.footer1 vending.footer2
+                        , UI.footer vending.footer1 vending.footer2 model.id
                         ]
                             ++ viewPage vending model
 
@@ -439,6 +446,9 @@ viewPage vending model =
 
         OrderFondi ->
             Page.Order.viewFondi active_product
+
+        TakingOut ->
+            Page.TakingOut.view active_product
 
         OrderConfirm ->
             Page.OrderConfirm.view ( KeyLeft, KeyOk )

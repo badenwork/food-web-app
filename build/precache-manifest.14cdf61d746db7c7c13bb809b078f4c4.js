@@ -108,7 +108,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/sochevitsa.png"
   },
   {
-    "revision": "a72329c8d1f764ac970ee4213ef7b99f",
+    "revision": "e3237bd6e24f83b85a862471b749d802",
     "url": "/index.html"
   },
   {
@@ -148,12 +148,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/sony.mp4"
   },
   {
-    "revision": "14b03d57f68f86cdbfc9",
+    "revision": "72b05612188cef67ff95",
     "url": "/static/css/main.4904cb52.chunk.css"
   },
   {
-    "revision": "14b03d57f68f86cdbfc9",
-    "url": "/static/js/main.14b03d57.chunk.js"
+    "revision": "72b05612188cef67ff95",
+    "url": "/static/js/main.72b05612.chunk.js"
   },
   {
     "revision": "1b922744246c39b6bc43",

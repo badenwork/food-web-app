@@ -53,6 +53,7 @@ type Page
     | OrderIngenica
     | OrderPrivat
     | OrderFondi
+    | TakingOut
     | OrderConfirm
     | CookAsk1
     | CookAsk2
