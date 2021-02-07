@@ -6,9 +6,11 @@ import API.Products exposing (ProductId)
 import API.Vending exposing (Vending)
 import Browser
 import Browser.Events
+import DebugFrame
 import Dict exposing (Dict)
 import Html exposing (Html, a, div, h1, h4, img, input, label, li, span, text, ul, video)
 import Html.Attributes as HA exposing (checked, class, controls, height, href, id, name, src, type_, width)
+import Html.Events exposing (onClick)
 import Http
 import Json.Decode as Decode
 import Json.Encode as Encode
@@ -43,11 +45,14 @@ init flags =
       , images = Dict.empty
       , error = Nothing
       , products = Dict.empty
+      , debugEvents = []
+      , showDebugEvents = True
       }
     , Cmd.batch <|
         -- [ websocketOpen (api_url flags.hostname)
         [ websocketOpen (api_url "vending.local")
         , readVending
+        , debugMessage "Init"
         ]
     )
 
@@ -202,6 +207,9 @@ update msg ({ activeProduct } as model) =
         CharacterPressed ' ' ->
             update KeyOk model
 
+        CharacterPressed '`' ->
+            update DebugClick model
+
         CharacterPressed k ->
             ( model, Cmd.none )
 
@@ -218,28 +226,31 @@ update msg ({ activeProduct } as model) =
             let
                 res =
                     API.parsePayload message
+
+                ( m, u ) =
+                    case res of
+                        Just (API.Key API.Key1) ->
+                            update KeyLeft model
+
+                        Just (API.Key API.Key2) ->
+                            update KeyOk model
+
+                        Just (API.Key API.Key3) ->
+                            update KeyRight model
+
+                        Just (API.Key API.KeyUnknown) ->
+                            ( model, Cmd.none )
+
+                        Just (API.Id id) ->
+                            ( { model | id = id }, Cmd.none )
+
+                        Just (API.Error _) ->
+                            ( model, Cmd.none )
+
+                        Nothing ->
+                            ( model, Cmd.none )
             in
-            case res of
-                Just (API.Key API.Key1) ->
-                    update KeyLeft model
-
-                Just (API.Key API.Key2) ->
-                    update KeyOk model
-
-                Just (API.Key API.Key3) ->
-                    update KeyRight model
-
-                Just (API.Key API.KeyUnknown) ->
-                    ( model, Cmd.none )
-
-                Just (API.Id id) ->
-                    ( { model | id = id }, Cmd.none )
-
-                Just (API.Error _) ->
-                    ( model, Cmd.none )
-
-                Nothing ->
-                    ( model, Cmd.none )
+            ( m, Cmd.batch [ u, debugMessage ("WS" ++ message) ] )
 
         OpenWebsocket url ->
             ( model, websocketOpen url )
@@ -284,6 +295,19 @@ update msg ({ activeProduct } as model) =
 
         EventConfirmDone res ->
             ( model, Cmd.none )
+
+        EventProcessDone res ->
+            let
+                _ =
+                    Debug.log "EventProcessDone" res
+            in
+            ( model, Cmd.none )
+
+        DebugClick ->
+            ( { model | showDebugEvents = not model.showDebugEvents }, Cmd.none )
+
+        DebugMessage s ->
+            ( { model | debugEvents = model.debugEvents ++ [ s ] }, Cmd.none )
 
 
 productsCnt : Maybe Vending -> Int
@@ -376,7 +400,7 @@ startProcess : Model -> Cmd Msg
 startProcess model =
     -- websocketOut <|
     --     cmdTest
-    Events.process (Events.EventTakeOut model.activeProduct) EventConfirmDone
+    Events.process (Events.EventTakeOut model.activeProduct) EventProcessDone
 
 
 cmdTest =
@@ -392,6 +416,11 @@ cmdTest =
 
 view : Model -> Html Msg
 view model =
+    div [ class "body" ] [ viewBody model, DebugFrame.viewDebug model DebugClick ]
+
+
+viewBody : Model -> Html Msg
+viewBody model =
     case model.error of
         Nothing ->
             case model.vending of
@@ -541,6 +570,7 @@ subscriptions _ =
         , websocketOpened WebsocketOpened
         , websocketIn WebsocketIn
         , Time.every 1000 Tick
+        , debugIn DebugMessage
         ]
 
 
@@ -561,3 +591,9 @@ port websocketIn : (String -> msg) -> Sub msg
 
 
 port websocketOut : Encode.Value -> Cmd msg
+
+
+port debugMessage : String -> Cmd msg
+
+
+port debugIn : (String -> msg) -> Sub msg

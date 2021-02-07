@@ -46,8 +46,18 @@ function open(url) {
     }
 }
 
+let debug_tm = new Date();
+
 app.ports.websocketOpen.subscribe(url => {
     open(url);
+});
+
+app.ports.debugMessage.subscribe(text => {
+    const tm = new Date();
+    // const diff = Math.round((((tm|0) - (debug_tm|0)) / 1000 + Number.EPSILON) * 10) / 10;
+    const diff = (((tm|0) - (debug_tm|0)) / 1000 + Number.EPSILON).toFixed(1);
+    debug_tm = tm;
+    app.ports.debugIn.send(`[${tm.toLocaleTimeString('ru-RU')}+${diff}] : ${text}`);
 });
 
 /*

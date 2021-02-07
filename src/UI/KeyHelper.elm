@@ -1,7 +1,7 @@
 module UI.KeyHelper exposing (..)
 
-import Html exposing (Html, div, text, img)
-import Html.Attributes exposing (class, src, alt, attribute)
+import Html exposing (Html, div, img, text)
+import Html.Attributes exposing (alt, attribute, class, src)
 import Html.Events exposing (onClick)
 
 

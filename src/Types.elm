@@ -27,6 +27,8 @@ type alias Model =
     , images : Dict String String
     , error : Maybe (List String)
     , products : Dict ProductId FakeProduct
+    , debugEvents : List String
+    , showDebugEvents : Bool
     }
 
 
@@ -45,6 +47,9 @@ type Msg
     | ReadVendingDone (Response API.Vending.Vending)
     | ReadProductDone (Response API.Products.FakeProduct)
     | EventConfirmDone (Response ())
+    | EventProcessDone (Response ())
+    | DebugClick
+    | DebugMessage String
 
 
 type Page
