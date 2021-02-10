@@ -77,24 +77,24 @@ update key ps model =
                             ( rows - 1, cols - 1, List.length new_products - 1 )
     in
     case ps of
-        VPS_SelectRow row ->
+        VPS_SelectRow row col ->
             case key of
                 KeyLeft ->
                     if row > 0 then
-                        ( { model | activePage = VendingConfig <| VPS_SelectRow (row - 1) }, Cmd.none )
+                        ( { model | activePage = VendingConfig <| VPS_SelectRow (row - 1) col }, Cmd.none )
 
                     else
-                        ( { model | activePage = VendingConfig <| VPS_SelectRow max_row }, Cmd.none )
+                        ( { model | activePage = VendingConfig <| VPS_SelectRow max_row col }, Cmd.none )
 
                 KeyRight ->
                     if row < max_row then
-                        ( { model | activePage = VendingConfig <| VPS_SelectRow (row + 1) }, Cmd.none )
+                        ( { model | activePage = VendingConfig <| VPS_SelectRow (row + 1) col }, Cmd.none )
 
                     else
-                        ( { model | activePage = VendingConfig <| VPS_SelectRow 0 }, Cmd.none )
+                        ( { model | activePage = VendingConfig <| VPS_SelectRow 0 col }, Cmd.none )
 
                 KeyOk ->
-                    ( { model | activePage = VendingConfig <| VPS_SelectCol row 0 }, Cmd.none )
+                    ( { model | activePage = VendingConfig <| VPS_SelectCol row col }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )
@@ -182,7 +182,7 @@ update key ps model =
 
                 -- ( { model | activePage = VendingConfig <| VPS_SetCount row col pid max_cnt }, Cmd.none )
                 KeyOk ->
-                    ( { model | activePage = VendingConfig <| VPS_SelectRow row }, Cmd.none )
+                    ( { model | activePage = VendingConfig <| VPS_SelectRow row col }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )
@@ -191,7 +191,7 @@ update key ps model =
 activeRow : VendingPageState -> Int
 activeRow ps =
     case ps of
-        VPS_SelectRow row ->
+        VPS_SelectRow row _ ->
             row
 
         VPS_SelectCol row _ ->
@@ -207,8 +207,8 @@ activeRow ps =
 activeCol : VendingPageState -> Int
 activeCol ps =
     case ps of
-        VPS_SelectRow row ->
-            0
+        VPS_SelectRow _ col ->
+            col
 
         VPS_SelectCol _ col ->
             col
@@ -279,6 +279,13 @@ viewAsArray ps ( k1, k2, k3 ) vending products images ( rows, cols ) loads produ
         --     []
         -- gr_columns =
         --     "0"
+        ( keysclass, t1, t2 ) =
+            case ps of
+                VPS_SelectRow _ _ ->
+                    ( " rotated", "Вибір догори", "Вибір донизу" )
+
+                _ ->
+                    ( "", "Вибір вліво", "Вибір вправо" )
     in
     [ Html.div [ HA.class "vending_config" ]
         [ Html.div
@@ -288,19 +295,12 @@ viewAsArray ps ( k1, k2, k3 ) vending products images ( rows, cols ) loads produ
             ]
             (asList |> List.map (viewProductCell (activeRow ps) (activeCol ps) images))
         ]
-    , Html.div [ HA.class "order_keys" ]
-        [ key_left "key_1" "Вибір вліво/догори" "Select left" k1
-        , key_right "key_2" "Вибір вправо/донизу" "Select right" k2
-        , key_ok "key_3" "Зробити вибiр" "Make an order" k3
+    , Html.div [ HA.class <| "vending_keys" ++ keysclass ]
+        [ key_left "key_1" t1 "" k1
+        , key_right "key_2" t2 "" k2
+        , key_ok "key_3" "Зробити вибiр" "" k3
         ]
-    , Html.div [ HA.class "vending_cfg_label" ]
-        [ Html.text <| keys_label ps
-        , Html.text " ["
-        , Html.text <| String.fromInt (activeRow ps)
-        , Html.text ","
-        , Html.text <| String.fromInt (activeCol ps)
-        , Html.text "]"
-        ]
+    , Html.div [ HA.class "vending_cfg_label" ] [ Html.text <| keys_label ps ]
     ]
 
 
@@ -314,14 +314,14 @@ view ps ( k1, k2, k3 ) vending products images loads products_dict =
 keys_label : VendingPageState -> String
 keys_label ps =
     case ps of
-        VPS_SelectRow row ->
-            "Выберите ряд: " ++ String.fromInt row
+        VPS_SelectRow row _ ->
+            "Оберiть рядок: " ++ String.fromInt (row + 1)
 
         VPS_SelectCol _ col ->
-            "Выберите столбец: " ++ String.fromInt col
+            "Оберiть стовпчик: " ++ String.fromInt (col + 1)
 
         VPS_SetProduct _ _ pid ->
-            "Выберите продукт в ячейке: " ++ String.fromInt pid
+            "Оберiть продукт"
 
         VPS_SetCount _ _ _ cnt ->
-            "Кол-во продукта в ячейке: " ++ String.fromInt cnt
+            "Кiлькiсть продукту: " ++ String.fromInt cnt

@@ -26,7 +26,9 @@
 .vending_config_grid > div {
     border: 1px solid gray;
     overflow: hidden;
+    /* overflow: visible; */
     /* display: flex; */
+    position: relative;
 
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -92,3 +94,33 @@
     background-color: #B7EB74;
     box-shadow: 0 0 10px black;
 }
+
+.rotated img {
+    transform: rotate(90deg);
+}
+
+.vending_keys {
+    position: absolute;
+    left: 741px;
+    /* top: 890px; */
+    bottom: 140px;
+}
+
+    .vending_keys > .key_1 {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        width: 200px;
+    }
+    .vending_keys > .key_2 {
+        position: absolute;
+        left: 160px;
+        top: 0;
+        width: 200px;
+    }
+    .vending_keys > .key_3 {
+        position: absolute;
+        left: 320px;
+        top: 0;
+        width: 300px;
+    }

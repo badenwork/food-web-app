@@ -97,7 +97,7 @@ decodeVending =
         |> required "products" (Decode.list decodeProductId)
         -- Decode.oneOf [Decode.succeed (VHWT_Array 8 8)]
         -- |> required "hwtype" decodeVendingHWType
-        |> optional "hwtype" decodeVendingHWType (VHWT_Array 6 7)
+        |> optional "hwtype" decodeVendingHWType (VHWT_Array 8 8)
 
 
 encodeVending : Vending -> Encode.Value

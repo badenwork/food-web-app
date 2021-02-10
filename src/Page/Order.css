@@ -509,7 +509,8 @@ img.order_ingenica_image {
 .order_keys {
     position: absolute;
     left: 741px;
-    top: 890px;
+    /* top: 890px; */
+    bottom: 200px;
 }
 
     .order_keys > .key_1 {

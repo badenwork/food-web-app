@@ -88,7 +88,7 @@ type alias Response a =
 
 
 type VendingPageState
-    = VPS_SelectRow Int
+    = VPS_SelectRow Int Int
     | VPS_SelectCol Int Int
     | VPS_SetProduct Int Int Int
     | VPS_SetCount Int Int Int Int

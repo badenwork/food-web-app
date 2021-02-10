@@ -228,7 +228,7 @@ update msg ({ activeProduct } as model) =
                     ( { model | activePage = Products, activeProduct = 0 }, Cmd.none )
 
                 _ ->
-                    ( { model | activePage = VendingConfig (VPS_SelectRow 0) }, Cmd.none )
+                    ( { model | activePage = VendingConfig (VPS_SelectRow 0 0) }, Cmd.none )
 
         SelectPayMethod pm ->
             ( { model | activePayMethod = pm }, Cmd.none )
