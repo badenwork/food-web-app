@@ -6,6 +6,7 @@ import './Page/Order.css';
 import './Page/OrderConfirm.css';
 import './Page/Cook.css';
 import './Page/Vending.css';
+import './Page/Calibration.css';
 import { Elm } from './Main.elm';
 import * as serviceWorker from './serviceWorker';
 

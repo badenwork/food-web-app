@@ -4,6 +4,7 @@ port module Main exposing (..)
 
 import API
 import API.Events as Events
+import API.Loads exposing (Loads)
 import API.Products exposing (ProductId)
 import API.Vending exposing (Vending)
 import Browser
@@ -16,7 +17,7 @@ import Html.Events exposing (onClick)
 import Http
 import Json.Decode as Decode
 import Json.Encode as Encode
-import Keys
+import Keys exposing (KeyCmd(..))
 import List.Extra exposing (getAt)
 import MD5
 import Maybe exposing (withDefault)
@@ -49,9 +50,11 @@ init flags =
       , images = Dict.empty
       , error = Nothing
       , products = Dict.empty
+      , product_array = Dict.empty
       , debugEvents = []
       , showDebugEvents = False
-      , vendingState = VPS_SelectRow 0
+
+      -- , vendingState = VPS_SelectRow 0
       }
     , Cmd.batch <|
         -- [ websocketOpen (api_url flags.hostname)
@@ -118,7 +121,7 @@ update msg ({ activeProduct } as model) =
                 _ ->
                     ( model, Cmd.none )
 
-        KeyLeft ->
+        KeyPress KeyLeft ->
             case model.activePage of
                 Products ->
                     if activeProduct <= 0 then
@@ -139,10 +142,15 @@ update msg ({ activeProduct } as model) =
                 CookAsk2 ->
                     ( { model | activePage = Products }, Cmd.none )
 
+                VendingConfig ps ->
+                    -- TODO: Вынести это и остальное в глобал
+                    Page.Vending.update KeyLeft ps model
+
+                -- ( model, Cmd.none )
                 _ ->
                     ( model, Cmd.none )
 
-        KeyRight ->
+        KeyPress KeyRight ->
             case model.activePage of
                 Products ->
                     if activeProduct >= productsCnt model.vending - 1 then
@@ -154,10 +162,14 @@ update msg ({ activeProduct } as model) =
                 Order ->
                     ( { model | activePayMethod = nextPayMethod model.activePayMethod }, Cmd.none )
 
+                VendingConfig ps ->
+                    -- TODO: Вынести это и остальное в глобал
+                    Page.Vending.update KeyRight ps model
+
                 _ ->
                     ( model, Cmd.none )
 
-        KeyOk ->
+        KeyPress KeyOk ->
             case model.activePage of
                 Products ->
                     ( { model | activePage = Order }, Cmd.none )
@@ -200,29 +212,23 @@ update msg ({ activeProduct } as model) =
                 CookingDone ->
                     ( { model | activePage = Products }, sendCooking model )
 
-                VendingConfig ->
-                    ( model, Cmd.none )
+                VendingConfig ps ->
+                    -- TODO: Вынести это и остальное в глобал
+                    Page.Vending.update KeyOk ps model
 
-        CharacterPressed 'd' ->
-            update KeyRight model
+        KeyPress DebugClick ->
+            ( { model | showDebugEvents = not model.showDebugEvents }, Cmd.none )
 
-        CharacterPressed 'a' ->
-            update KeyLeft model
-
-        CharacterPressed 's' ->
-            update KeyOk model
-
-        CharacterPressed ' ' ->
-            update KeyOk model
-
-        CharacterPressed '`' ->
-            update DebugClick model
-
-        CharacterPressed 'v' ->
-            update ShowVending model
-
-        CharacterPressed k ->
+        KeyPress Undefined ->
             ( model, Cmd.none )
+
+        KeyPress ShowVending ->
+            case model.activePage of
+                VendingConfig _ ->
+                    ( { model | activePage = Products, activeProduct = 0 }, Cmd.none )
+
+                _ ->
+                    ( { model | activePage = VendingConfig (VPS_SelectRow 0) }, Cmd.none )
 
         SelectPayMethod pm ->
             ( { model | activePayMethod = pm }, Cmd.none )
@@ -241,13 +247,13 @@ update msg ({ activeProduct } as model) =
                 ( m, u ) =
                     case res of
                         Just (API.Key API.Key1) ->
-                            update KeyLeft model
+                            update (KeyPress KeyLeft) model
 
                         Just (API.Key API.Key2) ->
-                            update KeyOk model
+                            update (KeyPress KeyOk) model
 
                         Just (API.Key API.Key3) ->
-                            update KeyRight model
+                            update (KeyPress KeyRight) model
 
                         Just (API.Key API.KeyUnknown) ->
                             ( model, Cmd.none )
@@ -308,24 +314,14 @@ update msg ({ activeProduct } as model) =
             ( model, Cmd.none )
 
         EventProcessDone res ->
-            let
-                _ =
-                    Debug.log "EventProcessDone" res
-            in
+            -- let
+            --     _ =
+            --         Debug.log "EventProcessDone" res
+            -- in
             ( model, Cmd.none )
-
-        DebugClick ->
-            ( { model | showDebugEvents = not model.showDebugEvents }, Cmd.none )
 
         DebugMessage s ->
             ( { model | debugEvents = model.debugEvents ++ [ s ] }, Cmd.none )
-
-        ShowVending ->
-            if model.activePage /= VendingConfig then
-                ( { model | activePage = VendingConfig, vendingState = VPS_SelectRow 0 }, Cmd.none )
-
-            else
-                ( { model | activePage = Products, activeProduct = 0 }, Cmd.none )
 
 
 productsCnt : Maybe Vending -> Int
@@ -434,7 +430,7 @@ cmdTest =
 
 view : Model -> Html Msg
 view model =
-    div [ class "body" ] [ viewBody model, DebugFrame.viewDebug model DebugClick ]
+    div [ class "body" ] [ viewBody model, DebugFrame.viewDebug model (KeyPress DebugClick) ]
 
 
 viewBody : Model -> Html Msg
@@ -475,7 +471,7 @@ viewPage vending model =
     in
     case model.activePage of
         Products ->
-            [ UI.KeyHelper.title ( KeyLeft, KeyRight, KeyOk ) ]
+            [ UI.KeyHelper.title ( KeyPress KeyLeft, KeyPress KeyRight, KeyPress KeyOk ) ]
                 -- ++ Page.Products.view model.images products model.activeProduct
                 ++ Page.Products.view model.images new_products active_product model.activeProduct
 
@@ -483,7 +479,7 @@ viewPage vending model =
             Page.Order.view
                 active_product
                 model.activePayMethod
-                ( ( SelectPayMethod API.PayMethod1, SelectPayMethod API.PayMethod2, SelectPayMethod API.PayMethod3 ), ( KeyLeft, KeyRight, KeyOk ) )
+                ( ( SelectPayMethod API.PayMethod1, SelectPayMethod API.PayMethod2, SelectPayMethod API.PayMethod3 ), ( KeyPress KeyLeft, KeyPress KeyRight, KeyPress KeyOk ) )
 
         OrderIngenica ->
             Page.Order.viewIngenica active_product
@@ -498,13 +494,13 @@ viewPage vending model =
             Page.TakingOut.view active_product
 
         OrderConfirm ->
-            Page.OrderConfirm.view ( KeyLeft, KeyOk )
+            Page.OrderConfirm.view ( KeyPress KeyLeft, KeyPress KeyOk )
 
         CookAsk1 ->
-            Page.Cook.viewAsk1 active_product ( KeyLeft, KeyOk )
+            Page.Cook.viewAsk1 active_product ( KeyPress KeyLeft, KeyPress KeyOk )
 
         CookAsk2 ->
-            Page.Cook.viewAsk2 active_product ( KeyLeft, KeyOk )
+            Page.Cook.viewAsk2 active_product ( KeyPress KeyLeft, KeyPress KeyOk )
 
         Cooking ->
             Page.Cook.viewCooking model.cookTimer active_product
@@ -512,8 +508,8 @@ viewPage vending model =
         CookingDone ->
             Page.Cook.viewCookingDone active_product
 
-        VendingConfig ->
-            Page.Vending.view
+        VendingConfig ps ->
+            Page.Vending.view ps ( KeyPress KeyLeft, KeyPress KeyRight, KeyPress KeyOk )
 
 
 
@@ -540,7 +536,7 @@ api_url hostname =
 subscriptions : Model -> Sub Msg
 subscriptions _ =
     Sub.batch
-        [ Browser.Events.onKeyDown Keys.keyDecoder
+        [ Browser.Events.onKeyDown Keys.keyDecoder |> Sub.map KeyPress
         , websocketOpened WebsocketOpened
         , websocketIn WebsocketIn
         , Time.every 1000 Tick

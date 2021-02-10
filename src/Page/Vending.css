@@ -59,3 +59,36 @@
     /* background-color: red; */
     align-self: center;
 }
+
+.vending_cfg_label {
+    position: absolute;
+    bottom: 50px;
+    left: 1300px;
+    font-size: 1.4em;
+    /* animation: blink-animation 1s steps(10, start) infinite;
+    -webkit-animation: blink-animation 1s steps(10, start) infinite; */
+    animation: blinker 1s linear infinite;
+    -webkit-animation: blinker 1s linear infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.vending_config .active {
+    background-color: #B7EB74;
+    box-shadow: 0 0 10px black;
+}

@@ -1,10 +1,32 @@
 module Keys exposing (..)
 
 import Json.Decode as Decode
-import Types exposing (..)
 
 
-toKey : String -> Msg
+
+-- import Types exposing (..)
+-- Тут из аппаратных кнопок пока только три.
+-- Еще сюда должно транслироваться открытие дверцы ShowVending (сейчас это делается кнопкой)
+-- Еще где-то стоит добавить диагностическую кнопку DebugClick
+
+
+type KeyCmd
+    = KeyLeft
+    | KeyRight
+    | KeyOk
+    | DebugClick
+    | ShowVending
+    | Undefined
+
+
+
+-- | CharacterPressed Char
+-- | KeyLeft
+-- | KeyRight
+-- | KeyOk
+
+
+toKey : String -> KeyCmd
 toKey string =
     case string of
         "ArrowRight" ->
@@ -46,12 +68,37 @@ toKey string =
         _ ->
             case String.uncons string of
                 Just ( char, "" ) ->
-                    CharacterPressed char
+                    charToKey char
 
                 _ ->
-                    NoOp
+                    Undefined
 
 
-keyDecoder : Decode.Decoder Msg
+charToKey : Char -> KeyCmd
+charToKey ch =
+    case ch of
+        'd' ->
+            KeyRight
+
+        'a' ->
+            KeyLeft
+
+        's' ->
+            KeyOk
+
+        ' ' ->
+            KeyOk
+
+        '`' ->
+            DebugClick
+
+        'v' ->
+            ShowVending
+
+        _ ->
+            Undefined
+
+
+keyDecoder : Decode.Decoder KeyCmd
 keyDecoder =
     Decode.map toKey (Decode.field "key" Decode.string)

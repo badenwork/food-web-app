@@ -1,11 +1,14 @@
 module Types exposing (..)
 
 import API
+import API.Loads exposing (Loads)
 import API.Products exposing (..)
 import API.Vending exposing (Vending)
+import Array2D exposing (Array2D)
 import Dict exposing (Dict)
 import Http
 import Json.Decode as Decode
+import Keys
 import Time
 
 
@@ -27,26 +30,22 @@ type alias Model =
     , images : Dict String String
     , error : Maybe (List String)
     , products : Dict ProductId FakeProduct
+
+    -- , products_a : Array2D ProductId
+    -- , product_array : Dict ( Int, Int ) ProductId
+    , product_array : Loads
     , debugEvents : List String
     , showDebugEvents : Bool
-    , vendingState : VendingPageState
+
+    -- , vendingState : VendingPageState
     }
-
-
-type VendingPageState
-    = VPS_SelectRow Int
-    | VPS_SelectCol Int Int
 
 
 type Msg
     = NoOp
-    | CharacterPressed Char
     | WebsocketIn String
     | OpenWebsocket String
     | WebsocketOpened Bool
-    | KeyLeft
-    | KeyRight
-    | KeyOk
     | Tick Time.Posix
     | SelectPayMethod API.PayMethod
     | ReadFileDone (Result Decode.Error ReadFile)
@@ -54,9 +53,8 @@ type Msg
     | ReadProductDone (Response API.Products.FakeProduct)
     | EventConfirmDone (Response ())
     | EventProcessDone (Response ())
-    | DebugClick
     | DebugMessage String
-    | ShowVending
+    | KeyPress Keys.KeyCmd
 
 
 type Page
@@ -71,7 +69,7 @@ type Page
     | CookAsk2
     | Cooking
     | CookingDone
-    | VendingConfig
+    | VendingConfig VendingPageState
 
 
 type ConnectionState
@@ -87,3 +85,9 @@ type alias ReadFile =
 
 type alias Response a =
     Result Http.Error a
+
+
+type VendingPageState
+    = VPS_SelectRow Int
+    | VPS_SelectCol Int Int
+    | VPS_SetCount Int Int Int
