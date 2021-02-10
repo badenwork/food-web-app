@@ -509,7 +509,7 @@ viewPage vending model =
             Page.Cook.viewCookingDone active_product
 
         VendingConfig ps ->
-            Page.Vending.view ps ( KeyPress KeyLeft, KeyPress KeyRight, KeyPress KeyOk )
+            Page.Vending.view ps ( KeyPress KeyLeft, KeyPress KeyRight, KeyPress KeyOk ) vending new_products model.images model.product_array model.products
 
 
 

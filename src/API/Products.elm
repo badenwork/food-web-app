@@ -1,10 +1,10 @@
 module API.Products exposing (..)
 
-import Json.Decode as Decode
-import Json.Encode as Encode
-import Json.Decode.Pipeline exposing (required, optional)
-import Url
 import API
+import Json.Decode as Decode
+import Json.Decode.Pipeline exposing (optional, required)
+import Json.Encode as Encode
+import Url
 
 
 type alias ProductId =
@@ -34,7 +34,7 @@ type alias FakeProduct =
 
 unknowFakeProduct : FakeProduct
 unknowFakeProduct =
-    FakeProduct "product_fake" "От халепа!" "Oops!" "img/ovsanka.png" "Ошибка загрузки данных о продукте." "Error loading description." "10000"
+    FakeProduct "product_fake" "Нiчого ще нема!" "Nothing here!" "img/no_product.png" "Ошибка загрузки данных о продукте." "Error loading description." "10000"
 
 
 decodeProduct : Decode.Decoder FakeProduct
@@ -64,4 +64,4 @@ encodeProduct p =
 
 url : ProductId -> String
 url pid =
-    API.url ++ "/db/product/" ++ (Url.percentEncode pid)
+    API.url ++ "/db/product/" ++ Url.percentEncode pid
