@@ -1,5 +1,7 @@
 port module Main exposing (..)
 
+-- import Html.Lazy exposing (lazy)
+
 import API
 import API.Events as Events
 import API.Products exposing (ProductId)
@@ -14,6 +16,7 @@ import Html.Events exposing (onClick)
 import Http
 import Json.Decode as Decode
 import Json.Encode as Encode
+import Keys
 import List.Extra exposing (getAt)
 import MD5
 import Maybe exposing (withDefault)
@@ -22,6 +25,7 @@ import Page.Order
 import Page.OrderConfirm
 import Page.Products
 import Page.TakingOut
+import Page.Vending
 import Time
 import Types exposing (..)
 import UI
@@ -46,7 +50,8 @@ init flags =
       , error = Nothing
       , products = Dict.empty
       , debugEvents = []
-      , showDebugEvents = True
+      , showDebugEvents = False
+      , vendingState = VPS_SelectRow 0
       }
     , Cmd.batch <|
         -- [ websocketOpen (api_url flags.hostname)
@@ -195,6 +200,9 @@ update msg ({ activeProduct } as model) =
                 CookingDone ->
                     ( { model | activePage = Products }, sendCooking model )
 
+                VendingConfig ->
+                    ( model, Cmd.none )
+
         CharacterPressed 'd' ->
             update KeyRight model
 
@@ -209,6 +217,9 @@ update msg ({ activeProduct } as model) =
 
         CharacterPressed '`' ->
             update DebugClick model
+
+        CharacterPressed 'v' ->
+            update ShowVending model
 
         CharacterPressed k ->
             ( model, Cmd.none )
@@ -308,6 +319,13 @@ update msg ({ activeProduct } as model) =
 
         DebugMessage s ->
             ( { model | debugEvents = model.debugEvents ++ [ s ] }, Cmd.none )
+
+        ShowVending ->
+            if model.activePage /= VendingConfig then
+                ( { model | activePage = VendingConfig, vendingState = VPS_SelectRow 0 }, Cmd.none )
+
+            else
+                ( { model | activePage = Products, activeProduct = 0 }, Cmd.none )
 
 
 productsCnt : Maybe Vending -> Int
@@ -494,6 +512,9 @@ viewPage vending model =
         CookingDone ->
             Page.Cook.viewCookingDone active_product
 
+        VendingConfig ->
+            Page.Vending.view
+
 
 
 ---- PROGRAM ----
@@ -509,53 +530,6 @@ main =
         }
 
 
-keyDecoder : Decode.Decoder Msg
-keyDecoder =
-    Decode.map toKey (Decode.field "key" Decode.string)
-
-
-toKey : String -> Msg
-toKey string =
-    case string of
-        "ArrowRight" ->
-            toKey "d"
-
-        "ArrowLeft" ->
-            toKey "a"
-
-        "ArrowDown" ->
-            toKey "s"
-
-        "Enter" ->
-            toKey "s"
-
-        "A" ->
-            toKey "a"
-
-        "D" ->
-            toKey "d"
-
-        "ф" ->
-            toKey "a"
-
-        "в" ->
-            toKey "d"
-
-        "Ф" ->
-            toKey "a"
-
-        "В" ->
-            toKey "d"
-
-        _ ->
-            case String.uncons string of
-                Just ( char, "" ) ->
-                    CharacterPressed char
-
-                _ ->
-                    NoOp
-
-
 api_url : String -> String
 api_url hostname =
     -- "ws://localhost:8001"
@@ -566,7 +540,7 @@ api_url hostname =
 subscriptions : Model -> Sub Msg
 subscriptions _ =
     Sub.batch
-        [ Browser.Events.onKeyDown keyDecoder
+        [ Browser.Events.onKeyDown Keys.keyDecoder
         , websocketOpened WebsocketOpened
         , websocketIn WebsocketIn
         , Time.every 1000 Tick

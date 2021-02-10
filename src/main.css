@@ -100,7 +100,6 @@ ul.main_menu {
   bottom: 100px;
   width: 400px;
   background-color: rgba(255, 255, 255, 0.9);
-  border: 2px solid gray;
   border-radius: 6px;
   padding: 10px 10px 10px 20px;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
@@ -108,7 +107,14 @@ ul.main_menu {
   font-size: 14px;
   overflow: scroll;
   display: flex;
-  flex-direction: column-reverse; }
+  flex-direction: column-reverse;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */ }
+  .debug::-webkit-scrollbar {
+    /* Chrome, Safari and Opera */
+    display: none; }
   .debug ul {
     margin: 0;
     padding: 0; }

@@ -1,10 +1,10 @@
 module API.Vending exposing (..)
 
-import Json.Encode as Encode
+import API
+import API.Products exposing (ProductId, decodeProductId, encodeProductId)
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (hardcoded, optional, required)
-import API.Products exposing (ProductId, decodeProductId, encodeProductId)
-import API
+import Json.Encode as Encode
 
 
 type alias Vending =

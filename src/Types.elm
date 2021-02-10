@@ -29,7 +29,13 @@ type alias Model =
     , products : Dict ProductId FakeProduct
     , debugEvents : List String
     , showDebugEvents : Bool
+    , vendingState : VendingPageState
     }
+
+
+type VendingPageState
+    = VPS_SelectRow Int
+    | VPS_SelectCol Int Int
 
 
 type Msg
@@ -50,6 +56,7 @@ type Msg
     | EventProcessDone (Response ())
     | DebugClick
     | DebugMessage String
+    | ShowVending
 
 
 type Page
@@ -64,6 +71,7 @@ type Page
     | CookAsk2
     | Cooking
     | CookingDone
+    | VendingConfig
 
 
 type ConnectionState

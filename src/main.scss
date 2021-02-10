@@ -136,6 +136,14 @@ ul.main_menu {
     display: flex;
     flex-direction: column-reverse;
 
+
+    -ms-overflow-style: none;   /* IE and Edge */
+    scrollbar-width: none;      /* Firefox */
+    &::-webkit-scrollbar {      /* Chrome, Safari and Opera */
+        display: none;
+    }
+
+
     ul {
         margin: 0;
         padding: 0;
