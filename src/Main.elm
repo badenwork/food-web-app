@@ -21,6 +21,7 @@ import Keys exposing (KeyCmd(..))
 import List.Extra exposing (getAt)
 import MD5
 import Maybe exposing (withDefault)
+import Page.Calibration
 import Page.Cook
 import Page.Order
 import Page.OrderConfirm
@@ -146,6 +147,10 @@ update msg ({ activeProduct } as model) =
                     -- TODO: Вынести это и остальное в глобал
                     Page.Vending.update KeyLeft ps model
 
+                Calibration ps ->
+                    -- TODO: Вынести это и остальное в глобал
+                    Page.Calibration.update KeyLeft ps model
+
                 -- ( model, Cmd.none )
                 _ ->
                     ( model, Cmd.none )
@@ -165,6 +170,10 @@ update msg ({ activeProduct } as model) =
                 VendingConfig ps ->
                     -- TODO: Вынести это и остальное в глобал
                     Page.Vending.update KeyRight ps model
+
+                Calibration ps ->
+                    -- TODO: Вынести это и остальное в глобал
+                    Page.Calibration.update KeyRight ps model
 
                 _ ->
                     ( model, Cmd.none )
@@ -216,6 +225,10 @@ update msg ({ activeProduct } as model) =
                     -- TODO: Вынести это и остальное в глобал
                     Page.Vending.update KeyOk ps model
 
+                Calibration ps ->
+                    -- TODO: Вынести это и остальное в глобал
+                    Page.Calibration.update KeyOk ps model
+
         KeyPress DebugClick ->
             ( { model | showDebugEvents = not model.showDebugEvents }, Cmd.none )
 
@@ -229,6 +242,14 @@ update msg ({ activeProduct } as model) =
 
                 _ ->
                     ( { model | activePage = VendingConfig (VPS_SelectRow 0 0) }, Cmd.none )
+
+        KeyPress ShowCalibration ->
+            case model.activePage of
+                Calibration _ ->
+                    ( { model | activePage = Products, activeProduct = 0 }, Cmd.none )
+
+                _ ->
+                    ( { model | activePage = Calibration Page.Calibration.initCalibrationState }, Cmd.none )
 
         SelectPayMethod pm ->
             ( { model | activePayMethod = pm }, Cmd.none )
@@ -510,6 +531,9 @@ viewPage vending model =
 
         VendingConfig ps ->
             Page.Vending.view ps ( KeyPress KeyLeft, KeyPress KeyRight, KeyPress KeyOk ) vending new_products model.images model.product_array model.products
+
+        Calibration s ->
+            Page.Calibration.view s ( KeyPress KeyLeft, KeyPress KeyRight, KeyPress KeyOk )
 
 
 

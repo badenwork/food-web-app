@@ -48,6 +48,12 @@ decodeVendingHWType1 type_ =
                 (Decode.field "rows" Decode.int)
                 (Decode.field "cols" Decode.int)
 
+        -- Если будет больше типов, то можно обернуть в общий тип, например так:
+        -- Decode.map3 PageMetadata
+        --     (Decode.field "title" Decode.string)
+        --     (Decode.maybe (Decode.field "description" Decode.string))
+        --     (Decode.maybe (Decode.field "image" imageDecoder))
+        --     |> Decode.map Page
         -- field "rows" Decode.int
         --     |> Decode.andThen
         --         (\rows ->
@@ -111,3 +117,40 @@ encodeVending p =
         , ( "footer2", Encode.string p.footer2 )
         , ( "products", Encode.list encodeProductId p.products )
         ]
+
+
+type alias VHWT_Array_Config =
+    { motorRow : Int -- Мотор перемещения по рядам: 1..3
+    , motorCol : Int -- Мотор перемещения по столбцам: 1..3
+    , motorRowDirection : Int -- Рабочее направление вращения
+    , motorColDirection : Int -- Рабочее направление вращения
+    , rowSteps : Int -- Кол-во шагов между рядами
+    , colSteps : Int -- Кол-во шагом между столбцами
+    , rowOffset : Int -- Начальное смещени до первого ряда
+    , colOffset : Int -- Начальное смещение до первого столбца
+    , pullSteps : Int -- Кол-во шагов для выбрасывания
+    , accelStart : Int -- Скорость разгона (имп / с^2)
+    , accelStop : Int -- Скорость торможения (имп / с^2)
+    , speedStart : Int -- Начальная скорость. (Гц * 2)
+    , speedNominal : Int -- Номинальная скорость. (Гц * 2)
+    , timeout : Int -- Максимальное время движения (мс)
+    }
+
+
+initVHWT_Array_Config : VHWT_Array_Config
+initVHWT_Array_Config =
+    { motorRow = 3
+    , motorCol = 2
+    , motorRowDirection = 0
+    , motorColDirection = 1
+    , rowSteps = 100
+    , colSteps = 100
+    , rowOffset = 200
+    , colOffset = 200
+    , pullSteps = 30
+    , accelStart = 200
+    , accelStop = 200
+    , speedStart = 10
+    , speedNominal = 580
+    , timeout = 4000
+    }

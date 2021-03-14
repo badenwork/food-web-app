@@ -16,6 +16,7 @@ type KeyCmd
     | KeyOk
     | DebugClick
     | ShowVending
+    | ShowCalibration
     | Undefined
 
 
@@ -65,6 +66,21 @@ toKey string =
         "м" ->
             toKey "v"
 
+        "р" ->
+            toKey "h"
+
+        "H" ->
+            toKey "h"
+
+        "Р" ->
+            toKey "h"
+
+        "ё" ->
+            toKey "`"
+
+        "Ё" ->
+            toKey "`"
+
         _ ->
             case String.uncons string of
                 Just ( char, "" ) ->
@@ -94,6 +110,9 @@ charToKey ch =
 
         'v' ->
             ShowVending
+
+        'h' ->
+            ShowCalibration
 
         _ ->
             Undefined

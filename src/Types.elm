@@ -70,6 +70,7 @@ type Page
     | Cooking
     | CookingDone
     | VendingConfig VendingPageState
+    | Calibration CalibrationPageState
 
 
 type ConnectionState
@@ -92,3 +93,8 @@ type VendingPageState
     | VPS_SelectCol Int Int
     | VPS_SetProduct Int Int Int
     | VPS_SetCount Int Int Int Int
+
+
+type CalibrationPageState
+    = CPS_SelectParam API.Vending.VHWT_Array_Config Int
+    | CPS_EditParam API.Vending.VHWT_Array_Config Int Int
